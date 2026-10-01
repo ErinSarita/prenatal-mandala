@@ -181,7 +181,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     </button>
     <div class="eyebrow">APPPAH · Prenatal &amp; Perinatal Educator · Module Nine</div>
     <h1>The Prenatal Mandala</h1>
-    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the heart. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby. <span id="essayLink"></span></p>
+    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the heart. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby.</p>
   </header>
 
   <div class="main">
@@ -964,9 +964,6 @@ if(saved){ setEDD(saved,false); } else { setStatus(); select(1,"child",4); }
 setMode(mode,false);
 if(location.hash==="#intro") showIntro();
 
-// essay link (filled after the essay is published)
-const ESSAY_URL="https://docs.google.com/document/d/1lhLEgXbeNgfGYEiAE9wpKDY39iTjrHZi/edit?usp=sharing";
-if(ESSAY_URL){ document.getElementById("essayLink").innerHTML=`<a href="${ESSAY_URL}" target="_blank" rel="noopener">Read the accompanying essay.</a>`; }
 })();
 </script>
 
