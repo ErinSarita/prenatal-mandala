@@ -64,6 +64,8 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);lin
 .moontip span{color:var(--muted);font-size:12.5px;display:block}
 .moonmk{cursor:pointer}
 .moonring{fill:transparent;cursor:pointer}
+.braidhit{fill:transparent;cursor:pointer}
+.braidhit:focus{outline:none}
 .wkhit{fill:transparent;cursor:pointer}
 .wkhit:focus{outline:none}
 .wkhit:hover,.wkhit:focus-visible,.wkhit.open{fill:color-mix(in srgb, var(--ink) 10%, transparent)}
@@ -212,7 +214,8 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h3>How it is built</h3>
     <p>The circle begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment. Each ring curves outward like a petal and nests into the ring inside it. Hover over or tap any petal for a short summary, and choose it to read in full.</p>
-    <p>Around the petals runs the moon ring. Ticks along its edge count the forty weeks of pregnancy, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. The shaded span from 37 to 42 weeks is the birth window, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside, and around the very edge runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
+    <p>Around the petals runs the time wheel, which holds every marker of time in the pregnancy. Ticks along its edge count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. Once a date is entered, it marks the last period and the due date, the full and new moons, and the birth window from 37 to 42 weeks, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside.</p>
+    <p>Around the very edge runs a sacred braid of three strands, in the colors of the child, the mother, and the educator who brings knowledge and helps the mother. It is a symbol of the relationships among the three, woven together, holding the mandala in place.</p>
     <h3>The ten moons</h3>
     <p>Many traditions count a pregnancy as ten moons, and the forty weeks of pregnancy do span nine or ten full moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks of pregnancy alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date and how many weeks along the pregnancy is.</p>
     <h3>A note on language</h3>
@@ -487,6 +490,15 @@ function addCell(d, ring, phase, idx, fillVar, label, at){
    in turn. Every strand is cut into pieces where it changes from lying underneath to lying on top;
    the lower pieces are drawn first and the upper pieces over them, so each crossing shows who is on top. */
 function drawBraid(){
+  const hit=el("path",{d:`M0 ${-R.braid[1]-4} A${R.braid[1]+4} ${R.braid[1]+4} 0 1 1 0 ${R.braid[1]+4} A${R.braid[1]+4} ${R.braid[1]+4} 0 1 1 0 ${-R.braid[1]-4} M0 ${-R.braid[0]+4} A${R.braid[0]-4} ${R.braid[0]-4} 0 1 0 0 ${R.braid[0]-4} A${R.braid[0]-4} ${R.braid[0]-4} 0 1 0 0 ${-R.braid[0]+4}Z`,
+    class:"braidhit","fill-rule":"evenodd",tabindex:"0",role:"button","aria-label":"The sacred braid. Read what it means"});
+  const html=`<b>The sacred braid</b>A symbol of the three who hold this mandala: the child, the mother, and the educator who brings knowledge and helps the mother. Their relationships, woven together, hold it in place.`;
+  hit.addEventListener("click",e=>{ e.stopPropagation();
+    if(hit.classList.contains("open")){ moonTip(null); return; }
+    const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    moonTip(hit,{x:pt.x,y:pt.y,html}); });
+  hit.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(hit,{x:0,y:-(R.braid[0]+R.braid[1])/2,html}); } });
+  hit.addEventListener("blur",()=>{ if(openMoon===hit) moonTip(null); });
   const g=el("g",{class:"braid","pointer-events":"none","aria-hidden":"true"});
   const rc=(R.braid[0]+R.braid[1])/2, A=8.5, N=56, SUB=8;   // N plaits round the circle
   const strands=[["--child",0],["--mother",2*Math.PI/3],["--support",4*Math.PI/3]];
@@ -570,8 +582,8 @@ function draw(){
   ["mouseenter","focus"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.add("on")));
   ["mouseleave","blur","click"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.remove("on")));
   const ring=el("path",{d:`M0 ${-R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${-R.moon[1]} M0 ${-R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${-R.moon[0]}Z`,
-    class:"moonring", "fill-rule":"evenodd", tabindex:"0", role:"button", "aria-label":"The moon ring. Read what it shows"});
-  const ringHtml=`<b>The moon ring</b>Marks the full moons, numbered in order, and the new moons, the small dark circles between them. Ticks along its edge count the forty weeks, gold marks show where each trimester begins, and the shaded span around the due date is the birth window, 37 to 42 weeks.<span>Tap any moon or week to see its date.</span>`;
+    class:"moonring", "fill-rule":"evenodd", tabindex:"0", role:"button", "aria-label":"The time wheel. Read what it shows"});
+  const ringHtml=`<b>The time wheel</b>Holds every marker of time in this pregnancy: the forty weeks, gold marks where each trimester begins, the last period and due dates, the birth window from 37 to 42 weeks, and the full and new moons.<span>Tap any week or moon to see its date.</span>`;
   const ringAt=(x,y)=>({x,y,html:ringHtml});
   ring.addEventListener("click",e=>{ e.stopPropagation();
     if(ring.classList.contains("open")){ moonTip(null); return; }
@@ -840,7 +852,7 @@ function showIntro(){
       ${["child","mother","support","practice"].map(k=>`<li>${sw(RINGS[k].color)}<div><b>${RINGS[k].name}</b>${RINGS[k].about}</div></li>`).join("")}
       <li>${sw("--moon")}<div><b>The ten moons</b>When a date is entered, both dates are marked on the wheel, along with the real full moons of the pregnancy, numbered in order, and the new moons between them.</div></li>
     </ul>
-    <p>The wheel begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise through the three trimesters. The last quarter is birth, which returns to the top where the journey began. Around the petals, the moon ring counts the forty weeks and marks the moons, the trimesters, and the birth window.</p>
+    <p>The wheel begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise through the three trimesters. The last quarter is birth, which returns to the top where the journey began. Around the petals, the time wheel counts the forty weeks and marks the trimesters, the dates, the birth window, and the moons. A sacred braid of the child, the mother, and the educator holds it all.</p>
     <p class="hint">Choose any petal or ring on the mandala, or a phase above, to open it.</p>
   </div>`;
 }
