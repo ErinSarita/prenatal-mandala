@@ -58,6 +58,13 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);lin
 .coretip{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-100% - 9%));width:min(250px,70%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.45;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}
 .coretip.on{opacity:1}
 .coretip b{font-family:var(--display);font-weight:400;font-size:16px;display:block;margin-bottom:2px}
+.moontip{position:absolute;left:0;top:0;z-index:2;width:max-content;max-width:min(230px,64%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13.5px;line-height:1.4;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .15s ease}
+.moontip.on{opacity:1}
+.moontip b{font-family:var(--display);font-weight:400;font-size:16px;display:block}
+.moontip span{color:var(--muted);font-size:12.5px;display:block}
+.moonmk{cursor:pointer}
+.moonmk:focus{outline:none}
+.moonmk:focus-visible circle,.moonmk.open circle{stroke:var(--ink)}
 .center-msg{display:grid;gap:12px}
 .center-msg h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0;line-height:1.15}
 .center-msg p{margin:0;max-width:62ch}
@@ -67,7 +74,7 @@ svg{width:100%;height:100%;display:block;overflow:visible}
 .cell:focus{outline:none}
 .cell:focus-visible{stroke:var(--ink);stroke-width:3}
 svg.dimming .cell.off{opacity:.28}
-#selOutline path{fill:none;stroke:var(--gold);stroke-width:4.5;stroke-linejoin:round;pointer-events:none}
+#selOutline path{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;pointer-events:none}
 .lbl{pointer-events:none;font-family:var(--display);}
 .lbl-light{fill:var(--on-dark)}
 .lbl-dark{fill:var(--on-light)}
@@ -158,7 +165,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
 
   <div class="main">
     <div class="stage">
-      <div class="svgbox"><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-530 -530 1060 1060" role="group" aria-label="Pregnancy mandala"></svg></div>
+      <div class="svgbox"><div class="moontip" id="moontip" role="status"></div><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-530 -530 1060 1060" role="group" aria-label="Pregnancy mandala"></svg></div>
       <form class="datebar" id="dateform" autocomplete="off">
         <div class="datemode" role="radiogroup" aria-label="Which date do you know?">
           <button type="button" role="radio" aria-checked="true" data-mode="edd">Due date</button>
@@ -540,9 +547,28 @@ function moonInfo(){
   const after=fullMoons(addDays(EDD,1),addDays(EDD,14));
   return {L,inside,after};
 }
+const mtip=document.getElementById("moontip");
+let openMoon=null;
+function moonTip(mk, info, hoverOnly){
+  if(openMoon) openMoon.classList.remove("open");
+  openMoon=null;
+  if(!mk){ mtip.classList.remove("on"); return; }
+  if(!hoverOnly){ openMoon=mk; mk.classList.add("open"); }
+  mtip.innerHTML=info.html;
+  const box=mtip.parentElement, W=box.clientWidth, scale=W/1060;
+  const px=(info.x+530)*scale, py=(info.y+530)*scale, w=mtip.offsetWidth, h=mtip.offsetHeight;
+  const left=Math.min(Math.max(px-w/2, 0), W-w);
+  const above=py-h-22*scale-6;
+  mtip.style.left=left+"px"; mtip.style.top=(above>=0 ? above : py+22*scale+6)+"px";
+  mtip.classList.add("on");
+}
+document.addEventListener("click",()=>{ if(openMoon) moonTip(null); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && openMoon) moonTip(null); });
+window.addEventListener("resize",()=>moonTip(null));
+
 function drawMoons(){
   const g=document.getElementById("moonband"), n=document.getElementById("needle");
-  if(!g) return; g.innerHTML=""; n.innerHTML="";
+  if(!g) return; moonTip(null); g.innerHTML=""; n.innerHTML="";
   if(!EDD) return;
   const {L,inside,after}=moonInfo(), ga=gaDays();
   const ang=d=>weekToAngle(((d-L)/DAY)/7);
@@ -561,13 +587,19 @@ function drawMoons(){
   });
   const marker=(d,a,num,late)=>{
     const [x,y]=P((R.moon[0]+R.moon[1])/2,a);
-    const c=el("circle",{cx:f(x),cy:f(y),r:17,fill:"var(--surface)",stroke:"var(--moon)","stroke-width":3,"stroke-dasharray":late?"3 3":"none"},g);
-    const t=el("text",{x:f(x),y:f(y),"text-anchor":"middle","dominant-baseline":"central","font-size":17,"font-weight":700,class:"lbl",fill:"var(--ink)"},g); t.textContent=num;
-    const tt=el("title",{},c); const prev=num>1?(inside[num-2]||null):null;
-    let line=`${ORD(num)} full moon: ${fmt(d)}`;
-    if(prev) line+=` (${((d-prev)/DAY).toFixed(1)} days after the last)`;
-    if(late) line+=`, ${Math.round((d-EDD)/DAY)} days after the due date`;
-    tt.textContent=line;
+    const prev=num>1?(inside[num-2]||null):null, gd=Math.round((d-L)/DAY);
+    const when = late ? `${Math.round((d-EDD)/DAY)} days after the due date` : `At ${Math.floor(gd/7)} weeks ${gd%7} ${gd%7===1?"day":"days"}`;
+    const gap = prev ? `${((d-prev)/DAY).toFixed(1)} days after the last` : "";
+    const mk=el("g",{class:"moonmk", tabindex:"0", role:"button", "aria-label":`${ORD(num)} full moon, ${fmt(d)}. ${when}.${gap?" "+gap+".":""}`},g);
+    el("circle",{cx:f(x),cy:f(y),r:17,fill:"var(--surface)",stroke:"var(--moon)","stroke-width":3,"stroke-dasharray":late?"3 3":"none"},mk);
+    const t=el("text",{x:f(x),y:f(y),"text-anchor":"middle","dominant-baseline":"central","font-size":17,"font-weight":700,class:"lbl",fill:"var(--ink)"},mk); t.textContent=num;
+    const info={x,y,html:`<b>${ORD(num)} full moon</b>${fmt(d)}<span>${when}${gap?"<br>"+gap:""}</span>`};
+    // a tap or click pins the card open; a mouse hover shows it while over the moon
+    mk.addEventListener("click",e=>{ e.stopPropagation(); moonTip(mk.classList.contains("open")?null:mk,info); });
+    mk.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(mk,info); } });
+    mk.addEventListener("mouseenter",e=>{ if(!openMoon) moonTip(mk,info,true); });
+    mk.addEventListener("mouseleave",e=>{ if(!openMoon) moonTip(null); });
+    mk.addEventListener("focus",()=>{ if(mk.matches(":focus-visible")) moonTip(mk,info); }); mk.addEventListener("blur",()=>{ if(openMoon===mk) moonTip(null); });
   };
   inside.forEach((d,i)=>marker(d,ang(d),i+1,false));
   after.forEach((d,i)=>{ const days=(d-EDD)/DAY; marker(d,270+4+days*1.4,inside.length+i+1,true); });
@@ -702,7 +734,11 @@ function applySel(){
     c.classList.toggle("sel", on);
   });
   const so=document.getElementById("selOutline");
-  if(so){ so.innerHTML=""; cells.forEach(c=>{ if(c.classList.contains("sel") && c.getAttribute("d")) el("path",{d:c.getAttribute("d")},so); }); }
+  if(!so) return; so.innerHTML="";
+  // a month: one thin line around its whole slice, from the child out through the educator
+  if(sel.idx!=null){ const a0=sel.idx*30+GAP/2, a1=(sel.idx+1)*30-GAP/2;
+    el("path",{d:sector(R.child[0]-3,R.support[1]+3,a0,a1,1,0)},so); return; }
+  cells.forEach(c=>{ if(c.classList.contains("sel") && c.getAttribute("d")) el("path",{d:c.getAttribute("d")},so); });
 }
 function hover(phase, idx){
   if(phase==null){ svg.classList.remove("dimming"); cells.forEach(c=>c.classList.remove("off")); return; }
