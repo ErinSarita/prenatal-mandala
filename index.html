@@ -64,6 +64,16 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);lin
 .moontip span{color:var(--muted);font-size:12.5px;display:block}
 .moonmk{cursor:pointer}
 .moonring{fill:transparent;cursor:pointer}
+.wkhit{fill:transparent;cursor:pointer}
+.wkhit:focus{outline:none}
+.wkhit:hover,.wkhit:focus-visible,.wkhit.open{fill:color-mix(in srgb, var(--ink) 10%, transparent)}
+.trimark{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;pointer-events:none}
+.trigem{fill:var(--gold);stroke:var(--bg);stroke-width:1.5;pointer-events:none}
+.winband{fill:var(--support);opacity:.22;cursor:pointer}
+.winline{fill:none;stroke:var(--support);stroke-width:5;stroke-linecap:round;cursor:pointer}
+.winband.open,.winband:focus-visible{opacity:.36}
+.winband:focus{outline:none}
+.winlbl{fill:var(--muted);font-family:var(--body);font-size:11px;font-weight:700}
 .moonring:focus{outline:none}
 .moonring:focus-visible,.moonring.open{fill:color-mix(in srgb, var(--ink) 6%, transparent)}
 .moonmk:focus{outline:none}
@@ -174,7 +184,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
 
   <div class="main">
     <div class="stage">
-      <div class="svgbox"><div class="moontip" id="moontip" role="status"></div><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-565 -565 1130 1130" role="group" aria-label="Pregnancy mandala"></svg></div>
+      <div class="svgbox"><div class="moontip" id="moontip" role="status"></div><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-568 -568 1136 1136" role="group" aria-label="Pregnancy mandala"></svg></div>
       <form class="datebar" id="dateform" autocomplete="off">
         <div class="datemode" role="radiogroup" aria-label="Which date do you know?">
           <button type="button" role="radio" aria-checked="true" data-mode="edd">Due date</button>
@@ -185,7 +195,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
         <button class="btn" type="submit">Add the moons</button>
         <button class="btn" type="button" id="clear" hidden>Clear</button>
         <p class="status" id="status">Enter an expected birth date, or the first day of the last period, to see the full moons of this pregnancy and where today falls on the wheel.</p>
-        <p class="rule">Due dates follow Naegele's rule: the first day of the last period plus 280 days (40 weeks). It is an estimate, and most babies arrive within two weeks of it.</p>
+        <p class="rule">Due dates follow Naegele's rule: the first day of the last period plus 280 days (40 weeks). It is an estimate. Labor and birth can come any time from about 37 to 42 weeks, shown on the wheel as the birth window.</p>
       </form>
       <div class="ringkey" id="ringkey" aria-label="Rings"></div>
     </div>
@@ -200,7 +210,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h2>About this mandala</h2>
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
-    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week. Around the whole wheel runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
+    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. The shaded span from 37 to 42 weeks is the birth window, a reminder that the due date is the middle of a range. Around the outside of the whole wheel runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment.</p>
     <h3>The ten moons</h3>
     <p>Many traditions count a pregnancy as ten moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date.</p>
@@ -394,8 +404,9 @@ const PRACTICE = [
 ];
 
 /* ---------- Geometry ---------- */
-const R = {core:[0,66], child:[72,176], mother:[182,262], support:[268,336], practice:[342,412], moon:[422,446], braid:[452,476]};
-const VB = 565;
+const R = {core:[0,66], child:[72,176], mother:[182,262], support:[268,336], practice:[342,412], moon:[422,446], braid:[526,550]};
+const VB = 568;
+const LBL = {week:457, mark:471, sub:484, name:508};   // label radii between the moons and the braid
 const GAP = 1.2;
 const NS = "http://www.w3.org/2000/svg";
 const svg = document.getElementById("m");
@@ -453,7 +464,7 @@ function addCell(d, ring, phase, idx, fillVar, label){
    the lower pieces are drawn first and the upper pieces over them, so each crossing shows who is on top. */
 function drawBraid(){
   const g=el("g",{class:"braid","pointer-events":"none","aria-hidden":"true"});
-  const rc=(R.braid[0]+R.braid[1])/2, A=8.5, N=48, SUB=8;   // N plaits round the circle
+  const rc=(R.braid[0]+R.braid[1])/2, A=8.5, N=56, SUB=8;   // N plaits round the circle
   const strands=[["--child",0],["--mother",2*Math.PI/3],["--support",4*Math.PI/3]];
   const pieces=[[],[]];   // [under, over]
   // strand k sits at A·sin(t+φ) across the band, with depth sin(2(t+φ)); depth keeps one sign over each quarter turn
@@ -481,7 +492,7 @@ function draw(){
   for(let w=0;w<=40;w++){
     const a=weekToAngle(w), five=w%5===0, [x0,y0]=P(R.moon[1]-(five?11:6),a), [x1,y1]=P(R.moon[1],a);
     el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:five?"wk wk5":"wk"},gw);
-    if(five && w>0 && w<40){ const [tx,ty]=P(R.braid[1]+11,a);
+    if(five && w>0 && w<40){ const [tx,ty]=P(LBL.week,a);
       const t=el("text",{x:f(tx),y:f(ty),class:"wklbl","text-anchor":"middle","dominant-baseline":"central"},gw); t.textContent=w; }
   }
   // practice petals (outermost ring)
@@ -515,9 +526,9 @@ function draw(){
     arcText((R.mother[0]+R.mother[1])/2-6,a0+31,a1-31,"MOTHER","lbl lbl-light",14,2.5);
     arcText((R.support[0]+R.support[1])/2,a0+31,a1-31,"EDUCATOR","lbl lbl-light",14,2.5);
     // phase name outside
-    const t=arcText(R.braid[1]+62,a0+3,a1-3,ph.name,"seclbl",22,1.5);
+    const t=arcText(LBL.name,a0+3,a1-3,ph.name,"seclbl",22,1.5);
     t.addEventListener("click",()=>select(s,null,null,true));
-    arcText(R.braid[1]+37,a0+3,a1-3,ph.sub,"secsub",12.5,1.6);
+    arcText(LBL.sub,a0+3,a1-3,ph.sub,"secsub",12.5,1.6);
   });
   // practice petal glyph dots
   for(let i=0;i<12;i++){ const [x,y]=P(R.practice[0]+30,i*30+15); el("circle",{cx:f(x),cy:f(y),r:3.2,fill:"var(--on-dark)",opacity:.75,"pointer-events":"none"}); }
@@ -536,7 +547,7 @@ function draw(){
   ["mouseleave","blur","click"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.remove("on")));
   const ring=el("path",{d:`M0 ${-R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${-R.moon[1]} M0 ${-R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${-R.moon[0]}Z`,
     class:"moonring", "fill-rule":"evenodd", tabindex:"0", role:"button", "aria-label":"The moon ring. Read what it shows"});
-  const ringHtml=`<b>The moon ring</b>Marks the full moons, numbered in order, and the new moons, the small dark circles between them. Ticks along its edge count the forty weeks, and the last period and due dates are marked once a date is entered.<span>Tap any moon to see its date.</span>`;
+  const ringHtml=`<b>The moon ring</b>Marks the full moons, numbered in order, and the new moons, the small dark circles between them. Ticks along its edge count the forty weeks, gold marks show where each trimester begins, and the shaded span around the due date is the birth window, 37 to 42 weeks.<span>Tap any moon or week to see its date.</span>`;
   const ringAt=(x,y)=>({x,y,html:ringHtml});
   ring.addEventListener("click",e=>{ e.stopPropagation();
     if(ring.classList.contains("open")){ moonTip(null); return; }
@@ -544,6 +555,16 @@ function draw(){
     moonTip(ring, ringAt(pt.x,pt.y)); });
   ring.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(ring, ringAt(0,-(R.moon[0]+R.moon[1])/2)); } });
   ring.addEventListener("blur",()=>{ if(openMoon===ring) moonTip(null); });
+  // weeks above the ring's tap area, so the ticks and numbers answer with their own dates
+  const triName=w=> w<=13?"First trimester": w<=27?"Second trimester":"Third trimester";
+  for(let w=1;w<=40;w++){
+    const a0=weekToAngle(w-1), a1=weekToAngle(w), mid=(a0+a1)/2;
+    const hit=el("path",{d:sector(R.moon[1]-8,LBL.week+8,a0,a1,1,0),class:"wkhit",tabindex:"0",role:"button","aria-label":`Week ${w}`});
+    tipOn(hit,()=>{ const [x,y]=P(R.moon[1],mid);
+      if(!EDD) return {x,y,html:`<b>Week ${w}</b>${triName(w)}<span>Enter a date to see the days of each week.</span>`};
+      const L=lmp(), d0=addDays(L,(w-1)*7), d1=addDays(L,w*7-1);
+      return {x,y,html:`<b>Week ${w}</b>${fmtS(d0)} to ${fmt(d1)}<span>${triName(w)}</span>`}; });
+  }
   svg.appendChild(gMoon);
   // today needle layer
   el("g",{id:"needle"});
@@ -620,6 +641,15 @@ function moonInfo(){
   return {L,inside,after};
 }
 const mtip=document.getElementById("moontip");
+// tap or click pins a card open; a mouse hover shows it while over; keyboard focus opens it too
+function tipOn(node, info){
+  node.addEventListener("click",e=>{ e.stopPropagation(); moonTip(node.classList.contains("open")?null:node,info()); });
+  node.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(node,info()); } });
+  node.addEventListener("mouseenter",()=>{ if(!openMoon) moonTip(node,info(),true); });
+  node.addEventListener("mouseleave",()=>{ if(!openMoon) moonTip(null); });
+  node.addEventListener("focus",()=>{ if(node.matches(":focus-visible")) moonTip(node,info()); });
+  node.addEventListener("blur",()=>{ if(openMoon===node) moonTip(null); });
+}
 let openMoon=null;
 function moonTip(mk, info, hoverOnly){
   if(openMoon) openMoon.classList.remove("open");
@@ -641,22 +671,36 @@ window.addEventListener("resize",()=>moonTip(null));
 function drawMoons(){
   const g=document.getElementById("moonband"), n=document.getElementById("needle");
   if(!g) return; moonTip(null); g.innerHTML=""; n.innerHTML="";
+  const L0 = EDD ? lmp() : null;
+  // the birth window: 37 to 42 weeks, so the due date reads as the middle of a range rather than a single day
+  const postAng=days=>270+4+days*1.4, w0=weekToAngle(37), w1=postAng(14);
+  const winInfo=()=>{ const [x,y]=P(R.moon[1],(w0+w1)/2);
+    const range = EDD ? `${fmtS(addDays(EDD,-21))} to ${fmt(addDays(EDD,14))}` : "37 to 42 weeks";
+    return {x,y,html:`<b>Birth window</b>${range}<span>${EDD?"37 to 42 weeks. ":""}A due date is an estimate. Labor and birth can come any time in this span, and only a few babies arrive on the day itself.</span>`}; };
+  const win=el("path",{d:sector(R.moon[0],R.moon[1],w0,w1,1,0),class:"winband",tabindex:"0",role:"button","aria-label":"Birth window, 37 to 42 weeks"},g);
+  tipOn(win,winInfo);
+  const [wx,wy]=P(R.moon[1]+3,w0);
+  const wl=el("path",{d:`M${f(wx)} ${f(wy)} `+arc(R.moon[1]+3,w0,w1,1),class:"winline"},g); tipOn(wl,winInfo);
+  if(EDD){ const t=arcText(LBL.mark+13,252,288,`Birth window ${fmtS(addDays(EDD,-21))} to ${fmtS(addDays(EDD,14))}`,"winlbl",11,0.3,g); t.setAttribute("pointer-events","none"); }
+  // where each trimester begins, and where birth begins: a strong tick and a gold mark, labelled with its date once one is entered
+  [[0,1,"Last period",L0],[90,14,null,L0&&addDays(L0,91)],[180,28,null,L0&&addDays(L0,189)],[270,40,"Due",EDD]].forEach(([a,wk,name,d])=>{
+    const [x0,y0]=P(R.moon[0]-6,a),[x1,y1]=P(R.moon[1]+8,a);
+    el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:"trimark"},g);
+    const [gx,gy]=P(R.moon[1]+8,a), k=4.5;
+    el("path",{d:`M${f(gx)} ${f(gy-k)} L${f(gx+k)} ${f(gy)} L${f(gx)} ${f(gy+k)} L${f(gx-k)} ${f(gy)}Z`,class:"trigem"},g);
+    const text = d ? `${name || "Week "+wk} · ${name ? fmt(d) : fmtS(d)}` : `Week ${wk}`;
+    const t=arcText(LBL.mark,a-16,a+16,text,"datelbl",13,0.4,g); t.setAttribute("pointer-events","none");
+  });
   if(!EDD) return;
-  const {L,inside,after}=moonInfo(), ga=gaDays();
+  const L=L0, {inside,after}=moonInfo(), ga=gaDays();
   const ang=d=>weekToAngle(((d-L)/DAY)/7);
   // cycles: from LMP to first full moon, between full moons, last full moon to due date
   const edges=[0,...inside.map(ang),270];
   for(let i=0;i<edges.length-1;i++){
     const a0=edges[i], a1=edges[i+1]; if(a1-a0<0.3) continue;
     const p=el("path",{d:sector(R.moon[0],R.moon[1],a0,a1,1,0), fill:"var(--moon)", opacity: i%2?0.6:0.35, "pointer-events":"none"}, g);
+    g.insertBefore(p, g.firstChild);   // shading lies beneath the window and the marks
   }
-  // the two dates, under the moon markers so a moon on either day stays readable
-  [[0,"Last period",L],[270,"Due",EDD]].forEach(([a,name,d])=>{
-    const [x0,y0]=P(R.moon[0]-4,a),[x1,y1]=P(R.braid[1]+4,a);
-    el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:"datetick"},g);
-    const t=arcText(R.braid[1]+17,a-14,a+14,`${name} · ${fmt(d)}`,"datelbl",13,0.4,g);
-    el("title",{},t).textContent=`${name === "Due" ? "Expected birth date" : "First day of the last period"}: ${fmt(d)}`;
-  });
   const marker=(d,a,num,late)=>{
     const [x,y]=P((R.moon[0]+R.moon[1])/2,a);
     const prev=num>1?(inside[num-2]||null):null, gd=Math.round((d-L)/DAY);
@@ -686,9 +730,9 @@ function drawMoons(){
     mk.addEventListener("focus",()=>{ if(mk.matches(":focus-visible")) moonTip(mk,info); }); mk.addEventListener("blur",()=>{ if(openMoon===mk) moonTip(null); });
   };
   newMoons(L,EDD).forEach(d=>newMarker(d,ang(d),false));
-  newMoons(addDays(EDD,1),addDays(EDD,14)).forEach(d=>newMarker(d,270+4+((d-EDD)/DAY)*1.4,true));
+  newMoons(addDays(EDD,1),addDays(EDD,14)).forEach(d=>newMarker(d,postAng((d-EDD)/DAY),true));
   inside.forEach((d,i)=>marker(d,ang(d),i+1,false));
-  after.forEach((d,i)=>{ const days=(d-EDD)/DAY; marker(d,270+4+days*1.4,inside.length+i+1,true); });
+  after.forEach((d,i)=>{ const days=(d-EDD)/DAY; marker(d,postAng(days),inside.length+i+1,true); });
   if(ga!=null && ga>=0 && ga<=294){
     const a=weekToAngle(Math.min(ga,280)/7);
     const [x0,y0]=P(R.core[1]+2,a),[x1,y1]=P(R.moon[1]-3,a);
