@@ -81,6 +81,9 @@ svg.dimming .cell.off{opacity:.28}
 .seclbl{fill:var(--ink);font-family:var(--display);font-size:21px;letter-spacing:.06em;cursor:pointer}
 .secsub{fill:var(--muted);font-family:var(--body);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase}
 .orn{fill:none;stroke:var(--line);stroke-width:1.2}
+.wk{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-linecap:round;opacity:.7}
+.wk5{stroke-width:1.8;opacity:1}
+.wklbl{fill:var(--muted);font-family:var(--body);font-size:10.5px;font-weight:700}
 .dot{fill:var(--line)}
 
 .datebar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;max-width:640px;margin:0 auto;width:100%}
@@ -97,6 +100,9 @@ svg.dimming .cell.off{opacity:.28}
 .btn:focus-visible,.tab:focus-visible,.ringkey button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .status{flex-basis:100%;text-align:center;font-size:14px;color:var(--muted);margin:0}
 .status b{color:var(--ink)}
+.rule{flex-basis:100%;text-align:center;font-size:12.5px;color:var(--muted);margin:0;border-top:1px solid var(--line);padding-top:8px}
+.newmk circle{fill:var(--on-light);stroke:var(--moon);stroke-width:2}
+.newmk:focus-visible circle,.newmk.open circle{stroke:var(--ink)}
 
 .ringkey{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;margin:0 auto}
 .ringkey button{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px;cursor:pointer}
@@ -176,6 +182,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
         <button class="btn" type="submit">Add the moons</button>
         <button class="btn" type="button" id="clear" hidden>Clear</button>
         <p class="status" id="status">Enter an expected birth date, or the first day of the last period, to see the full moons of this pregnancy and where today falls on the wheel.</p>
+        <p class="rule">Due dates follow Naegele's rule: the first day of the last period plus 280 days (40 weeks). It is an estimate, and most babies arrive within two weeks of it.</p>
       </form>
       <div class="ringkey" id="ringkey" aria-label="Rings"></div>
     </div>
@@ -190,12 +197,10 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h2>About this mandala</h2>
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
-    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
+    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week.</p>
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment.</p>
     <h3>The ten moons</h3>
-    <p>Long before calendars and due dates, pregnancy was counted by the moon. Many traditions speak of a pregnancy as ten moons. A mother could watch the full moons rise and know that her baby would come around the tenth. The moon was a calendar anyone could read in the night sky.</p>
-    <p>When an expected birth date or the first day of the last period is entered, the mandala marks both dates on the wheel, places the true full moons of that pregnancy around the wheel, numbered in order, and a line shows where today falls. The moon's cycle averages about 29.5 days and shifts a little from one month to the next, so the moons do not line up neatly with the weeks or the trimesters. From the first day of the last period to the due date there are usually nine or ten full moons. When the baby arrives in the days after the due date, the tenth often rises close to the birth, and the mandala shows it there with a dashed outline.</p>
-    <p>The ten moons were never meant to be exact. They describe the length of a complete, uninterrupted journey, measured by a rhythm in the sky that people have always kept time by.</p>
+    <p>Many traditions count a pregnancy as ten moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date.</p>
     <h3>A note on language</h3>
     <p>The lines on what the baby may be sensing, and the possible imprints, are written with care. They draw on research and on the experience of the field's pioneers, and they describe possibilities. Every baby and every pregnancy is its own. Following Karen Strange, the baby is called she.</p>
     <h3>Module Nine readings drawn on</h3>
@@ -444,6 +449,15 @@ function draw(){
   el("circle",{cx:0,cy:0,r:R.moon[1]+11,class:"orn","stroke-dasharray":"1 7"});
   el("circle",{cx:0,cy:0,r:R.practice[1]+5,class:"orn"});
   const gMoon = el("g",{id:"moonband"});
+  // forty weeks around the outer ring: a tick for each week, longer with a number every fifth
+  const gw=el("g",{"pointer-events":"none"});
+  el("path",{d:`M${f(P(R.moon[1],0)[0])} ${f(P(R.moon[1],0)[1])} `+arc(R.moon[1],0,270,1),class:"wk"},gw);
+  for(let w=0;w<=40;w++){
+    const a=weekToAngle(w), five=w%5===0, [x0,y0]=P(R.moon[1]-(five?11:6),a), [x1,y1]=P(R.moon[1],a);
+    el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:five?"wk wk5":"wk"},gw);
+    if(five && w>0 && w<40){ const [tx,ty]=P(R.moon[1]+11,a);
+      const t=el("text",{x:f(tx),y:f(ty),class:"wklbl","text-anchor":"middle","dominant-baseline":"central"},gw); t.textContent=w; }
+  }
   // practice petals (outermost ring)
   PHASES.forEach((ph,s)=>{
     for(let k=0;k<3;k++){
@@ -535,6 +549,28 @@ function fullMoonJDE(k){
         -0.00024*E*Math.sin(2*Mp-M)-0.00017*Math.sin(O);
   return jde;
 }
+// New moons (Meeus ch. 49, new moon terms)
+function newMoonJDE(k){
+  const T=k/1236.85, T2=T*T, T3=T2*T, T4=T3*T, D=Math.PI/180;
+  let jde=2451550.09766+29.530588861*k+0.00015437*T2-0.00000015*T3+0.00000000073*T4;
+  const E=1-0.002516*T-0.0000074*T2;
+  const M=(2.5534+29.10535670*k-0.0000014*T2-0.00000011*T3)*D;
+  const Mp=(201.5643+385.81693528*k+0.0107582*T2+0.00001238*T3-0.000000058*T4)*D;
+  const F=(160.7108+390.67050284*k-0.0016118*T2-0.00000227*T3+0.000000011*T4)*D;
+  const O=(124.7746-1.56375588*k+0.0020672*T2+0.00000215*T3)*D;
+  jde+= -0.40720*Math.sin(Mp)+0.17241*E*Math.sin(M)+0.01608*Math.sin(2*Mp)+0.01039*Math.sin(2*F)
+        +0.00739*E*Math.sin(Mp-M)-0.00514*E*Math.sin(Mp+M)+0.00208*E*E*Math.sin(2*M)
+        -0.00111*Math.sin(Mp-2*F)-0.00057*Math.sin(Mp+2*F)+0.00056*E*Math.sin(2*Mp+M)
+        -0.00042*Math.sin(3*Mp)+0.00042*E*Math.sin(M+2*F)+0.00038*E*Math.sin(M-2*F)
+        -0.00024*E*Math.sin(2*Mp-M)-0.00017*Math.sin(O);
+  return jde;
+}
+function newMoons(from,to){
+  const yr=2000+(from.getTime()-Date.UTC(2000,0,1))/(365.25*DAY);
+  let k=Math.floor((yr-2000)*12.3685)-2; const out=[];
+  for(let i=0;i<40;i++,k++){ const t=(newMoonJDE(k)-2440587.5)*DAY - 69000; if(t>to.getTime()) break; if(t>=from.getTime()) out.push(new Date(t)); }
+  return out;
+}
 function fullMoons(from,to){
   const yr=2000+(from.getTime()-Date.UTC(2000,0,1))/(365.25*DAY);
   let k=Math.floor((yr-2000)*12.3685)-2+0.5; const out=[];
@@ -601,6 +637,20 @@ function drawMoons(){
     mk.addEventListener("mouseleave",e=>{ if(!openMoon) moonTip(null); });
     mk.addEventListener("focus",()=>{ if(mk.matches(":focus-visible")) moonTip(mk,info); }); mk.addEventListener("blur",()=>{ if(openMoon===mk) moonTip(null); });
   };
+  const newMarker=(d,a,late)=>{
+    const [x,y]=P((R.moon[0]+R.moon[1])/2,a), gd=Math.round((d-L)/DAY);
+    const when = late ? `${Math.round((d-EDD)/DAY)} days after the due date` : `At ${Math.floor(gd/7)} weeks ${gd%7} ${gd%7===1?"day":"days"}`;
+    const mk=el("g",{class:"moonmk newmk", tabindex:"0", role:"button", "aria-label":`New moon, ${fmt(d)}. ${when}.`},g);
+    el("circle",{cx:f(x),cy:f(y),r:9,"stroke-dasharray":late?"2 2":"none"},mk);
+    const info={x,y,html:`<b>New moon</b>${fmt(d)}<span>${when}</span>`};
+    mk.addEventListener("click",e=>{ e.stopPropagation(); moonTip(mk.classList.contains("open")?null:mk,info); });
+    mk.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(mk,info); } });
+    mk.addEventListener("mouseenter",()=>{ if(!openMoon) moonTip(mk,info,true); });
+    mk.addEventListener("mouseleave",()=>{ if(!openMoon) moonTip(null); });
+    mk.addEventListener("focus",()=>{ if(mk.matches(":focus-visible")) moonTip(mk,info); }); mk.addEventListener("blur",()=>{ if(openMoon===mk) moonTip(null); });
+  };
+  newMoons(L,EDD).forEach(d=>newMarker(d,ang(d),false));
+  newMoons(addDays(EDD,1),addDays(EDD,14)).forEach(d=>newMarker(d,270+4+((d-EDD)/DAY)*1.4,true));
   inside.forEach((d,i)=>marker(d,ang(d),i+1,false));
   after.forEach((d,i)=>{ const days=(d-EDD)/DAY; marker(d,270+4+days*1.4,inside.length+i+1,true); });
   if(ga!=null && ga>=0 && ga<=294){
@@ -684,7 +734,7 @@ function showIntro(){
     <p>Start with the child at the heart of the circle and move outward. Each ring answers a different question about the same moment in the pregnancy.</p>
     <ul class="legend">
       ${["child","mother","support","practice"].map(k=>`<li>${sw(RINGS[k].color)}<div><b>${RINGS[k].name}</b>${RINGS[k].about}</div></li>`).join("")}
-      <li>${sw("--moon")}<div><b>The ten moons</b>When an expected birth date or the first day of the last period is entered, both dates are marked on the wheel and the true full moons of that pregnancy appear around the wheel, numbered in order, following the moon's real cycle.</div></li>
+      <li>${sw("--moon")}<div><b>The ten moons</b>When a date is entered, both dates are marked on the wheel, along with the real full moons of the pregnancy, numbered in order, and the new moons between them.</div></li>
     </ul>
     <p>The wheel begins at the top with conception and moves clockwise through the three trimesters. The last quarter is birth, which returns to the top where the journey began.</p>
     <p class="hint">Choose any petal or ring on the mandala, or a phase above, to open it.</p>
