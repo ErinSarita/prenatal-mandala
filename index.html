@@ -171,7 +171,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
 
   <div class="main">
     <div class="stage">
-      <div class="svgbox"><div class="moontip" id="moontip" role="status"></div><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-530 -530 1060 1060" role="group" aria-label="Pregnancy mandala"></svg></div>
+      <div class="svgbox"><div class="moontip" id="moontip" role="status"></div><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-565 -565 1130 1130" role="group" aria-label="Pregnancy mandala"></svg></div>
       <form class="datebar" id="dateform" autocomplete="off">
         <div class="datemode" role="radiogroup" aria-label="Which date do you know?">
           <button type="button" role="radio" aria-checked="true" data-mode="edd">Due date</button>
@@ -197,7 +197,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h2>About this mandala</h2>
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
-    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week.</p>
+    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week. Around the whole wheel runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment.</p>
     <h3>The ten moons</h3>
     <p>Many traditions count a pregnancy as ten moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date.</p>
@@ -391,7 +391,8 @@ const PRACTICE = [
 ];
 
 /* ---------- Geometry ---------- */
-const R = {core:[0,66], child:[72,176], mother:[182,262], support:[268,336], practice:[342,412], moon:[422,446]};
+const R = {core:[0,66], child:[72,176], mother:[182,262], support:[268,336], practice:[342,412], moon:[422,446], braid:[452,476]};
+const VB = 565;
 const GAP = 1.2;
 const NS = "http://www.w3.org/2000/svg";
 const svg = document.getElementById("m");
@@ -443,19 +444,41 @@ function addCell(d, ring, phase, idx, fillVar, label){
   cells.push(c); return c;
 }
 
+/* The braid: three strands, the child, the mother and the educator, plaited around the whole wheel.
+   Each strand weaves in and out across the band and passes over one strand, then under the other,
+   in turn. Every strand is cut into pieces where it changes from lying underneath to lying on top;
+   the lower pieces are drawn first and the upper pieces over them, so each crossing shows who is on top. */
+function drawBraid(){
+  const g=el("g",{class:"braid","pointer-events":"none","aria-hidden":"true"});
+  const rc=(R.braid[0]+R.braid[1])/2, A=8.5, N=48, SUB=8;   // N plaits round the circle
+  const strands=[["--child",0],["--mother",2*Math.PI/3],["--support",4*Math.PI/3]];
+  const pieces=[[],[]];   // [under, over]
+  // strand k sits at A·sin(t+φ) across the band, with depth sin(2(t+φ)); depth keeps one sign over each quarter turn
+  strands.forEach(([color,ph])=>{
+    for(let m=0;m<N*4;m++){
+      const t0=m*Math.PI/2-ph, pts=[];
+      for(let j=0;j<=SUB;j++){ const t=t0+j*Math.PI/(2*SUB), [x,y]=P(rc+A*Math.sin(t+ph), t*180/(Math.PI*N)); pts.push((j?"L":"M")+f(x)+" "+f(y)); }
+      pieces[m%2===0?1:0].push([pts.join(" "),color]);
+    }
+  });
+  pieces.forEach(list=>list.forEach(([d,color])=>{
+    el("path",{d,fill:"none",stroke:"var(--bg)","stroke-width":10,"stroke-linecap":"butt"},g);
+    el("path",{d,fill:"none",stroke:`var(${color})`,"stroke-width":6.5,"stroke-linecap":"round"},g);
+  }));
+}
 function draw(){
   svg.innerHTML=""; cells.length=0; tpId=0;
   // ornament rings
-  el("circle",{cx:0,cy:0,r:R.moon[1]+11,class:"orn","stroke-dasharray":"1 7"});
   el("circle",{cx:0,cy:0,r:R.practice[1]+5,class:"orn"});
   const gMoon = el("g",{id:"moonband"});
+  drawBraid();
   // forty weeks around the outer ring: a tick for each week, longer with a number every fifth
   const gw=el("g",{"pointer-events":"none"});
   el("path",{d:`M${f(P(R.moon[1],0)[0])} ${f(P(R.moon[1],0)[1])} `+arc(R.moon[1],0,270,1),class:"wk"},gw);
   for(let w=0;w<=40;w++){
     const a=weekToAngle(w), five=w%5===0, [x0,y0]=P(R.moon[1]-(five?11:6),a), [x1,y1]=P(R.moon[1],a);
     el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:five?"wk wk5":"wk"},gw);
-    if(five && w>0 && w<40){ const [tx,ty]=P(R.moon[1]+11,a);
+    if(five && w>0 && w<40){ const [tx,ty]=P(R.braid[1]+11,a);
       const t=el("text",{x:f(tx),y:f(ty),class:"wklbl","text-anchor":"middle","dominant-baseline":"central"},gw); t.textContent=w; }
   }
   // practice petals (outermost ring)
@@ -489,9 +512,9 @@ function draw(){
     arcText((R.mother[0]+R.mother[1])/2-6,a0+31,a1-31,"MOTHER","lbl lbl-light",14,2.5);
     arcText((R.support[0]+R.support[1])/2,a0+31,a1-31,"EDUCATOR","lbl lbl-light",14,2.5);
     // phase name outside
-    const t=arcText(R.moon[1]+58,a0+3,a1-3,ph.name,"seclbl",22,1.5);
+    const t=arcText(R.braid[1]+62,a0+3,a1-3,ph.name,"seclbl",22,1.5);
     t.addEventListener("click",()=>select(s,null,null,true));
-    arcText(R.moon[1]+34,a0+3,a1-3,ph.sub,"secsub",12.5,1.6);
+    arcText(R.braid[1]+37,a0+3,a1-3,ph.sub,"secsub",12.5,1.6);
   });
   // practice petal glyph dots
   for(let i=0;i<12;i++){ const [x,y]=P(R.practice[0]+30,i*30+15); el("circle",{cx:f(x),cy:f(y),r:3.2,fill:"var(--on-dark)",opacity:.75,"pointer-events":"none"}); }
@@ -591,8 +614,8 @@ function moonTip(mk, info, hoverOnly){
   if(!mk){ mtip.classList.remove("on"); return; }
   if(!hoverOnly){ openMoon=mk; mk.classList.add("open"); }
   mtip.innerHTML=info.html;
-  const box=mtip.parentElement, W=box.clientWidth, scale=W/1060;
-  const px=(info.x+530)*scale, py=(info.y+530)*scale, w=mtip.offsetWidth, h=mtip.offsetHeight;
+  const box=mtip.parentElement, W=box.clientWidth, scale=W/(2*VB);
+  const px=(info.x+VB)*scale, py=(info.y+VB)*scale, w=mtip.offsetWidth, h=mtip.offsetHeight;
   const left=Math.min(Math.max(px-w/2, 0), W-w);
   const above=py-h-22*scale-6;
   mtip.style.left=left+"px"; mtip.style.top=(above>=0 ? above : py+22*scale+6)+"px";
@@ -616,9 +639,9 @@ function drawMoons(){
   }
   // the two dates, under the moon markers so a moon on either day stays readable
   [[0,"Last period",L],[270,"Due",EDD]].forEach(([a,name,d])=>{
-    const [x0,y0]=P(R.moon[0]-4,a),[x1,y1]=P(R.moon[1]+8,a);
+    const [x0,y0]=P(R.moon[0]-4,a),[x1,y1]=P(R.braid[1]+4,a);
     el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:"datetick"},g);
-    const t=arcText(R.moon[1]+26,a-14,a+14,`${name} · ${fmt(d)}`,"datelbl",13,0.4,g);
+    const t=arcText(R.braid[1]+17,a-14,a+14,`${name} · ${fmt(d)}`,"datelbl",13,0.4,g);
     el("title",{},t).textContent=`${name === "Due" ? "Expected birth date" : "First day of the last period"}: ${fmt(d)}`;
   });
   const marker=(d,a,num,late)=>{
@@ -655,7 +678,7 @@ function drawMoons(){
   after.forEach((d,i)=>{ const days=(d-EDD)/DAY; marker(d,270+4+days*1.4,inside.length+i+1,true); });
   if(ga!=null && ga>=0 && ga<=294){
     const a=weekToAngle(Math.min(ga,280)/7);
-    const [x0,y0]=P(R.core[1]+2,a),[x1,y1]=P(R.moon[1]+4,a);
+    const [x0,y0]=P(R.core[1]+2,a),[x1,y1]=P(R.moon[1]-3,a);
     el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),stroke:"var(--today)","stroke-width":3,"stroke-linecap":"round","pointer-events":"none"},n);
     el("circle",{cx:f(x1),cy:f(y1),r:7,fill:"var(--today)","pointer-events":"none"},n);
   }
