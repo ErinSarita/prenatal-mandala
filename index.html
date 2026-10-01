@@ -58,11 +58,14 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);lin
 .coretip{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-100% - 9%));width:min(250px,70%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.45;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}
 .coretip.on{opacity:1}
 .coretip b{font-family:var(--display);font-weight:400;font-size:16px;display:block;margin-bottom:2px}
-.moontip{position:absolute;left:0;top:0;z-index:2;width:max-content;max-width:min(230px,64%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13.5px;line-height:1.4;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .15s ease}
+.moontip{position:absolute;left:0;top:0;z-index:2;width:max-content;max-width:min(260px,72%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13.5px;line-height:1.4;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .15s ease}
 .moontip.on{opacity:1}
 .moontip b{font-family:var(--display);font-weight:400;font-size:16px;display:block}
 .moontip span{color:var(--muted);font-size:12.5px;display:block}
 .moonmk{cursor:pointer}
+.moonring{fill:transparent;cursor:pointer}
+.moonring:focus{outline:none}
+.moonring:focus-visible,.moonring.open{fill:color-mix(in srgb, var(--ink) 6%, transparent)}
 .moonmk:focus{outline:none}
 .moonmk:focus-visible circle,.moonmk.open circle{stroke:var(--ink)}
 .center-msg{display:grid;gap:12px}
@@ -531,6 +534,16 @@ function draw(){
   const tip=document.getElementById("coretip");
   ["mouseenter","focus"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.add("on")));
   ["mouseleave","blur","click"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.remove("on")));
+  const ring=el("path",{d:`M0 ${-R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${R.moon[1]} A${R.moon[1]} ${R.moon[1]} 0 1 1 0 ${-R.moon[1]} M0 ${-R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${R.moon[0]} A${R.moon[0]} ${R.moon[0]} 0 1 0 0 ${-R.moon[0]}Z`,
+    class:"moonring", "fill-rule":"evenodd", tabindex:"0", role:"button", "aria-label":"The moon ring. Read what it shows"});
+  const ringHtml=`<b>The moon ring</b>Marks the full moons, numbered in order, and the new moons, the small dark circles between them. Ticks along its edge count the forty weeks, and the last period and due dates are marked once a date is entered.<span>Tap any moon to see its date.</span>`;
+  const ringAt=(x,y)=>({x,y,html:ringHtml});
+  ring.addEventListener("click",e=>{ e.stopPropagation();
+    if(ring.classList.contains("open")){ moonTip(null); return; }
+    const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    moonTip(ring, ringAt(pt.x,pt.y)); });
+  ring.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); moonTip(ring, ringAt(0,-(R.moon[0]+R.moon[1])/2)); } });
+  ring.addEventListener("blur",()=>{ if(openMoon===ring) moonTip(null); });
   svg.appendChild(gMoon);
   // today needle layer
   el("g",{id:"needle"});
@@ -635,7 +648,7 @@ function drawMoons(){
   const edges=[0,...inside.map(ang),270];
   for(let i=0;i<edges.length-1;i++){
     const a0=edges[i], a1=edges[i+1]; if(a1-a0<0.3) continue;
-    const p=el("path",{d:sector(R.moon[0],R.moon[1],a0,a1,1,0), fill:"var(--moon)", opacity: i%2?0.6:0.35}, g);
+    const p=el("path",{d:sector(R.moon[0],R.moon[1],a0,a1,1,0), fill:"var(--moon)", opacity: i%2?0.6:0.35, "pointer-events":"none"}, g);
   }
   // the two dates, under the moon markers so a moon on either day stays readable
   [[0,"Last period",L],[270,"Due",EDD]].forEach(([a,name,d])=>{
