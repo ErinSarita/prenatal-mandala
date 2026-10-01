@@ -416,7 +416,8 @@ const f = n => n.toFixed(2);
 function el(tag, attrs, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); (parent||svg).appendChild(e); return e; }
 function arc(r,a0,a1,sweep){ const [x,y]=P(r,a1); const large=Math.abs(a1-a0)>180?1:0; return `A${f(r)} ${f(r)} 0 ${large} ${sweep} ${f(x)} ${f(y)}`; }
 // annular sector; outer edge scalloped into n bumps
-function sector(r0,r1,a0,a1,n,bulge){
+const CURVE=18;   // how far each petal edge swells outward
+function sector(r0,r1,a0,a1,n,bulge,bulgeIn){
   const s0=P(r0,a0); let d=`M${f(s0[0])} ${f(s0[1])}`;
   const e0=P(r1,a0); d+=` L${f(e0[0])} ${f(e0[1])}`;
   const step=(a1-a0)/n;
@@ -424,14 +425,16 @@ function sector(r0,r1,a0,a1,n,bulge){
     if(bulge){ const c=P(r1+bulge,m), e=P(r1,b1); d+=` Q${f(c[0])} ${f(c[1])} ${f(e[0])} ${f(e[1])}`; }
     else d+=" "+arc(r1,b0,b1,1);
   }
-  d+=` L${f(P(r0,a1)[0])} ${f(P(r0,a1)[1])} `+arc(r0,a1,a0,0)+"Z";
+  d+=` L${f(P(r0,a1)[0])} ${f(P(r0,a1)[1])} `;
+  if(bulgeIn){ const c=P(r0+bulgeIn,(a0+a1)/2), e=P(r0,a0); d+=`Q${f(c[0])} ${f(c[1])} ${f(e[0])} ${f(e[1])}Z`; }
+  else d+=arc(r0,a1,a0,0)+"Z";
   return d;
 }
-function petal(r0,r1,a0,a1){
+function petal(r0,r1,a0,a1,bulgeIn){
   const m=(a0+a1)/2, w=(a1-a0);
   const b0=P(r0,a0), b1=P(r0,a1), tip=P(r1,m);
   const c0=P(r0+(r1-r0)*.62,a0-w*.08), c1=P(r0+(r1-r0)*.62,a1+w*.08);
-  return `M${f(b0[0])} ${f(b0[1])} Q${f(c0[0])} ${f(c0[1])} ${f(tip[0])} ${f(tip[1])} Q${f(c1[0])} ${f(c1[1])} ${f(b1[0])} ${f(b1[1])} `+arc(r0,a1,a0,0)+"Z";
+  return `M${f(b0[0])} ${f(b0[1])} Q${f(c0[0])} ${f(c0[1])} ${f(tip[0])} ${f(tip[1])} Q${f(c1[0])} ${f(c1[1])} ${f(b1[0])} ${f(b1[1])} `+(bulgeIn ? `Q${f(P(r0+bulgeIn,m)[0])} ${f(P(r0+bulgeIn,m)[1])} ${f(b0[0])} ${f(b0[1])}` : arc(r0,a1,a0,0))+"Z";
 }
 // text path along an arc that reads upright
 let tpId=0;
@@ -499,19 +502,19 @@ function draw(){
   PHASES.forEach((ph,s)=>{
     for(let k=0;k<3;k++){
       const a0=s*90+k*30, a1=a0+30;
-      addCell(petal(R.practice[0],R.practice[1],a0+GAP,a1-GAP),"practice",s,null,"--practice",`${RINGS.practice.name}, ${ph.name}`);
+      addCell(petal(R.practice[0],R.practice[1],a0+GAP,a1-GAP,CURVE),"practice",s,null,"--practice",`${RINGS.practice.name}, ${ph.name}`);
     }
   });
   // educator ring, 12 segments aligned with the months
   CHILD.forEach((c,i)=>{ const sx=Math.floor(i/3);
-    addCell(sector(R.support[0],R.support[1],i*30+GAP,(i+1)*30-GAP,1,0),"support",sx,i,"--support",`${RINGS.support.name}, ${c.t}`); });
+    addCell(sector(R.support[0],R.support[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"support",sx,i,"--support",`${RINGS.support.name}, ${c.t}`); });
   // mother ring, 12 scalloped segments aligned with the months
   CHILD.forEach((c,i)=>{ const sx=Math.floor(i/3);
-    addCell(sector(R.mother[0],R.mother[1],i*30+GAP,(i+1)*30-GAP,1,12),"mother",sx,i,"--mother",`${RINGS.mother.name}, ${c.t}`); });
+    addCell(sector(R.mother[0],R.mother[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"mother",sx,i,"--mother",`${RINGS.mother.name}, ${c.t}`); });
   // child ring, 12 petals
   CHILD.forEach((c,i)=>{
     const s=Math.floor(i/3);
-    addCell(sector(R.child[0],R.child[1],i*30+GAP,(i+1)*30-GAP,1,18),"child",s,i,"--child",`${RINGS.child.name}, ${c.t}`);
+    addCell(sector(R.child[0],R.child[1],i*30+GAP,(i+1)*30-GAP,1,CURVE),"child",s,i,"--child",`${RINGS.child.name}, ${c.t}`);
   });
   // labels
   CHILD.forEach((c,i)=>{
@@ -867,7 +870,7 @@ function applySel(){
   if(!so) return; so.innerHTML="";
   // a month: one thin line around its whole slice, from the child out through the educator
   if(sel.idx!=null){ const a0=sel.idx*30+GAP/2, a1=(sel.idx+1)*30-GAP/2;
-    el("path",{d:sector(R.child[0]-3,R.support[1]+3,a0,a1,1,0)},so); return; }
+    el("path",{d:sector(R.child[0]-3,R.support[1]+3,a0,a1,1,CURVE)},so); return; }
   cells.forEach(c=>{ if(c.classList.contains("sel") && c.getAttribute("d")) el("path",{d:c.getAttribute("d")},so); });
 }
 function hover(phase, idx){
