@@ -78,6 +78,12 @@ svg.dimming .cell.off{opacity:.28}
 
 .datebar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;max-width:640px;margin:0 auto;width:100%}
 .datebar label{font-size:14px;font-weight:600}
+.datemode{flex-basis:100%;display:flex;justify-content:center;gap:4px}
+.datemode button{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 12px;cursor:pointer}
+.datemode button[aria-checked="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.datemode button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.datelbl{fill:var(--ink);font-family:var(--body);font-weight:700}
+.datetick{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;pointer-events:none}
 .datebar input{font:inherit;font-size:15px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 .btn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
 .btn:hover{background:var(--bg)}
@@ -154,11 +160,15 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <div class="stage">
       <div class="svgbox"><div class="coretip" id="coretip" aria-hidden="true"><b>The prenate at the center</b>Everything in this mandala circles around the developing child. Tap to read more.</div><svg id="m" viewBox="-530 -530 1060 1060" role="group" aria-label="Pregnancy mandala"></svg></div>
       <form class="datebar" id="dateform" autocomplete="off">
-        <label for="edd">Expected birth date</label>
+        <div class="datemode" role="radiogroup" aria-label="Which date do you know?">
+          <button type="button" role="radio" aria-checked="true" data-mode="edd">Due date</button>
+          <button type="button" role="radio" aria-checked="false" data-mode="lmp">Last period</button>
+        </div>
+        <label for="edd" id="datelabel">Expected birth date</label>
         <input type="date" id="edd" name="edd">
         <button class="btn" type="submit">Add the moons</button>
         <button class="btn" type="button" id="clear" hidden>Clear</button>
-        <p class="status" id="status">Enter an expected birth date to see the full moons of this pregnancy and where today falls on the wheel.</p>
+        <p class="status" id="status">Enter an expected birth date, or the first day of the last period, to see the full moons of this pregnancy and where today falls on the wheel.</p>
       </form>
       <div class="ringkey" id="ringkey" aria-label="Rings"></div>
     </div>
@@ -177,7 +187,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment.</p>
     <h3>The ten moons</h3>
     <p>Long before calendars and due dates, pregnancy was counted by the moon. Many traditions speak of a pregnancy as ten moons. A mother could watch the full moons rise and know that her baby would come around the tenth. The moon was a calendar anyone could read in the night sky.</p>
-    <p>When an expected birth date is entered, the mandala places the true full moons of that pregnancy around the wheel, numbered in order, and a line shows where today falls. The moon's cycle averages about 29.5 days and shifts a little from one month to the next, so the moons do not line up neatly with the weeks or the trimesters. From the first day of the last period to the due date there are usually nine or ten full moons. When the baby arrives in the days after the due date, the tenth often rises close to the birth, and the mandala shows it there with a dashed outline.</p>
+    <p>When an expected birth date or the first day of the last period is entered, the mandala marks both dates on the wheel, places the true full moons of that pregnancy around the wheel, numbered in order, and a line shows where today falls. The moon's cycle averages about 29.5 days and shifts a little from one month to the next, so the moons do not line up neatly with the weeks or the trimesters. From the first day of the last period to the due date there are usually nine or ten full moons. When the baby arrives in the days after the due date, the tenth often rises close to the birth, and the mandala shows it there with a dashed outline.</p>
     <p>The ten moons were never meant to be exact. They describe the length of a complete, uninterrupted journey, measured by a rhythm in the sky that people have always kept time by.</p>
     <h3>A note on language</h3>
     <p>The lines on what the baby may be sensing, and the possible imprints, are written with care. They draw on research and on the experience of the field's pioneers, and they describe possibilities. Every baby and every pregnancy is its own. Following Karen Strange, the baby is called she.</p>
@@ -398,13 +408,13 @@ function petal(r0,r1,a0,a1){
 }
 // text path along an arc that reads upright
 let tpId=0;
-function arcText(r,a0,a1,text,cls,size,ls){
+function arcText(r,a0,a1,text,cls,size,ls,parent){
   const m=((a0+a1)/2+360)%360, flip = m>95 && m<265;
   const id="tp"+(tpId++);
   const rr = flip ? r+size*0.35 : r-size*0.35;
   const [sx,sy]=P(rr, flip?a1:a0);
-  el("path",{id, d:`M${f(sx)} ${f(sy)} `+arc(rr, flip?a1:a0, flip?a0:a1, flip?0:1), fill:"none"});
-  const t=el("text",{class:cls, "font-size":size, "text-anchor":"middle", "letter-spacing":ls||0});
+  el("path",{id, d:`M${f(sx)} ${f(sy)} `+arc(rr, flip?a1:a0, flip?a0:a1, flip?0:1), fill:"none"}, parent);
+  const t=el("text",{class:cls, "font-size":size, "text-anchor":"middle", "letter-spacing":ls||0}, parent);
   const tp=el("textPath",{href:"#"+id, startOffset:"50%"}, t); tp.textContent=text; return t;
 }
 const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -494,7 +504,8 @@ function weekToAngle(w){
 }
 let EDD=null;
 const DAY=86400000;
-const addDays=(d,n)=>new Date(d.getTime()+n*DAY);
+// calendar days, so a daylight-saving change between the two dates does not shift the result
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n,d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds());
 const fmt=d=>d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
 const fmtS=d=>d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
 function lmp(){ return EDD ? addDays(EDD,-280) : null; }
@@ -541,6 +552,13 @@ function drawMoons(){
     const a0=edges[i], a1=edges[i+1]; if(a1-a0<0.3) continue;
     const p=el("path",{d:sector(R.moon[0],R.moon[1],a0,a1,1,0), fill:"var(--moon)", opacity: i%2?0.6:0.35}, g);
   }
+  // the two dates, under the moon markers so a moon on either day stays readable
+  [[0,"Last period",L],[270,"Due",EDD]].forEach(([a,name,d])=>{
+    const [x0,y0]=P(R.moon[0]-4,a),[x1,y1]=P(R.moon[1]+8,a);
+    el("line",{x1:f(x0),y1:f(y0),x2:f(x1),y2:f(y1),class:"datetick"},g);
+    const t=arcText(R.moon[1]+26,a-14,a+14,`${name} · ${fmt(d)}`,"datelbl",13,0.4,g);
+    el("title",{},t).textContent=`${name === "Due" ? "Expected birth date" : "First day of the last period"}: ${fmt(d)}`;
+  });
   const marker=(d,a,num,late)=>{
     const [x,y]=P((R.moon[0]+R.moon[1])/2,a);
     const c=el("circle",{cx:f(x),cy:f(y),r:17,fill:"var(--surface)",stroke:"var(--moon)","stroke-width":3,"stroke-dasharray":late?"3 3":"none"},g);
@@ -583,18 +601,19 @@ function currentMonth(){
 function setStatus(){
   const s=document.getElementById("status"), clr=document.getElementById("clear");
   clr.hidden=!EDD;
-  if(!EDD){ s.textContent="Enter an expected birth date to see the full moons of this pregnancy and where today falls on the wheel."; return; }
+  if(!EDD){ s.textContent="Enter an expected birth date, or the first day of the last period, to see the full moons of this pregnancy and where today falls on the wheel."; return; }
   const ga=gaDays(), {inside,after}=moonInfo();
   let moons=`<b>${inside.length} full moons</b> rise between ${fmtS(lmp())} and the due date`;
   if(after.length) moons+=`, and the ${ORD(inside.length+1)} rises ${fmtS(after[0])}, ${Math.round((after[0]-EDD)/DAY)} days after`;
   moons+=".";
   let msg;
-  if(ga<0) msg=`Pregnancy dating begins ${fmt(lmp())}. ${moons}`;
-  else if(ga>294) msg=`This pregnancy's due date was ${fmt(EDD)}. ${moons}`;
+  const both=`Last period ${fmt(lmp())} · due ${fmt(EDD)}.`;
+  if(ga<0) msg=`${both} ${moons}`;
+  else if(ga>294) msg=`${both} ${moons}`;
   else {
     const w=Math.floor(ga/7), d=ga%7, seen=inside.filter(m=>m<=todayMid()).length;
     const ph = ga<=90?"first trimester":ga<=188?"second trimester":ga<=280?"third trimester":"past the due date";
-    msg=`Today: <b>${w} weeks ${d} ${d===1?"day":"days"}</b> · ${ph} · ${seen} full ${seen===1?"moon":"moons"} so far. Due ${fmt(EDD)}. ${moons}`;
+    msg=`Today: <b>${w} weeks ${d} ${d===1?"day":"days"}</b> · ${ph} · ${seen} full ${seen===1?"moon":"moons"} so far. ${both} ${moons}`;
   }
   s.innerHTML=msg;
 }
@@ -633,7 +652,7 @@ function showIntro(){
     <p>Start with the child at the heart of the circle and move outward. Each ring answers a different question about the same moment in the pregnancy.</p>
     <ul class="legend">
       ${["child","mother","support","practice"].map(k=>`<li>${sw(RINGS[k].color)}<div><b>${RINGS[k].name}</b>${RINGS[k].about}</div></li>`).join("")}
-      <li>${sw("--moon")}<div><b>The ten moons</b>When an expected birth date is entered, the true full moons of that pregnancy appear around the wheel, numbered in order, following the moon's real cycle.</div></li>
+      <li>${sw("--moon")}<div><b>The ten moons</b>When an expected birth date or the first day of the last period is entered, both dates are marked on the wheel and the true full moons of that pregnancy appear around the wheel, numbered in order, following the moon's real cycle.</div></li>
     </ul>
     <p>The wheel begins at the top with conception and moves clockwise through the three trimesters. The last quarter is birth, which returns to the top where the journey began.</p>
     <p class="hint">Choose any petal or ring on the mandala, or a phase above, to open it.</p>
@@ -713,7 +732,18 @@ const rk=document.getElementById("ringkey");
 });
 
 /* date form */
-const form=document.getElementById("dateform"), inp=document.getElementById("edd");
+const form=document.getElementById("dateform"), inp=document.getElementById("edd"), dlabel=document.getElementById("datelabel");
+const modeBtns=[...document.querySelectorAll(".datemode button")];
+let mode="edd"; try{ if(localStorage.getItem("pm-mode")==="lmp") mode="lmp"; }catch(e){}
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+function fillInput(){ inp.value = EDD ? iso(mode==="lmp" ? lmp() : EDD) : ""; }
+function setMode(m, save){
+  mode=m; modeBtns.forEach(b=>b.setAttribute("aria-checked", b.dataset.mode===m ? "true" : "false"));
+  dlabel.textContent = m==="lmp" ? "First day of last period" : "Expected birth date";
+  if(save){ try{ localStorage.setItem("pm-mode",m); }catch(e){} }
+  fillInput();
+}
+modeBtns.forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode,true)));
 function setEDD(v, save){
   if(v){ const [y,mo,d]=v.split("-").map(Number); EDD=new Date(y,mo-1,d); } else EDD=null;
   if(save){ try{ v?localStorage.setItem("pm-edd",v):localStorage.removeItem("pm-edd"); }catch(e){} }
@@ -721,12 +751,15 @@ function setEDD(v, save){
   if(EDD){ const cp=currentPhase(); const ga=gaDays(); if(ga!=null&&ga>=0&&ga<=294){ const cm=currentMonth(); select(cp, cm!=null?"child":null, cm); } else if(sel.phase!=null) select(sel.phase,sel.ring,sel.idx); }
   else if(sel.phase!=null) select(sel.phase,sel.ring,sel.idx);
 }
-form.addEventListener("submit",e=>{ e.preventDefault(); if(inp.value) setEDD(inp.value,true); });
+form.addEventListener("submit",e=>{ e.preventDefault(); if(!inp.value) return;
+  if(mode==="lmp"){ const [y,mo,d]=inp.value.split("-").map(Number); setEDD(iso(addDays(new Date(y,mo-1,d),280)),true); }
+  else setEDD(inp.value,true); });
 document.getElementById("clear").addEventListener("click",()=>{ inp.value=""; setEDD(null,true); });
 
 draw();
 let saved=null; try{ saved=localStorage.getItem("pm-edd"); }catch(e){}
-if(saved){ inp.value=saved; setEDD(saved,false); } else { setStatus(); select(1,"child",4); }
+if(saved){ setEDD(saved,false); } else { setStatus(); select(1,"child",4); }
+setMode(mode,false);
 if(location.hash==="#intro") showIntro();
 
 // essay link (filled after the essay is published)
