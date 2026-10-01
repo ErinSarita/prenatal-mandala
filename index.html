@@ -210,10 +210,11 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h2>About this mandala</h2>
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
-    <p>The circle begins at the top with conception and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning. Small ticks around the outer ring count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. The shaded span from 37 to 42 weeks is the birth window, a reminder that the due date is the middle of a range. Around the outside of the whole wheel runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
-    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment.</p>
+    <p>The circle begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
+    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby, all at the same moment. Each ring curves outward like a petal and nests into the ring inside it. Hover over or tap any petal for a short summary, and choose it to read in full.</p>
+    <p>Around the petals runs the moon ring. Ticks along its edge count the forty weeks of pregnancy, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. The shaded span from 37 to 42 weeks is the birth window, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside, and around the very edge runs a braid of three strands in the colors of the child, the mother, and the educator, for the way their lives and this knowledge weave together through pregnancy and birth.</p>
     <h3>The ten moons</h3>
-    <p>Many traditions count a pregnancy as ten moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date.</p>
+    <p>Many traditions count a pregnancy as ten moons, and the forty weeks of pregnancy do span nine or ten full moons. Entering a date marks the real full and new moons of this pregnancy around the wheel, a fun way to follow the weeks of pregnancy alongside the moon's own cycle of about 29.5 days. The full moons are numbered, the new moons are the small dark circles between them, and any moon in the two weeks after the due date has a dashed outline. Tap or hover over a moon to see its date and how many weeks along the pregnancy is.</p>
     <h3>A note on language</h3>
     <p>The lines on what the baby may be sensing, and the possible imprints, are written with care. They draw on research and on the experience of the field's pioneers, and they describe possibilities. Every baby and every pregnancy is its own. Following Karen Strange, the baby is called she.</p>
     <h3>Module Nine readings drawn on</h3>
@@ -451,13 +452,33 @@ const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v)
 
 /* ---------- Draw ---------- */
 const cells=[];
-function addCell(d, ring, phase, idx, fillVar, label){
+// short summary card for a petal: hover with a mouse, or tap on a tablet (the tap also opens it in full)
+const firstSentence=t=>{ const m=t.match(/^.*?[.!?](?=\s|$)/); return m?m[0]:t; };
+function cellTip(ring, phase, idx, k){
+  const more="<br>Tap to read more.";
+  if(ring==="practice"){
+    const it=PRACTICE[phase].items[k], m=it.match(/^<b>(.*?)<\/b>\s*(.*)$/);
+    return `<b>${m?m[1]:RINGS.practice.name}</b>${m?m[2]:it}<span>${RINGS.practice.name} · ${PHASES[phase].name}${more}</span>`;
+  }
+  const c=CHILD[idx], r=monthRange(idx), when=`${c.w}${r?" · "+r:""}`;
+  if(ring==="child")  return `<b>${c.t} · The child</b>${c.take}<span>${when}${more}</span>`;
+  if(ring==="mother") return `<b>${c.t} · The mother</b>${firstSentence(MOTHER[idx].body)}<span>${when}${more}</span>`;
+  return `<b>${c.t} · The educator</b>Possible imprints: ${firstSentence(EDUCATOR[idx].imp)}<span>${when}${more}</span>`;
+}
+function addCell(d, ring, phase, idx, fillVar, label, at){
   const c=el("path",{d, class:"cell", fill:`var(${fillVar})`, tabindex:"0", role:"button", "aria-label":label});
   c.dataset.ring=ring; c.dataset.phase=phase; if(idx!=null) c.dataset.idx=idx;
   c.addEventListener("click",()=>select(phase, ring, idx, true));
   c.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(phase, ring, idx, true);} });
   c.addEventListener("mouseenter",()=>hover(phase,idx)); c.addEventListener("mouseleave",()=>hover(null));
   c.addEventListener("focus",()=>hover(phase,idx)); c.addEventListener("blur",()=>hover(null));
+  if(at){
+    const info=()=>{ const [x,y]=P(at.r,at.a); return {x,y,html:cellTip(ring,phase,idx,at.k)}; };
+    c.addEventListener("mouseenter",()=>{ if(!openMoon) moonTip(c,info(),true); });
+    c.addEventListener("mouseleave",()=>{ if(!openMoon) moonTip(null); });
+    c.addEventListener("focus",()=>{ if(!openMoon && c.matches(":focus-visible")) moonTip(c,info(),true); });
+    c.addEventListener("blur",()=>{ if(!openMoon) moonTip(null); });
+  }
   cells.push(c); return c;
 }
 
@@ -502,19 +523,19 @@ function draw(){
   PHASES.forEach((ph,s)=>{
     for(let k=0;k<3;k++){
       const a0=s*90+k*30, a1=a0+30;
-      addCell(petal(R.practice[0],R.practice[1],a0+GAP,a1-GAP,CURVE),"practice",s,null,"--practice",`${RINGS.practice.name}, ${ph.name}`);
+      addCell(petal(R.practice[0],R.practice[1],a0+GAP,a1-GAP,CURVE),"practice",s,null,"--practice",`${RINGS.practice.name}, ${ph.name}`,{a:a0+15,r:R.practice[0]+20,k});
     }
   });
   // educator ring, 12 segments aligned with the months
   CHILD.forEach((c,i)=>{ const sx=Math.floor(i/3);
-    addCell(sector(R.support[0],R.support[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"support",sx,i,"--support",`${RINGS.support.name}, ${c.t}`); });
+    addCell(sector(R.support[0],R.support[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"support",sx,i,"--support",`${RINGS.support.name}, ${c.t}`,{a:i*30+15,r:(R.support[0]+R.support[1])/2}); });
   // mother ring, 12 scalloped segments aligned with the months
   CHILD.forEach((c,i)=>{ const sx=Math.floor(i/3);
-    addCell(sector(R.mother[0],R.mother[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"mother",sx,i,"--mother",`${RINGS.mother.name}, ${c.t}`); });
+    addCell(sector(R.mother[0],R.mother[1],i*30+GAP,(i+1)*30-GAP,1,CURVE,CURVE),"mother",sx,i,"--mother",`${RINGS.mother.name}, ${c.t}`,{a:i*30+15,r:(R.mother[0]+R.mother[1])/2}); });
   // child ring, 12 petals
   CHILD.forEach((c,i)=>{
     const s=Math.floor(i/3);
-    addCell(sector(R.child[0],R.child[1],i*30+GAP,(i+1)*30-GAP,1,CURVE),"child",s,i,"--child",`${RINGS.child.name}, ${c.t}`);
+    addCell(sector(R.child[0],R.child[1],i*30+GAP,(i+1)*30-GAP,1,CURVE),"child",s,i,"--child",`${RINGS.child.name}, ${c.t}`,{a:i*30+15,r:(R.child[0]+R.child[1])/2});
   });
   // labels
   CHILD.forEach((c,i)=>{
