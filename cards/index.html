@@ -202,7 +202,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
       <div class="controls">
         <label for="jump" class="hint">Go to</label>
         <select id="jump"></select>
-        <button class="btn" id="print" type="button">Print or save as PDF</button>
+        <a class="btn" id="pdf" href="pdf/guidebook-oat.pdf" download="The Pregnancy and Birth Mandala.pdf">Download the PDF</a>
       </div>
       <div class="covers" role="group" aria-label="Cover style">
         <span>Cover</span>
@@ -491,6 +491,7 @@ function setCover(c) {
   document.documentElement.dataset.cover = c;
   document.querySelectorAll(".covers button").forEach(b => b.setAttribute("aria-pressed", b.dataset.c === c));
   try { localStorage.setItem("pbm-cover", c); } catch (e) {}
+  const pl = document.getElementById("pdf"); if (pl) pl.href = `pdf/guidebook-${c}.pdf`;
 }
 document.querySelectorAll(".covers button").forEach(b => b.onclick = () => {
   setCover(b.dataset.c);
@@ -500,12 +501,10 @@ let savedCover = "oat";
 try { savedCover = localStorage.getItem("pbm-cover") || "oat"; } catch (e) {}
 setCover(savedCover);
 
-/* ---- print ---- */
-document.getElementById("print").onclick = () => {
-  const pb = document.getElementById("printbook");
-  if (!pb.childElementCount) pb.innerHTML = GUIDE.map((_, i) => pageHTML(i)).join("");
-  window.print();
-};
+/* ---- the PDF ---- */
+// Ready-made by build-pdf.py at the book's own size, one per cover, since
+// browsers print web pages each in their own way.
+const pdfLink = document.getElementById("pdf");
 
 /* ---- size and mode ---- */
 function relayout() {

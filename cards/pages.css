@@ -321,3 +321,12 @@
 .pg.dense ul.refs.small{font-size:10px;line-height:1.36}.pg.dense .box{padding:8px 14px 0}.pg.dense .box .tight{margin-bottom:3px}
 .pg.dense h1{font-size:28px;margin-bottom:8px}
 .pg.dense ul.refs.small{font-size:9.7px;line-height:1.33}.pg.dense .lab{margin:5px 0 3px}
+
+/* In print the fine weave turns into a plaid grid, so printed covers use the
+   cloth's colour alone. */
+@media print{
+  .pg.hard{background:radial-gradient(120% 90% at 30% 20%,#F1E7DD,#E7DACC 70%,#DFD0C0)}
+  [data-cover^="terra"] .pg.hard{background:radial-gradient(120% 90% at 30% 20%,#A54C3B,#8E3D2F 70%,#83372A)}
+  [data-cover="camel"] .pg.hard{background:radial-gradient(120% 90% at 30% 20%,#D2AC7E,#BF9666 70%,#B2885A)}
+  #printbook .pg:last-child{break-after:auto}
+}
