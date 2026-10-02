@@ -603,6 +603,10 @@ function draw(){
   el("circle",{cx:0,cy:0,r:R.core[1],fill:"var(--core)"},core);
   // Seed of Life: seven circles of equal radius, six centered on the rim of the first
   const sr=28, sg=el("g",{fill:"none",stroke:"var(--on-dark)","stroke-width":1.6,opacity:.9,"pointer-events":"none"},core);
+  // the six-petal flower inside the central circle, filled: each petal runs from the center to a rim point,
+  // bounded by the arcs of the two neighbouring circles that pass through both
+  for(let k=0;k<6;k++){ const t=k*Math.PI/3 - Math.PI/2, x=f(sr*Math.cos(t)), y=f(sr*Math.sin(t));
+    el("path",{d:`M0 0 A${sr} ${sr} 0 0 1 ${x} ${y} A${sr} ${sr} 0 0 1 0 0Z`,fill:"var(--on-dark)",stroke:"none",opacity:.85},sg); }
   el("circle",{cx:0,cy:0,r:sr},sg);
   for(let k=0;k<6;k++){ const t=k*Math.PI/3 - Math.PI/2; el("circle",{cx:f(sr*Math.cos(t)),cy:f(sr*Math.sin(t)),r:sr},sg); }
   el("circle",{cx:0,cy:0,r:sr*2,"stroke-width":1.2,opacity:.75},sg);
