@@ -299,10 +299,10 @@ function settle() {
   else { sL.hidden = true; fill(sR, view); sR.hidden = false; }
   book.style.transform = `translateX(${offsetOf(view)}px)`;
   dress(spread ? L(view) !== null : true, spread ? R(view) !== null : true, view);
-  const ps = pagesOf(view), nums = ps.map(p => GUIDE[p].num);
+  const ps = pagesOf(view), shown = ps.filter(p => GUIDE[p].cls !== "blank"), nums = shown.map(p => GUIDE[p].num);
   document.getElementById("count").textContent =
     nums.every(x => x !== null) ? (nums.length === 2 ? `Pages ${nums[0]}–${nums[1]}` : `Page ${nums[0]}`)
-    : ps.map(p => GUIDE[p].num ?? GUIDE[p].title).join(" · ");
+    : shown.map(p => GUIDE[p].num ?? GUIDE[p].title).join(" · ");
   document.getElementById("prev").disabled = view === 0;
   document.getElementById("next").disabled = view === last();
   markToc(ps);
@@ -431,9 +431,9 @@ document.addEventListener("keydown", e => {
 
 /* ---- contents ---- */
 const jump = document.getElementById("jump");
-GUIDE.forEach((g, i) => { const o = document.createElement("option"); o.value = i; o.textContent = g.num === null ? g.title : `${g.num} · ${g.title}`; jump.appendChild(o); });
+GUIDE.forEach((g, i) => { if (g.cls === "blank") return; const o = document.createElement("option"); o.value = i; o.textContent = g.num === null ? g.title : `${g.num} · ${g.title}`; jump.appendChild(o); });
 jump.onchange = () => goPage(+jump.value);
-function markToc(ps) { jump.value = ps[0]; }
+function markToc(ps) { const p = ps.find(x => GUIDE[x].cls !== "blank"); if (p !== undefined) jump.value = p; }
 
 /* ---- print ---- */
 document.getElementById("print").onclick = () => {

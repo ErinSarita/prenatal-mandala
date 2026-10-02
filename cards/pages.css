@@ -211,3 +211,10 @@
 .pg .lines.tall{margin-top:6px}
 .pg.frontis .fsub{font-size:9.5px;letter-spacing:.12em;white-space:nowrap}
 .pg.frontis .halo{margin-bottom:40px}
+
+/* half-title: the book's name alone, high on the page */
+.pg.halftitle{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:190px}
+.pg.halftitle .eb{letter-spacing:.26em;margin-bottom:18px}
+.pg .htt{font-size:32px;line-height:1.15;text-align:center;margin:0}
+.pg.halftitle .dash{margin:22px auto 16px}
+.pg .hts{font-family:Marcellus,Georgia,serif;font-size:15px;color:var(--coralpg)}

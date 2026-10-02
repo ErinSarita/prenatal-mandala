@@ -38,7 +38,7 @@
   const P = []; // {title, cls, html(n)} where n is the printed page number
   const add = (title, cls, html) => { P.push({ title, cls, html }); return P.length; };
   // The printed number is a page's place in the book, with the front
-  // endpaper uncounted: the cover is 1, the frontispiece 2, the contents 3.
+  // endpaper uncounted: the cover is 1, so the contents falls on page 4.
   const no = t => P.findIndex(p => p.title === t); // printed number of a page, by title
   const foot = n => `<div class="foot"><span>The Pregnancy and Birth Mandala</span><span>${n}</span></div>`;
 
@@ -53,13 +53,25 @@
     <p class="foil">Erin Singleton</p>`);
   add("Inside front cover", "endpaper", () => "");
 
-  // Frontispiece: the whole mandala, large, before anything else is said.
+  // The front matter keeps the book's custom: what matters starts on a
+  // right-hand page. First the half-title, then the contents on its own with
+  // a blank page facing it, then the mandala facing the Welcome.
+  add("Half-title", "halftitle", () => `
+    <div class="eb center">A guide to the twelve cards</div>
+    <h1 class="htt">The Pregnancy<br>and Birth Mandala</h1>
+    <div class="dash"></div>
+    <p class="hts">From the first days to the first hour</p>`);
+  add("Blank", "blank", () => "");
+
+  // Contents (filled in once every page exists)
+  add("Contents", "contents", n => contents(n));
+
+  // Frontispiece: the whole mandala, large, on the left, facing the Welcome
+  // so it can be seen while the Welcome is read.
   add("The mandala", "frontis", () => `
     <div class="eb center">The Pregnancy and Birth Mandala</div>
     <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>`);
 
-  // Contents (filled in once every page exists)
-  add("Contents", "contents", n => contents(n));
 
   add("Welcome", "", n => `
     <div class="eb">Welcome</div>
@@ -446,6 +458,6 @@
     ${foot(n)}`;
   }
 
-  const numbered = p => !/\b(cover|endpaper|backcover|frontis)\b/.test(p.cls);
+  const numbered = p => !/\b(cover|endpaper|backcover|frontis|halftitle|blank)\b/.test(p.cls);
   window.GUIDE = P.map((p, i) => ({ title: p.title, cls: p.cls, num: numbered(p) ? i : null, html: p.html(i) }));
 })();
