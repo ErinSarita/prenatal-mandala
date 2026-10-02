@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>The Pregnancy and Birth Mandala</title>
-<meta name="description" content="A teaching map of pregnancy and birth, read from the center out: the child, the mother, the educator, and practices for connecting with the prenate.">
+<meta name="description" content="A teaching map of pregnancy and birth, read from the center out: the child, the mother, the educator, and practices for connecting with the prenate and for healing.">
 <link rel="icon" href="favicon.ico?v=2" sizes="any">
 <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png?v=2" type="image/png" sizes="32x32">
@@ -184,7 +184,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     </button>
     <div class="eyebrow">Prenatal &amp; Perinatal Education</div>
     <h1>The Pregnancy and Birth Mandala</h1>
-    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the heart. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby.</p>
+    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the heart. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby, and practices for healing, where she and her partner can explore their own earliest stories.</p>
   </header>
 
   <div class="main">
@@ -216,7 +216,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
     <p>The circle begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
-    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby and tend her own healing.</p>
+    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester, for connecting with the baby and for the healing of the mother and partner. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby and tend her own healing.</p>
     <p>Around the petals runs the time wheel, which holds every marker of time in the pregnancy. Ticks along its edge count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. Once a date is entered, it marks the last period and the due date, the full and new moons, and the birth window from 37 to 42 weeks, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside.</p>
     <p>Around the very edge runs a sacred braid of three strands, in the colors of the child, the mother, and the educator who brings knowledge and helps the mother. It is a symbol of the relationships among the three, woven together, holding the mandala in place.</p>
     <h3>The ten moons</h3>
@@ -491,7 +491,7 @@ function cellTip(ring, phase, idx, k){
   const more="<br>Tap to read more.";
   if(ring==="practice"){
     const it=PRACTICE[phase].items[k], m=it.match(/^<b>(.*?)<\/b>\s*(.*)$/);
-    return `<b>${m?m[1]:RINGS.practice.name}</b>${m?m[2]:it}<span>${RINGS.practice.name} · ${PHASES[phase].name}${more}</span>`;
+    return `<b>${m?m[1]:RINGS.practice.name}</b>${m?m[2]:it}<span>${RINGS.practice.name} · ${PHASES[phase].name}<br>Healing practices for the mother and partner inside.${more}</span>`;
   }
   const c=CHILD[idx], r=monthRange(idx), when=`${c.w}${r?" · "+r:""}`;
   if(ring==="child")  return `<b>${c.t} · The child</b>${c.take}<span>${when}${more}</span>`;
