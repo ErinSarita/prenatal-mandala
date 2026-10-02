@@ -107,7 +107,7 @@
     <p>Pregnancy is often described in weeks, tests, and appointments. This deck invites you to see it another way: as a journey you and your baby take together, from the first days to the first hour after birth.</p>
     <p>In pre- and perinatal education, the baby is understood as aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after. This is not a weight to carry. It is an invitation to slow down, to notice, and to connect.</p>
     <p>The cards come from a mandala, a circle organized around a center. At its center is your baby. Around her is you. Around you is what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
-    <p>The next four pages lay the foundation: what this lens is, where it comes from, what an imprint is, and how each month is read. Then come the cards themselves, month by month, and people who can walk with you further.</p>
+    <p>The pages that follow lay the foundation: what this lens is and where it comes from, what an imprint is and how the body remembers, trauma and resilience, your nervous system, and how each month is read. Then come the cards themselves, month by month, and people who can walk with you further.</p>
     <blockquote>There are no secrets you can keep from your baby, so talk to her, and more importantly, listen.<cite>Karen Strange, Simple Tools for Mothers</cite></blockquote>
     ${foot(n)}`);
 
@@ -135,13 +135,71 @@
     <p>The word comes from Konrad Lorenz, who watched newly hatched goslings follow the first moving figure they saw, often Lorenz himself, and keep following. A first experience, met in a sensitive window, set a lasting pattern.</p>
     <p>In pre- and perinatal education, an imprint is an impression left by early experience: conception, life in the womb, birth, and the first hours and days. Because it comes before words, it is held as body memory, in the nervous system and in patterns of feeling and response, rather than as a story she can tell.</p>
     <p>Imprints shape her first answers to quiet questions: <em>Am I welcome? Is the world safe? When I reach out, will someone meet me?</em></p>
-    <p><b>Why the body remembers.</b> In the first years, the parts of the brain that store memories as stories are still forming. Early experience is held as implicit memory instead: in breath and muscle tone, in startle and settling, in what comes to feel safe.</p>
     <div class="box">
       <h3>Three things to hold</h3>
       <p><b>Imprints can nourish.</b> Welcome, calm, touch, and being spoken to leave impressions too. Most of this guide is about offering more of these.</p>
       <p><b>An imprint is not a sentence.</b> Later relationships, repair, and healing can reshape early patterns, at any age.</p>
       <p><b>You carry imprints too.</b> Pregnancy can stir your own earliest story. That is why every card holds a practice for your own healing.</p>
     </div>
+    ${foot(n)}`);
+
+  add("Memory before words", "", n => `
+    <div class="eb">Foundations · Memory</div>
+    <h1>Memory before words</h1>
+    <p>Memory comes in two kinds. <b>Explicit memory</b> is what we can recall and put into words: facts, events, the story of a day. <b>Implicit memory</b> is held without any sense of remembering: in the body, in emotions, in what we expect and how we react.</p>
+    <p>Explicit memory depends on the hippocampus, which keeps maturing through the first years of life. This is why most of us recall little before age three or four. Implicit memory is at work much earlier, before birth.</p>
+    <div class="lab">What research shows</div>
+    <ul class="lead">
+      <li>Newborns prefer their mother's voice to other voices, a voice they came to know through the womb wall (DeCasper and Fifer, 1980).</li>
+      <li>Babies whose mothers read one story aloud in the last weeks of pregnancy preferred that story after birth (DeCasper and Spence, 1986).</li>
+      <li>Flavors from a mother's meals reach the amniotic fluid. Babies who tasted carrot this way later took to carrot-flavored cereal more readily (Mennella and colleagues, 2001).</li>
+    </ul>
+    <p>She is learning before she can remember. Her early experiences are not lost: they are carried as implicit patterns of feeling and response (Siegel).</p>
+    <div class="box blush"><p><b>Why this guide says "may."</b> The imprints on these pages are possible, not certain. Every baby meets her experiences with her own temperament, and the people around her shape what those experiences come to mean.</p></div>
+    ${foot(n)}`);
+
+  add("Trauma and resilience", "", n => `
+    <div class="eb">Foundations · Trauma and resilience</div>
+    <h1>Trauma and resilience</h1>
+    <p>In this lens, trauma is defined less by the event than by what happens inside: an experience that is too much, too fast, or too soon, with too little support to meet it (Levine). The nervous system stays braced, as though the danger has not passed.</p>
+    <p>Not every hard experience becomes trauma. Researchers describe a range of stress: <b>positive</b> stress, brief and manageable; <b>tolerable</b> stress, buffered by caring relationships; and <b>toxic</b> stress, long, intense, and unbuffered (Center on the Developing Child, Harvard).</p>
+    <div class="lab">Resilience</div>
+    <p>Resilience is the capacity to meet difficulty and find the way back to balance. It is not a fixed trait. It grows through relationship: being soothed, being understood, and knowing repair after rupture.</p>
+    <p>For your baby, resilience begins with co-regulation: her young nervous system borrows steadiness from yours. For you, it grows through support, rest, and tools you can reach for in the moment. Each return to calm is practice, for both of you, in the way back.</p>
+    <div class="lab">The window of tolerance</div>
+    <p>Daniel Siegel describes a zone in which we can feel strong feelings and still think, connect, and respond. Above it we may feel flooded or panicked; below it, numb or far away. Support and resourcing widen this window over time, and labor asks for a wide one.</p>
+    <div class="box blush"><p>Each "Imprints and what helps" section holds both sides: what may be hard, and what builds resilience.</p></div>
+    ${foot(n)}`);
+
+  add("Your nervous system", "", n => `
+    <div class="eb">Foundations · The nervous system</div>
+    <h1>Your nervous system: an introduction to polyvagal theory</h1>
+    <p>Polyvagal theory, introduced by Stephen Porges in 1994, describes how the autonomic nervous system responds to safety and danger. It offers a simple map of three states.</p>
+    <div class="parts">
+      <div><span class="dot" style="background:#F6C9BE"></span><h3>Safe and connected</h3><p>Breath is easy, face and voice soften, and you can rest, play, and bond. Oxytocin flows most freely here, in pregnancy and in labor.</p></div>
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Mobilized</h3><p>Heart and breath quicken, ready to fight or flee. Helpful in bursts, tiring when it lingers.</p></div>
+      <div><span class="dot" style="background:#9A4434"></span><h3>Shut down</h3><p>When danger feels overwhelming, the body may conserve: numbness, collapse, feeling far away.</p></div>
+    </div>
+    <p>Porges calls the body's constant, wordless scanning for safety <i>neuroception</i>. Your baby senses your state through your heartbeat, breath, voice, and chemistry, and her system begins to tune to yours.</p>
+    <p>Trauma can leave a nervous system stuck in mobilized or shut-down states. Resilience is the flexibility to move through them and find the way back to safety.</p>
+    <p class="note">Polyvagal theory is widely used by therapists and educators, and some of its physiological details are still debated by researchers. Its map of states is offered here as a practical guide.</p>
+    ${foot(n)}`);
+
+  add("Resourcing yourself", "", n => `
+    <div class="eb">Foundations · Resourcing</div>
+    <h1>Resourcing yourself in the moment</h1>
+    <p>A resource is anything that helps your nervous system feel a little steadier: a person, a place, a memory, a sensation in your body, something you can hold. Resourcing is turning toward these on purpose.</p>
+    <p>Knowing your nervous system widens your awareness. When you can notice "I am speeding up" or "I am drifting away," you have a choice, and the noticing itself is a step back toward presence, through pregnancy, labor, and the first hours.</p>
+    <div class="lab">Tools for the moment</div>
+    <ul class="lead">
+      <li><b>Orient.</b> Let your eyes move slowly around the room and rest on something pleasant.</li>
+      <li><b>Ground.</b> Feel your feet on the floor, or your weight held by the chair.</li>
+      <li><b>Lengthen the out-breath.</b> Breathe in, then let the breath out a little longer.</li>
+      <li><b>Touch.</b> A hand on your heart or your belly, for you and for her.</li>
+      <li><b>Hum or sing.</b> Gentle sound on a long exhale can help your system settle.</li>
+      <li><b>Reach out.</b> A familiar voice or a hand to hold is among the strongest resources there are.</li>
+    </ul>
+    <div class="box blush"><p>The back of each card holds practices with time set aside to connect: with your baby, with your partner, and with yourself. Return to them whenever you need resourcing.</p></div>
     ${foot(n)}`);
 
   add("Why it matters", "", n => `
@@ -391,7 +449,7 @@
     <div class="row"><label></label></div>
     ${foot(n)}`);
 
-  add("Help, reading, and sources", "", n => `
+  add("Help, reading, and sources", "dense", n => `
     <div class="eb">Resources</div>
     <h1>Help, reading, and sources</h1>
     <div class="box blush">
@@ -412,15 +470,18 @@
     <div class="lab">Sources drawn on</div>
     <ul class="refs small">
       <li>Buckley, S. J. (2003). Undisturbed birth. <i>JOPPPAH, 17</i>(4).</li>
-      <li>Coalition for Improving Maternity Services. Mother-Friendly Childbirth Initiative.</li>
+      <li>Center on the Developing Child, Harvard University. Toxic stress. Coalition for Improving Maternity Services. Mother-Friendly Childbirth Initiative.</li>
+      <li>Dana, D. (2018). <i>The Polyvagal Theory in Therapy</i>. DeCasper, A. J., and Fifer, W. P. (1980). <i>Science, 208</i>.</li>
+      <li>DeCasper, A. J., and Spence, M. J. (1986). <i>Infant Behavior and Development, 9</i>.</li>
       <li>Davis-Floyd, R. (2022). <i>Birth as an American Rite of Passage</i> (2nd ed.).</li>
       <li>Emerson, W. The Elephant in the Birthing Room.</li>
       <li>Fischbein, S. J., and Freeze, R. (2018). <i>BMC Pregnancy and Childbirth, 18</i>, 397.</li>
       <li>Ham, J. T., and Klimo, J. (2000). Fetal awareness of maternal emotional states. <i>JOPPPAH, 15</i>(2).</li>
-      <li>Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2).</li>
+      <li>Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2). Levine, P. A. (1997). <i>Waking the Tiger</i>.</li>
+      <li>Mennella, J. A., Jagnow, C. P., and Beauchamp, G. K. (2001). <i>Pediatrics, 107</i>(6). Porges, S. W. (2011). <i>The Polyvagal Theory</i>.</li>
       <li>Lorenz, K. (1935). Der Kumpan in der Umwelt des Vogels. Rank, O. (1924). <i>The Trauma of Birth</i>.</li>
       <li>Nathanielsz, P. W. <i>Life in the Womb</i>. Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
-      <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>.</li>
+      <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
     ${foot(n)}`);
@@ -450,7 +511,7 @@
   /* ---- the contents page, built from the pages themselves ---- */
   const GROUPS = [
     ["Beginning", ["Key to the mandala", "Welcome"]],
-    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Why it matters", "How each month is read"]],
+    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "How each month is read"]],
     ["Using this guide", ["Using the cards"]],
     ["Part one · The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
@@ -461,10 +522,10 @@
     return `
     <div class="eb">Contents</div>
     <h1 class="ct">Inside this guide</h1>
-    ${GROUPS.map(([h, items]) => `<div class="lab">${h}</div><ul class="toc">${items.map(t => {
+    <div class="cols">${GROUPS.map(([h, items]) => `<div class="grp"><div class="lab">${h}</div><ul class="toc">${items.map(t => {
       const i = no(t);
       return `<li data-go="${i}"${PART_TITLES.includes(t) ? ' class="b"' : ""}><span>${t}</span><span>${i}</span></li>`;
-    }).join("")}</ul>`).join("")}
+    }).join("")}</ul></div>`).join("")}</div>
     ${foot(n)}`;
   }
 
