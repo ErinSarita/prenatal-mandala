@@ -139,6 +139,7 @@ svg.dimming .cell.off{opacity:.28}
 .ring h4{margin:4px 0 0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .ring p{margin:0}
 .ring ul{margin:0;padding-left:20px;display:grid;gap:6px}
+#r-practice h4{border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
 .mcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:14px;scroll-margin-top:16px}
 .mcard.cur{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .mt{font-family:var(--display);font-size:24px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
@@ -214,7 +215,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <p>A mandala is a circle organized around a center. Traditions across the world have used it as a map: of the cosmos, of the seasons, of the stages of a life. This one maps the roughly forty weeks of pregnancy and the passage of birth through the lens of pre- and perinatal education, where the baby is understood as aware and taking in her world from the very beginning.</p>
     <h3>How it is built</h3>
     <p>The circle begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
-    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby.</p>
+    <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby and tend her own healing.</p>
     <p>Around the petals runs the time wheel, which holds every marker of time in the pregnancy. Ticks along its edge count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. Once a date is entered, it marks the last period and the due date, the full and new moons, and the birth window from 37 to 42 weeks, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside.</p>
     <p>Around the very edge runs a sacred braid of three strands, in the colors of the child, the mother, and the educator who brings knowledge and helps the mother. It is a symbol of the relationships among the three, woven together, holding the mandala in place.</p>
     <h3>The ten moons</h3>
@@ -249,7 +250,7 @@ const RINGS = {
   child:   {name:"The child", color:"--child", about:"The center of the map. It tracks the development and milestones of the baby through each period of the pregnancy, and what she may be taking in from her world."},
   mother:  {name:"The mother", color:"--mother", about:"The womb space. What is happening in her body, her hormones, and her inner life."},
   support: {name:"The educator", color:"--support", about:"The role of the prenatal and perinatal educator in each phase: possible imprints to bring up, what to teach, and the best practices that foster a better experience for the child, including how partners, family, doulas, and care providers can help."},
-  practice:{name:"Connecting with the prenate", color:"--practice", about:"Simple practices the mother can do herself to connect with her baby. Most come from Karen Strange's Simple Tools for Mothers."}
+  practice:{name:"Connecting with the prenate", color:"--practice", about:"Simple practices the mother can do herself to connect with her baby, most from Karen Strange's Simple Tools for Mothers, and practices for healing, where the mother and partner can explore their own earliest stories."}
 };
 
 const PHASES = [
@@ -379,6 +380,30 @@ const EDUCATOR = [
    teach:"Humanistic care keeps mother and baby together. Taking the baby to a nursery for bathing is not part of this model (Davis-Floyd).",
    best:"Protect skin to skin, breastfeeding, and rooming-in (MFCI). If the birth was hard, help the family tell the baby the story afterward (Strange).",
    src:"Verny; Davis-Floyd (2022); MFCI; Strange"}
+];
+
+// Healing for the mother and partner: pregnancy can stir the parents' own earliest stories
+const HEALING = [
+  {items:[
+    "<b>Explore her own conception.</b> What does she know about how she came to be, and how the news of her was received? She might ask her mother or family, or simply reflect and write.",
+    "<b>Notice what surfaces.</b> Pregnancy can bring a mother closer to her own childhood and let buried feelings rise (Davis-Floyd). Meet them gently, and seek trauma-informed support when they are big (Seng and Taylor).",
+    "<b>For the partner.</b> The same questions belong to the partner: their own conception, and how they were welcomed."],
+   src:"Davis-Floyd (2022); Seng & Taylor (2015); Chamberlain"},
+  {items:[
+    "<b>Learn her own birth story.</b> Ask her mother, family, or records how she was born: the length of labor, who was there, and whether she was kept close or taken away.",
+    "<b>Her time in her mother's womb.</b> Reflect on what her mother's pregnancy was like: calm, stressful, a time of loss or conflict. Hold these possible imprints with compassion for her mother too.",
+    "<b>For the partner.</b> Everyone brings a birth story into the birth room (Emerson). The partner can explore theirs as well."],
+   src:"Emerson; Raffai (2021); Strange"},
+  {items:[
+    "<b>Trace fears back to their roots.</b> Fears about this birth often echo her own birth or her mother's. Naming where a fear comes from can soften its hold (Emerson).",
+    "<b>Tend earlier births.</b> If she has given birth before, give that story room to be told and heard before this one begins.",
+    "<b>Support for the partner.</b> Partners carry fears and birth stories too. Inviting them to speak keeps them from filling the birth room unspoken."],
+   src:"Emerson; Buckley (2003); Seng & Taylor (2015)"},
+  {items:[
+    "<b>Tell the birth story and be heard.</b> In the days and weeks after, both parents can tell the story of this birth to someone who listens without judgment, especially if it was hard.",
+    "<b>Notice old echoes.</b> Giving birth can stir memories of her own beginning. Gentle support, and care for her mood in the months after, help her heal alongside her baby (Kroll-Desrosiers).",
+    "<b>Repair together.</b> As the family tells the baby her story, the parents can offer the same kindness to the younger selves in their own stories (Strange)."],
+   src:"Strange; Seng & Taylor (2015); Kroll-Desrosiers et al. (2017)"}
 ];
 
 const PRACTICE = [
@@ -882,7 +907,10 @@ function select(phase, ring, idx, user){
     ${months}
     <div class="ring${ring==="practice"?" hl":""}" id="r-practice"><h3>${sw("--practice")}${RINGS.practice.name}</h3>
       <p class="about">For the whole ${s<3?"trimester":"birth"}.</p>
-      ${ul(pr.items)}<p class="src">${pr.src}</p></div>`;
+      ${ul(pr.items)}<p class="src">${pr.src}</p>
+      <h4>Healing for the mother and partner</h4>
+      <p class="about">Pregnancy can stir the parents' own earliest stories: their conception, their time in the womb, and their own birth. Exploring them gently can bring healing, for themselves and for the baby.</p>
+      ${ul(HEALING[s].items)}<p class="src">${HEALING[s].src}</p></div>`;
   const target = idx!=null ? document.getElementById("mo-"+idx) : ring==="practice" ? document.getElementById("r-practice") : null;
   if(!user){} else if(target && window.matchMedia("(max-width:900px)").matches===false){
     const rect=target.getBoundingClientRect(); if(rect.top<0||rect.top>window.innerHeight*0.7) target.scrollIntoView({behavior:"smooth",block:"start"});
