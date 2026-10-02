@@ -107,3 +107,17 @@
 .pg.dense .tight{margin-bottom:5px}
 .pg.dense .box{margin:8px 0 0;padding:10px 14px 2px}
 .pg .note{margin-top:14px;padding-top:10px;border-top:1px solid var(--rulepg);color:var(--mutedpg)}
+
+/* my circle of support: lines to write on */
+.pg.circle h1{margin-bottom:6px}
+.pg.circle>.muted{margin-bottom:6px}
+.pg .entry{position:relative;padding:8px 0 6px 30px;border-top:1px solid var(--rulepg)}
+.pg .entry:first-of-type{border-top:0}
+.pg .enum{position:absolute;left:0;top:12px;font-family:Marcellus,Georgia,serif;font-size:20px;color:var(--coralpg)}
+.pg .row{display:grid;grid-template-columns:1fr;column-gap:18px;height:27px}
+.pg .row.two{grid-template-columns:1fr 1fr}
+.pg .row label{display:block;border-bottom:1px solid #DCC3BF;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mutedpg);padding-top:11px;line-height:1}
+.pg.circle>.row{margin-left:30px}
+.pg.circle .eb+.entry{margin-top:4px}
+.pg.contents .lab{margin:7px 0 1px}
+.pg.contents ul.toc li{line-height:1.38}

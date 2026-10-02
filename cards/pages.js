@@ -322,7 +322,28 @@
     <p class="tight"><b>Craniosacral therapy</b> offers light, hands-on support for parents and newborns.</p>
     <p class="tight"><b>EMDR</b> helps the mind process hard memories, including a difficult birth.</p>
     <p class="tight"><b>Birth story listening</b> helps you tell your story, be heard, and find meaning in it.</p>
-    <div class="box blush"><p>An educator can help you find the right fit. Choose people who listen, who leave you feeling safe, and who let you set the pace.</p></div>
+    <div class="box blush"><p>An educator can help you find the right fit. Choose people who listen, who leave you feeling safe, and who let you set the pace. Keep their details on the next two pages.</p></div>
+    ${foot(n)}`);
+
+  // Two pages to fill in by hand: the people and modalities she has found.
+  const entry = k => `
+    <div class="entry">
+      <div class="enum">${k}</div>
+      <div class="row"><label>Contact</label></div>
+      <div class="row"><label></label></div>
+      <div class="row"><label></label></div>
+    </div>`;
+  add("My circle of support", "circle", n => `
+    <div class="eb">Going deeper with support</div>
+    <h1>My circle of support</h1>
+    <p class="muted">The practitioners, educators, and modalities you find, kept in one place for when you need them.</p>
+    ${[1, 2, 3, 4, 5, 6].map(entry).join("")}
+    ${foot(n)}`);
+  add("My circle of support, continued", "circle", n => `
+    <div class="eb">My circle of support · Continued</div>
+    ${[7, 8, 9, 10, 11, 12].map(entry).join("")}
+    <div class="row"><label>Notes</label></div>
+    <div class="row"><label></label></div>
     ${foot(n)}`);
 
   add("Help, reading, and sources", "", n => `
@@ -385,7 +406,7 @@
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
     ["Part three · The third trimester", [PART_TITLES[2], ...MONTHS.slice(6, 9).map(m => m[1])]],
     ["Part four · Birth", [PART_TITLES[3], ...MONTHS.slice(9, 12).map(m => m[1])]],
-    ["Going deeper", ["The heart of the practices", "People who can walk with you", "Help, reading, and sources", "Notes"]]];
+    ["Going deeper", ["The heart of the practices", "People who can walk with you", "My circle of support", "Help, reading, and sources", "Notes"]]];
   function contents(n) {
     return `
     <div class="eb">Contents</div>
