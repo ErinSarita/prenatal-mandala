@@ -41,6 +41,16 @@ def main():
                 document.documentElement.dataset.cover = c;
                 const pb = document.getElementById("printbook");
                 pb.innerHTML = GUIDE.map((_, i) => pageHTML(i)).join("");
+                // Each page gets an anchor, and each line of the contents (and
+                // each card listed in a section) becomes a link to its page.
+                pb.querySelectorAll(".pg").forEach((pg, i) => pg.id = "pg-" + i);
+                pb.querySelectorAll("[data-go]").forEach(li => {
+                    const a = document.createElement("a");
+                    a.href = "#pg-" + li.dataset.go;
+                    a.style.cssText = "display:flex;justify-content:space-between;gap:12px;flex:1;color:inherit;text-decoration:none";
+                    while (li.firstChild) a.appendChild(li.firstChild);
+                    li.appendChild(a);
+                });
             }""", c)
             page.wait_for_timeout(400)
             path = os.path.join(OUT, f"guidebook-{c}.pdf")
@@ -48,6 +58,12 @@ def main():
                      margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
                      prefer_css_page_size=True)
             print(f"{os.path.relpath(path, ROOT)}  {os.path.getsize(path) // 1024} KB")
+        # Every web link in the book has to leave the page for the real site,
+        # not the little server this script ran on.
+        bad = page.evaluate("""() => [...document.querySelectorAll('#printbook a[href]')]
+            .map(a => a.href).filter(h => !h.includes('#pg-') && !h.startsWith('https://'))""")
+        if bad:
+            raise SystemExit(f"Links that would not open from the PDF: {bad}")
         browser.close()
     httpd.shutdown()
 
