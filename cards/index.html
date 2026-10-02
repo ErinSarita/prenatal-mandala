@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Pregnancy and Birth Mandala</title>
+<meta name="description" content="A guidebook and twelve cards for the journey from the first days to the first hour.">
+<link rel="icon" href="../favicon.ico?v=2" sizes="any">
+<link rel="icon" href="../favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* A pamphlet on a blush table: the guidebook turns like paper, the contents
+   sit beside it, the deck lies below as small cards, and the chosen card
+   opens at the bottom, face and back. */
+:root{
+  --bg:#FBF3F1; --paper:#FBF1EF; --white:#FFFFFF; --blush:#F7E2DC; --line:#EBD1CB;
+  --ink:#5A2A20; --muted:#8E5E52; --coral:#E35F43; --rose:#FCA59B; --gold:#C9993A; --label:#A8452E;
+  --display:Marcellus, Georgia, serif; --body:Mulish, 'Avenir Next', 'Segoe UI', sans-serif;
+  --pw:380px; --ph:587px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding:0 16px 64px;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+.back{align-self:flex-start;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--ink)}
+header{padding-top:24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,56px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,34px);line-height:1.1;margin:0;text-wrap:balance}
+.lede{max-width:56ch;color:var(--muted);margin:0}
+section{display:flex;flex-direction:column;gap:20px}
+.sechead{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.sechead p{margin:0;color:var(--muted);max-width:58ch}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------------------------------------------------------------- reader */
+.bookcol{display:flex;flex-direction:column;align-items:center;gap:16px;min-width:0}
+.stage{width:100%;display:flex;justify-content:center;overflow:hidden;padding:14px 0 30px;margin:-14px 0 -30px}
+.book{position:relative;width:calc(var(--pw) * 2);height:var(--ph);perspective:2600px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.book.single{width:var(--pw)}
+.book.dragging{cursor:grabbing}
+.slot,.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph)}
+.slot{background:var(--paper);overflow:hidden;box-shadow:0 16px 30px rgba(90,42,32,.16)}
+.slot.left{left:0;border-radius:6px 0 0 6px}
+.slot.right{left:var(--pw);border-radius:0 6px 6px 0}
+.book.single .slot.right{left:0;border-radius:6px}
+.slot[hidden]{display:none}
+.slot img,.face img{width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+/* the gutter, a soft fold where the pages meet the spine */
+.book:not(.single) .slot.left::after,.book:not(.single) .slot.right::after{content:"";position:absolute;top:0;bottom:0;width:34px;pointer-events:none}
+.book:not(.single) .slot.left::after{right:0;background:linear-gradient(to left,rgba(90,42,32,.16),transparent)}
+.book:not(.single) .slot.right::after{left:0;background:linear-gradient(to right,rgba(90,42,32,.16),transparent)}
+.leaf{left:var(--pw);transform-origin:left center;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform;z-index:3}
+.book.single .leaf{left:0}
+.leaf[hidden]{display:none}
+.face{position:absolute;inset:0;background:var(--paper);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.front{border-radius:0 6px 6px 0}
+.face.back{transform:rotateY(180deg);border-radius:6px 0 0 6px}
+.book.single .face.front{border-radius:6px}
+.book.single .face.back{background:linear-gradient(90deg,#F4E4E0,var(--paper))}
+.shade{position:absolute;inset:0;pointer-events:none;opacity:0}
+.face.front .shade{background:linear-gradient(to left,rgba(90,42,32,.38),rgba(90,42,32,.08) 60%,transparent)}
+.face.back .shade{background:linear-gradient(to right,rgba(90,42,32,.38),rgba(90,42,32,.08) 60%,transparent)}
+.cast{position:absolute;top:0;height:100%;width:var(--pw);left:var(--pw);pointer-events:none;opacity:0;z-index:2;background:linear-gradient(to right,rgba(90,42,32,.28),transparent 70%)}
+.book.single .cast{left:0}
+/* the printed contents page answers a tap on any line */
+.hot{position:absolute;left:8%;right:8%;display:block;border:0;padding:0;background:transparent;cursor:pointer;border-radius:4px}
+.hot:hover,.hot:focus-visible{background:rgba(227,95,67,.10)}
+
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.round{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--white);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.round:hover{border-color:var(--rose)}
+.round:disabled{opacity:.35;cursor:default}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);min-width:12ch;text-align:center;font-size:14px}
+.hint{font-size:13px;color:var(--muted);margin:0;text-align:center}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--white);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--rose)}
+
+/* --------------------------------------------------------------- contents */
+select{font:inherit;color:var(--ink);border:1px solid var(--line);background:var(--white);border-radius:999px;padding:10px 16px;font-size:14px;max-width:100%;cursor:pointer}
+select:hover{border-color:var(--rose)}
+
+/* ------------------------------------------------------------------- deck */
+.deck{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px;max-width:880px;margin:0 auto;width:100%}
+@media (max-width:720px){.deck{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}}
+.groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:880px;margin:0 auto;width:100%;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center}
+.groups span{border-top:2px solid var(--line);padding-top:6px}
+@media (max-width:720px){.groups{display:none}}
+.mini{border:0;padding:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.mini img{width:100%;aspect-ratio:528/816;border-radius:6px;display:block;box-shadow:0 4px 10px rgba(90,42,32,.14);transition:transform .2s ease,box-shadow .2s ease;outline:2px solid transparent;outline-offset:2px;background:var(--paper)}
+.mini:hover img{transform:translateY(-5px) rotate(-2deg);box-shadow:0 10px 18px rgba(90,42,32,.2)}
+.mini[aria-pressed="true"] img{outline-color:var(--gold);transform:translateY(-5px)}
+.mini span{font-size:11px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ----------------------------------------------------------------- viewer */
+.viewer{background:var(--blush);border-radius:28px;padding:28px clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
+.viewer[hidden]{display:none}
+.viewer.enter .face2{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.viewer.enter .face2:nth-child(2){animation-delay:.08s}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.vhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.vhead .t{font-family:var(--display);font-size:clamp(26px,4vw,34px);line-height:1.1}
+.vnav{display:flex;gap:10px}
+.faces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;max-width:900px;margin:0 auto;width:100%}
+@media (max-width:640px){.faces{grid-template-columns:minmax(0,1fr)}}
+.face2{display:flex;flex-direction:column;gap:8px;min-width:0;margin:0}
+.face2 figcaption{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.face2 img{width:100%;aspect-ratio:528/816;border-radius:5.3%/3.43%;display:block;box-shadow:0 12px 26px rgba(90,42,32,.18);background:var(--paper)}
+
+footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+@media (prefers-reduced-motion:reduce){.mini img{transition:none}.viewer.enter .face2{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">&#8249; The mandala</a>
+    <div class="eyebrow">Prenatal and Perinatal Education</div>
+    <h1>The Pregnancy and Birth Mandala</h1>
+    <p class="lede">A guidebook and twelve cards for the journey from the first days to the first hour.</p>
+  </header>
+
+  <section aria-label="Guidebook">
+    <div class="bookcol">
+      <div class="stage">
+        <div class="book" id="book" aria-roledescription="guidebook" aria-label="Guidebook. Drag a page to turn it, or tap the right side to go forward and the left side to go back.">
+          <div class="slot left" id="sL"><img alt=""></div>
+          <div class="slot right" id="sR"><img alt=""></div>
+          <div class="cast" id="cast"></div>
+          <div class="leaf" id="leaf" hidden>
+            <div class="face front"><img alt=""><i class="shade"></i></div>
+            <div class="face back"><img alt=""><i class="shade"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="round" id="prev" aria-label="Previous page">&#8249;</button>
+        <span class="count" id="count" aria-live="polite"></span>
+        <button class="round" id="next" aria-label="Next page">&#8250;</button>
+      </div>
+      <div class="controls">
+        <label for="jump" class="hint">Go to</label>
+        <select id="jump"></select>
+        <a class="btn" href="guidebook.pdf" target="_blank" rel="noopener">Open the PDF</a>
+      </div>
+      <p class="hint">Drag a page corner to turn it, or tap either side. Arrow keys work too.</p>
+    </div>
+  </section>
+
+  <section aria-label="Card deck">
+    <div class="sechead">
+      <div class="eyebrow">The deck</div>
+      <h2>Twelve cards</h2>
+      <p>Tap a card to open it below, front and back.</p>
+    </div>
+    <div class="deck" id="deck"></div>
+    <div class="groups" aria-hidden="true"><span>First trimester</span><span>Second trimester</span><span>Third trimester</span><span>Birth</span></div>
+  </section>
+
+  <section class="viewer" id="viewer" aria-live="polite" hidden>
+    <div class="vhead">
+      <div>
+        <div class="eyebrow" id="vEye"></div>
+        <div class="t" id="vTitle"></div>
+      </div>
+      <div class="vnav">
+        <button class="round" id="cPrev" aria-label="Previous card">&#8249;</button>
+        <button class="round" id="cNext" aria-label="Next card">&#8250;</button>
+        <button class="round" id="cClose" aria-label="Close card">&#215;</button>
+      </div>
+    </div>
+    <div class="faces">
+      <figure class="face2"><figcaption>Front</figcaption><img id="vFront" alt=""></figure>
+      <figure class="face2"><figcaption>Back · Practices</figcaption><img id="vBack" alt=""></figure>
+    </div>
+  </section>
+
+  <footer>
+    <div>Created by Erin Singleton as part of APPPAH's Prenatal and Perinatal Educator certification.</div>
+    <div>An educational companion, not medical advice. Talk with your care provider about your own pregnancy.</div>
+  </footer>
+</div>
+
+<script>
+/* ============================================================ the content */
+const N = 26;
+const pad = n => String(n).padStart(2, "0");
+const pImg = i => `img/p${pad(i + 1)}.jpg`;
+const TITLES = ["Cover","Contents","Welcome","Using the cards","Reading the mandala",
+  "Beginnings, an overview","Month 1 · The Beginning","Month 2 · The Discovery","Month 3 · Taking Root",
+  "The Middle, an overview","Month 4 · The First Flutters","Month 5 · The First Sounds","Month 6 · The Rhythm",
+  "The Ripening, an overview","Month 7 · Light and Voices","Month 8 · The Turning","Month 9 · Ripening",
+  "The Threshold, an overview","Labor · The Threshold","Birth · Through the Gate","First Hour · The Welcome",
+  "The heart of the practices","People who can walk with you","Help, reading, and sources","Notes","Back cover"];
+// Where each line sits on the printed contents page, in image pixels (1056 × 1632).
+const HOT_Y = {3:298,4:340,5:382,6:470,7:512,8:552,9:594,10:684,11:724,12:766,13:808,14:896,15:938,16:980,17:1022,18:1110,19:1152,20:1194,21:1236,22:1324,23:1366,24:1408,25:1448};
+const CARDS = [
+  ["Month 1","The Beginning","First trimester · Weeks 1–4"],["Month 2","The Discovery","First trimester · Weeks 5–8"],["Month 3","Taking Root","First trimester · Weeks 9–13"],
+  ["Month 4","The First Flutters","Second trimester · Weeks 14–17"],["Month 5","The First Sounds","Second trimester · Weeks 18–22"],["Month 6","The Rhythm","Second trimester · Weeks 23–27"],
+  ["Month 7","Light and Voices","Third trimester · Weeks 28–31"],["Month 8","The Turning","Third trimester · Weeks 32–35"],["Month 9","Ripening","Third trimester · Weeks 36–40"],
+  ["Labor","The Threshold","Birth · Labor"],["Birth","Through the Gate","Birth · The birth itself"],["First Hour","The Welcome","Birth · The golden hour"]];
+const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+
+/* ============================================================== the book
+   One idea carries every turn. A single leaf is hinged on the spine (or on
+   the left edge, on a phone) and t runs from 0, lying flat on the right, to
+   1, lying flat on the left. Going forward plays t up; going back plays the
+   same leaf down. A drag sets t from the finger; a tap or a contents jump
+   animates it. */
+const book = document.getElementById("book"), leaf = document.getElementById("leaf"), cast = document.getElementById("cast");
+const sL = document.getElementById("sL"), sR = document.getElementById("sR");
+const fFront = leaf.querySelector(".front"), fBack = leaf.querySelector(".back");
+const mqSpread = matchMedia("(min-width: 760px)");
+let spread = mqSpread.matches;
+let view = 0;          // spread: index of the opening (0 is the cover alone); single: page index
+let pw = 380;          // page width in px
+let ctx = null;        // the turn in progress
+let anim = 0;
+
+const L = k => { const p = 2 * k - 1; return p >= 0 && p < N ? p : null; };
+const R = k => { const p = 2 * k; return p < N ? p : null; };
+const last = () => spread ? Math.floor(N / 2) : N - 1;
+const viewOfPage = p => spread ? Math.floor((p + 1) / 2) : p;
+const pagesOf = v => spread ? [L(v), R(v)].filter(p => p !== null) : [v];
+// Shift a lone cover (or back cover) to the middle, as a closed book sits.
+const offsetOf = v => !spread ? 0 : L(v) === null ? -pw / 2 : R(v) === null ? pw / 2 : 0;
+
+function size() {
+  const stageW = book.parentElement.clientWidth;
+  const maxH = Math.max(360, window.innerHeight * 0.8);
+  pw = Math.floor(Math.min(spread ? stageW / 2 : stageW, maxH * 528 / 816, 440));
+  document.documentElement.style.setProperty("--pw", pw + "px");
+  document.documentElement.style.setProperty("--ph", Math.round(pw * 816 / 528) + "px");
+}
+
+function fill(el, p, alt) {
+  const img = el.querySelector("img");
+  el.dataset.p = p === null ? "" : p;
+  if (p === null) { img.removeAttribute("src"); img.alt = ""; }
+  else {
+    const src = pImg(p);
+    if (img.getAttribute("src") !== src) img.src = src;
+    img.alt = alt === false ? "" : `Page ${p + 1}: ${TITLES[p]}`;
+  }
+  el.querySelectorAll(".hot").forEach(h => h.remove());
+  if (p === 1 && el.classList.contains("slot")) {
+    for (const [n, y] of Object.entries(HOT_Y)) {
+      const b = document.createElement("button");
+      b.className = "hot"; b.dataset.go = n - 1;
+      b.style.top = ((y - 26) / 1632 * 100) + "%"; b.style.height = (40 / 1632 * 100) + "%";
+      b.setAttribute("aria-label", `Go to page ${n}, ${TITLES[n - 1]}`);
+      el.appendChild(b);
+    }
+  }
+}
+
+function settle() {
+  // Lay the book flat on the current opening.
+  book.classList.toggle("single", !spread);
+  leaf.hidden = true; cast.style.opacity = 0;
+  if (spread) { fill(sL, L(view)); fill(sR, R(view)); sL.hidden = L(view) === null; sR.hidden = R(view) === null; }
+  else { sL.hidden = true; fill(sR, view); sR.hidden = false; }
+  book.style.transform = `translateX(${offsetOf(view)}px)`;
+  const ps = pagesOf(view);
+  document.getElementById("count").textContent = ps.length === 2 ? `Pages ${ps[0] + 1}–${ps[1] + 1} of ${N}` : `Page ${ps[0] + 1} of ${N}`;
+  document.getElementById("prev").disabled = view === 0;
+  document.getElementById("next").disabled = view === last();
+  markToc(ps);
+  history.replaceState(null, "", `#page-${ps[0] + 1}`);
+  preload(view);
+}
+
+function preload(v) {
+  [v - 1, v + 1, v - 2, v + 2].forEach(k => { if (k >= 0 && k <= last()) pagesOf(k).forEach(p => { new Image().src = pImg(p); }); });
+}
+
+// Set up a turn from the current opening to `to` (any distance away).
+function begin(to) {
+  const a = view, fwd = to > a, lo = fwd ? a : to, hi = fwd ? to : a;
+  ctx = { to, fwd, lo, hi, t: fwd ? 0 : 1 };
+  if (spread) {
+    // Leaf: front is the right page of the lower opening, back is the left page of the higher.
+    fill(fFront, R(lo), false); fill(fBack, L(hi), false);
+    fill(sL, L(lo)); sL.hidden = L(lo) === null;
+    fill(sR, R(hi)); sR.hidden = R(hi) === null;
+  } else {
+    fill(fFront, lo, false); fill(fBack, null);
+    fill(sR, hi); sR.hidden = false;
+  }
+  leaf.hidden = false;
+  draw(ctx.t);
+}
+
+function draw(t) {
+  ctx.t = t;
+  const deg = -180 * t;
+  leaf.style.transform = `rotateY(${deg}deg)`;
+  const lift = Math.sin(Math.PI * t);
+  fFront.querySelector(".shade").style.opacity = Math.min(1, t * 1.6);
+  fBack.querySelector(".shade").style.opacity = Math.min(1, (1 - t) * 1.6);
+  // A shadow falls on the page underneath while the leaf is in the air.
+  cast.style.opacity = t < .5 ? lift * .9 : 0;
+  if (!spread) fBack.style.opacity = 1 - Math.max(0, (t - .6) / .4);
+  else fBack.style.opacity = "";
+  const o = offsetOf(ctx.lo) + (offsetOf(ctx.hi) - offsetOf(ctx.lo)) * t;
+  book.style.transform = `translateX(${o}px)`;
+}
+
+function end(done) {
+  if (done) view = ctx.to;
+  ctx = null; fBack.style.opacity = "";
+  settle();
+}
+
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+function play(target, ms, done) {
+  cancelAnimationFrame(anim);
+  ctx.goal = done;
+  const from = ctx.t, t0 = performance.now(), dur = reduced.matches ? 1 : ms * Math.max(.25, Math.abs(target - from));
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur);
+    draw(from + (target - from) * ease(k));
+    if (k < 1) anim = requestAnimationFrame(step); else { anim = 0; end(done); }
+  };
+  anim = requestAnimationFrame(step);
+}
+
+function finishNow() { if (ctx) { cancelAnimationFrame(anim); anim = 0; end(ctx.goal ?? (ctx.fwd ? ctx.t >= .5 : ctx.t <= .5)); } }
+
+function decoded(pages) {
+  return Promise.race([
+    Promise.all(pages.filter(p => p !== null).map(p => { const i = new Image(); i.src = pImg(p); return i.decode().catch(() => {}); })),
+    new Promise(r => setTimeout(r, 600))]);
+}
+
+async function turnTo(to) {
+  finishNow();
+  to = Math.max(0, Math.min(last(), to));
+  if (to === view) return;
+  const need = spread ? [L(to), R(to), R(Math.min(view, to)), L(Math.max(view, to))] : [to];
+  await decoded(need);
+  begin(to);
+  play(ctx.fwd ? 1 : 0, Math.abs(to - view) > 1 ? 900 : 760, true);
+}
+const go = d => turnTo((ctx && ctx.goal ? ctx.to : view) + d);
+const goPage = p => turnTo(viewOfPage(p));
+
+/* ---- the hand on the page ---- */
+let press = null;
+book.addEventListener("pointerdown", e => {
+  if (e.button !== 0) return;
+  finishNow();
+  const r = book.getBoundingClientRect();
+  press = { id: e.pointerId, x: e.clientX, y: e.clientY, rel: e.clientX - r.left, dragging: false, hist: [[e.clientX, e.timeStamp]], target: e.target };
+});
+book.addEventListener("pointermove", e => {
+  if (!press || e.pointerId !== press.id) return;
+  const dx = e.clientX - press.x, dy = e.clientY - press.y;
+  if (!press.dragging) {
+    if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) { if (Math.abs(dy) > 12) press = null; return; }
+    const fwd = spread ? press.rel > pw : dx < 0;
+    if (fwd ? view === last() : view === 0) { press = null; return; }
+    press.dragging = true; press.fwd = fwd;
+    book.setPointerCapture(e.pointerId); book.classList.add("dragging");
+    begin(view + (fwd ? 1 : -1));
+  }
+  // Keep the page edge under the finger: the edge sits at hinge + pw·cos(πt).
+  const edge0 = press.fwd ? pw : -pw;
+  const x = Math.max(-1, Math.min(1, (edge0 + dx) / pw));
+  draw(Math.acos(x) / Math.PI);
+  press.hist.push([e.clientX, e.timeStamp]); if (press.hist.length > 5) press.hist.shift();
+});
+function release(e) {
+  if (!press || e.pointerId !== press.id) return;
+  const p = press; press = null; book.classList.remove("dragging");
+  if (!p.dragging) {
+    if (e.type === "pointercancel") return;
+    const hot = p.target.closest && p.target.closest(".hot");
+    if (hot) { goPage(+hot.dataset.go); return; }
+    const half = spread ? pw : pw / 2;
+    go(p.rel >= half ? 1 : -1);
+    return;
+  }
+  const [x0, t0] = p.hist[0], v = (e.clientX - x0) / Math.max(1, e.timeStamp - t0); // px per ms
+  const commit = p.fwd ? (ctx.t > .4 || v < -.35) && v < .35 : (ctx.t < .6 || v > .35) && v > -.35;
+  play(commit === p.fwd ? 1 : 0, 600, commit);
+}
+book.addEventListener("pointerup", release);
+book.addEventListener("pointercancel", release);
+book.addEventListener("dragstart", e => e.preventDefault());
+// Keyboard users reach the contents lines as buttons; Enter on one jumps.
+book.addEventListener("click", e => { const h = e.target.closest(".hot"); if (h && e.detail === 0) goPage(+h.dataset.go); });
+
+document.getElementById("prev").onclick = () => go(-1);
+document.getElementById("next").onclick = () => go(1);
+document.addEventListener("keydown", e => {
+  if (e.altKey || e.metaKey || e.ctrlKey || e.target.tagName === "SELECT") return;
+  if (e.key === "ArrowRight") go(1);
+  if (e.key === "ArrowLeft") go(-1);
+});
+
+/* ---- contents ---- */
+const jump = document.getElementById("jump");
+TITLES.forEach((t, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${i + 1} · ${t}`; jump.appendChild(o); });
+jump.onchange = () => goPage(+jump.value);
+function markToc(ps) { jump.value = ps[0]; }
+
+/* ---- size and mode ---- */
+function relayout() {
+  const anchor = pagesOf(view)[0];
+  finishNow();
+  spread = mqSpread.matches;
+  view = viewOfPage(anchor);
+  size(); settle();
+}
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(relayout, 80); });
+
+const m = /^#page-(\d+)$/.exec(location.hash);
+if (m) view = viewOfPage(Math.max(0, Math.min(N - 1, +m[1] - 1)));
+size(); settle();
+
+/* ============================================================== the deck */
+const deck = document.getElementById("deck"), viewer = document.getElementById("viewer");
+let current = -1;
+CARDS.forEach((c, i) => {
+  const b = document.createElement("button");
+  b.className = "mini"; b.setAttribute("aria-pressed", "false");
+  b.setAttribute("aria-label", `Card ${i + 1}, ${c[0]}, ${c[1]}`);
+  b.innerHTML = `<img src="img/t/c${pad(i * 2 + 1)}.jpg" alt="" loading="lazy"><span>${i + 1}</span>`;
+  b.onclick = () => openCard(i, true);
+  deck.appendChild(b);
+});
+function openCard(i, scroll) {
+  current = (i + CARDS.length) % CARDS.length;
+  const c = CARDS[current];
+  document.getElementById("vEye").textContent = `Card ${current + 1} of 12 · ${c[2]}`;
+  document.getElementById("vTitle").textContent = `${c[0]} · ${c[1]}`;
+  const f = document.getElementById("vFront"), b = document.getElementById("vBack");
+  f.src = `img/c${pad(current * 2 + 1)}.jpg`; f.alt = `Front of card ${current + 1}, ${c[1]}`;
+  b.src = `img/c${pad(current * 2 + 2)}.jpg`; b.alt = `Back of card ${current + 1}, ${c[1]}: practices`;
+  deck.querySelectorAll(".mini").forEach((x, k) => x.setAttribute("aria-pressed", k === current));
+  viewer.hidden = false;
+  viewer.classList.remove("enter"); void viewer.offsetWidth; viewer.classList.add("enter");
+  if (scroll) viewer.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
+}
+document.getElementById("cPrev").onclick = () => openCard(current - 1);
+document.getElementById("cNext").onclick = () => openCard(current + 1);
+document.getElementById("cClose").onclick = () => {
+  viewer.hidden = true;
+  deck.querySelectorAll(".mini").forEach(x => x.setAttribute("aria-pressed", "false"));
+  deck.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "center" });
+};
+</script>
+
+</body>
+</html>
