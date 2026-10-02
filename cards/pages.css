@@ -196,3 +196,17 @@
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;
   filter:drop-shadow(0 1px 0 rgba(50,12,6,.55))}
 .pg.backcover.hard .backq{color:#F6D9CC}
+
+/* the frontispiece: the mandala, large, in a ring of gold */
+.pg.frontis{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;
+  background:radial-gradient(60% 45% at 50% 46%,#FFFFFF 0%,#FBF3F1 62%,#F6E4DE 100%)}
+.pg.frontis .eb{letter-spacing:.26em;margin-bottom:30px}
+.pg .halo{position:relative;width:420px;height:420px;border-radius:50%;display:grid;place-items:center}
+.pg .halo::before,.pg .halo::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.pg .halo::before{inset:-10px;border:1.5px solid #D9AE62}
+.pg .halo::after{inset:-16px;border:.75px solid rgba(217,174,98,.6)}
+.pg .halo img{width:410px;height:410px;border-radius:50%}
+.pg .fcap{font-family:Marcellus,Georgia,serif;font-size:18px;color:var(--coralpg);margin:40px 0 8px}
+.pg .fsub{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mutedpg);margin:0}
+.pg .lines.tall{margin-top:6px}
+.pg.frontis .fsub{font-size:9.5px;letter-spacing:.12em;white-space:nowrap}

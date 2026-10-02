@@ -38,7 +38,7 @@
   const P = []; // {title, cls, html(n)} where n is the printed page number
   const add = (title, cls, html) => { P.push({ title, cls, html }); return P.length; };
   // The printed number is a page's place in the book, with the front
-  // endpaper uncounted: the cover is 1 and the contents page is 2.
+  // endpaper uncounted: the cover is 1, the frontispiece 2, the contents 3.
   const no = t => P.findIndex(p => p.title === t); // printed number of a page, by title
   const foot = n => `<div class="foot"><span>The Pregnancy and Birth Mandala</span><span>${n}</span></div>`;
 
@@ -52,6 +52,13 @@
     <p class="covlens">Through the lens of pre- and perinatal education</p>
     <p class="foil">Erin Singleton</p>`);
   add("Inside front cover", "endpaper", () => "");
+
+  // Frontispiece: the whole mandala, large, before anything else is said.
+  add("The mandala", "frontis", () => `
+    <div class="eb center">The Pregnancy and Birth Mandala</div>
+    <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>
+    <p class="fcap">Read from the center out, and clockwise from the top</p>
+    <p class="fsub">The child · The mother · The educator · Connecting and healing</p>`);
 
   // Contents (filled in once every page exists)
   add("Contents", "contents", n => contents(n));
@@ -405,6 +412,10 @@
     <div class="lines">${"<i></i>".repeat(19)}</div>
     ${foot(n)}`);
 
+  add("Notes, continued", "", n => `
+    <div class="lines tall">${"<i></i>".repeat(25)}</div>
+    ${foot(n)}`);
+
   add("Inside back cover", "endpaper", () => "");
   add("Back cover", "backcover hard", () => `
     <div class="medal"><img src="img/mandala.jpg" alt=""></div>
@@ -437,6 +448,6 @@
     ${foot(n)}`;
   }
 
-  const numbered = p => !/\b(cover|endpaper|backcover)\b/.test(p.cls);
+  const numbered = p => !/\b(cover|endpaper|backcover|frontis)\b/.test(p.cls);
   window.GUIDE = P.map((p, i) => ({ title: p.title, cls: p.cls, num: numbered(p) ? i : null, html: p.html(i) }));
 })();
