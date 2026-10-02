@@ -329,8 +329,8 @@
   const entry = k => `
     <div class="entry">
       <div class="enum">${k}</div>
+      <div class="row two"><label>Name</label><label>Profession</label></div>
       <div class="row"><label>Contact</label></div>
-      <div class="row"><label></label></div>
       <div class="row"><label></label></div>
     </div>`;
   add("My circle of support", "circle", n => `
