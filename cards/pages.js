@@ -177,7 +177,7 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><span class="dot" style="background:#E35F43"></span><b>The center.</b> Represented by the Flower of Life symbol.</li>
+      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#E35F43"/><circle r="16" fill="none" stroke="#FBF3F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FBF3F1" stroke-width="1"/>`).join("")}</svg><b>The center.</b> The Seed of Life holds the place of your baby.</li>
       <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The child.</b> Her growth, and what she may be sensing.</li>
       <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, hormones, and feelings.</li>
       <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints and what helps.</li>
