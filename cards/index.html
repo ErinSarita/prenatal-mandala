@@ -46,7 +46,17 @@ button{font:inherit;color:inherit}
 .book.single{width:var(--pw)}
 .book.dragging{cursor:grabbing}
 .slot,.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph)}
-.slot{background:var(--paper);overflow:hidden;box-shadow:0 16px 30px rgba(90,42,32,.16)}
+.slot{background:var(--paper);overflow:hidden}
+/* The case: cloth boards a little larger than the pages, so they show
+   round the edges, the way a hardcover's boards stand proud of its pages. */
+.case{position:absolute;z-index:0;pointer-events:none;border-radius:5px;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,240,230,.045) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(40,10,5,.07) 0 1px,transparent 1px 3px),
+    linear-gradient(#9E4636,#8A3B2D);
+  box-shadow:0 18px 34px rgba(90,42,32,.30),0 3px 6px rgba(90,42,32,.20)}
+/* the spine, a darker band where the boards fold */
+.case.open::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:22px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(30,8,4,.35),transparent)}
 .slot.left{left:0;border-radius:6px 0 0 6px}
 .slot.right{left:var(--pw);border-radius:0 6px 6px 0}
 .book.single .slot.right{left:0;border-radius:6px}
@@ -139,6 +149,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
     <div class="bookcol">
       <div class="stage">
         <div class="book" id="book" aria-roledescription="guidebook" aria-label="Guidebook. Drag a page to turn it, or tap the right side to go forward and the left side to go back.">
+          <div class="case" id="case"></div>
           <div class="slot left" id="sL"><div class="pgbox"></div></div>
           <div class="slot right" id="sR"><div class="pgbox"></div></div>
           <div class="cast" id="cast"></div>
@@ -254,6 +265,32 @@ function fill(el, p) {
   box.setAttribute("aria-hidden", el.classList.contains("face") ? "true" : "false");
 }
 
+// The case behind the pages, and the edges of the page block on each side.
+const caseEl = document.getElementById("case");
+function dress(hasL, hasR, v) {
+  const o = Math.max(5, Math.round(pw * 0.02)), ph = Math.round(pw * 816 / 528);
+  const open = spread && hasL && hasR;
+  const left = !spread ? 0 : hasL ? -o : pw;
+  const right = !spread ? pw + o : hasR ? 2 * pw + o : pw;
+  Object.assign(caseEl.style, { left: left + "px", width: (right - left) + "px", top: -o + "px", height: (ph + 2 * o) + "px" });
+  caseEl.classList.toggle("open", open);
+  // Leaves read lie to the left of the spine, leaves to come to the right.
+  const stack = (side, leaves) => {
+    const k = Math.min(5, Math.ceil(leaves / 3));
+    const s = [];
+    for (let i = 1; i <= k; i++) s.push(`${side * i}px 0 0 ${i % 2 ? "#E6D4CE" : "#FBF6F4"}`);
+    return s.concat("0 1px 2px rgba(60,20,10,.12)").join(",");
+  };
+  const first = 2, lastIn = N - 3; // the first and last pages between the endpapers
+  if (spread) {
+    const inside = p => p !== null && p >= first && p <= lastIn;
+    sL.style.boxShadow = hasL && inside(L(v)) ? stack(-1, (L(v) - first + 1) / 2) : "";
+    sR.style.boxShadow = hasR && inside(R(v)) ? stack(1, (lastIn - R(v) + 1) / 2) : "";
+  } else {
+    sR.style.boxShadow = v >= first && v <= lastIn ? stack(1, lastIn - v + 1) : "";
+  }
+}
+
 function settle() {
   // Lay the book flat on the current opening.
   book.classList.toggle("single", !spread);
@@ -261,8 +298,11 @@ function settle() {
   if (spread) { fill(sL, L(view)); fill(sR, R(view)); sL.hidden = L(view) === null; sR.hidden = R(view) === null; }
   else { sL.hidden = true; fill(sR, view); sR.hidden = false; }
   book.style.transform = `translateX(${offsetOf(view)}px)`;
-  const ps = pagesOf(view);
-  document.getElementById("count").textContent = ps.length === 2 ? `Pages ${ps[0] + 1}–${ps[1] + 1} of ${N}` : `Page ${ps[0] + 1} of ${N}`;
+  dress(spread ? L(view) !== null : true, spread ? R(view) !== null : true, view);
+  const ps = pagesOf(view), nums = ps.map(p => GUIDE[p].num);
+  document.getElementById("count").textContent =
+    nums.every(x => x !== null) ? (nums.length === 2 ? `Pages ${nums[0]}–${nums[1]}` : `Page ${nums[0]}`)
+    : ps.map(p => GUIDE[p].num ?? GUIDE[p].title).join(" · ");
   document.getElementById("prev").disabled = view === 0;
   document.getElementById("next").disabled = view === last();
   markToc(ps);
@@ -278,6 +318,8 @@ function begin(to) {
     fill(fFront, R(lo)); fill(fBack, L(hi));
     fill(sL, L(lo)); sL.hidden = L(lo) === null;
     fill(sR, R(hi)); sR.hidden = R(hi) === null;
+    dress(L(lo) !== null, R(hi) !== null, null);
+    sL.style.boxShadow = sR.style.boxShadow = "";
   } else {
     fill(fFront, lo); fill(fBack, null);
     fill(sR, hi); sR.hidden = false;
@@ -389,7 +431,7 @@ document.addEventListener("keydown", e => {
 
 /* ---- contents ---- */
 const jump = document.getElementById("jump");
-TITLES.forEach((t, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${i + 1} · ${t}`; jump.appendChild(o); });
+GUIDE.forEach((g, i) => { const o = document.createElement("option"); o.value = i; o.textContent = g.num === null ? g.title : `${g.num} · ${g.title}`; jump.appendChild(o); });
 jump.onchange = () => goPage(+jump.value);
 function markToc(ps) { jump.value = ps[0]; }
 

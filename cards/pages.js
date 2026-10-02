@@ -3,7 +3,9 @@
    Each page is drawn at its printed size, 5.5 × 8.5 inches (528 × 816 CSS
    pixels), and the book scales it to fit the screen. Page numbers come from
    a page's place in this list, so pages can be added or moved and every
-   number, the contents page included, follows along. */
+   number, the contents page included, follows along. The book is bound as
+   a hardcover: cloth boards front and back, each lined with an endpaper
+   that carries no number. */
 (function () {
   "use strict";
 
@@ -35,18 +37,22 @@
   /* ---- the pages ----------------------------------------------------- */
   const P = []; // {title, cls, html(n)} where n is the printed page number
   const add = (title, cls, html) => { P.push({ title, cls, html }); return P.length; };
-  const no = t => P.findIndex(p => p.title === t) + 1; // printed number of a page, by title
+  // The printed number is a page's place in the book, with the front
+  // endpaper uncounted: the cover is 1 and the contents page is 2.
+  const no = t => P.findIndex(p => p.title === t); // printed number of a page, by title
   const foot = n => `<div class="foot"><span>The Pregnancy and Birth Mandala</span><span>${n}</span></div>`;
 
   // Cover
-  add("Cover", "cover", () => `
-    <div class="eb center">A guide to the twelve cards</div>
-    <img class="mandala" src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala">
-    <h1 class="covt">The Pregnancy<br>and Birth Mandala</h1>
-    <p class="covs">From the first days to the first hour</p>
-    <p class="covlens">Through the lens of pre- and perinatal education</p>
-    <div class="dash"></div>
-    <p class="by">Erin Singleton · Pre- and Perinatal Education</p>`);
+  add("Cover", "cover hard", () => `
+    <div class="plate">
+      <div class="eb center">A guide to the twelve cards</div>
+      <img class="mandala" src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala">
+      <h1 class="covt">The Pregnancy<br>and Birth Mandala</h1>
+      <p class="covs">From the first days to the first hour</p>
+      <p class="covlens">Through the lens of pre- and perinatal education</p>
+    </div>
+    <p class="foil">Erin Singleton</p>`);
+  add("Inside front cover", "endpaper", () => "");
 
   // Contents (filled in once every page exists)
   add("Contents", "contents", n => contents(n));
@@ -271,7 +277,7 @@
         <p><b>When to read.</b> ${pt.when}</p>
       </div>
       <div class="lab">Cards in this section</div>
-      <ul class="toc small">${months.map((m, j) => `<li data-go="${n + j}"><span>${k * 3 + j + 1} · ${short(m[1])}</span><span>${n + j + 1}</span></li>`).join("")}</ul>
+      <ul class="toc small">${months.map((m, j) => `<li data-go="${n + j + 1}"><span>${k * 3 + j + 1} · ${short(m[1])}</span><span>${n + j + 1}</span></li>`).join("")}</ul>
       ${foot(n)}`);
     months.forEach((m, j) => {
       const seg = k * 3 + j;
@@ -400,8 +406,9 @@
     <div class="lines">${"<i></i>".repeat(19)}</div>
     ${foot(n)}`);
 
-  add("Back cover", "backcover", () => `
-    <img class="mandala small" src="img/mandala.jpg" alt="">
+  add("Inside back cover", "endpaper", () => "");
+  add("Back cover", "backcover hard", () => `
+    <div class="medal"><img src="img/mandala.jpg" alt=""></div>
     <p class="backq">At the center of all of this is a child who is already present, already listening, and already being shaped by the world around her.</p>
     <div class="dash"></div>
     <p class="backs">Twelve cards and a guidebook for the journey of pregnancy and birth, drawn from the Pregnancy and Birth Mandala and the lens of pre- and perinatal education.</p>
@@ -426,10 +433,11 @@
     <h1 class="ct">Inside this guide</h1>
     ${GROUPS.map(([h, items]) => `<div class="lab">${h}</div><ul class="toc">${items.map(t => {
       const i = no(t);
-      return `<li data-go="${i - 1}"${PART_TITLES.includes(t) ? ' class="b"' : ""}><span>${t}</span><span>${i}</span></li>`;
+      return `<li data-go="${i}"${PART_TITLES.includes(t) ? ' class="b"' : ""}><span>${t}</span><span>${i}</span></li>`;
     }).join("")}</ul>`).join("")}
     ${foot(n)}`;
   }
 
-  window.GUIDE = P.map((p, i) => ({ title: p.title, cls: p.cls, html: p.html(i + 1) }));
+  const numbered = p => !/\b(cover|endpaper|backcover)\b/.test(p.cls);
+  window.GUIDE = P.map((p, i) => ({ title: p.title, cls: p.cls, num: numbered(p) ? i : null, html: p.html(i) }));
 })();

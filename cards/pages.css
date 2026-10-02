@@ -132,3 +132,46 @@
 .pg.circle .entry{padding:6px 0 5px 30px}
 .pg.circle .enum{top:8px}
 .pg.circle .ring{margin:6px 0 0}
+
+/* ---------------------------------------------------------- the hardcover */
+/* Cloth: a deep terracotta linen, its weave drawn in two faint directions. */
+.pg.hard{
+  --cloth:#9A4434;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,240,230,.045) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(40,10,5,.07) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 90% at 30% 20%,#A54C3B,#8E3D2F 70%,#83372A);
+  color:#F7E6DF
+}
+/* the hinge, a groove pressed into the board beside the spine */
+.pg.cover.hard::before{content:"";position:absolute;top:0;bottom:0;left:18px;width:6px;
+  background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,230,220,.10) 55%,transparent)}
+.pg.backcover.hard::before{content:"";position:absolute;top:0;bottom:0;right:18px;width:6px;
+  background:linear-gradient(270deg,rgba(0,0,0,.22),rgba(255,230,220,.10) 55%,transparent)}
+.pg.cover.hard{padding:52px 44px 0 58px;justify-content:flex-start}
+/* the title label, set into the cloth */
+.pg .plate{width:100%;background:#FBF3F1;color:var(--inkpg);border-radius:3px;padding:26px 24px 24px;
+  box-shadow:inset 0 0 0 1px rgba(90,42,32,.10),0 0 0 3px rgba(60,15,8,.18),0 2px 3px 3px rgba(60,15,8,.20);
+  display:flex;flex-direction:column;align-items:center}
+.pg .plate .mandala{width:250px;margin:2px 0 18px}
+.pg .plate .covt{font-size:33px;margin-bottom:8px}
+.pg .plate .covs{font-size:16.5px}
+.pg .plate .covlens{font-size:9.5px}
+/* gilt lettering, pressed in */
+.pg .foil{margin:auto 0 50px;font-family:Marcellus,Georgia,serif;font-size:17px;letter-spacing:.22em;text-transform:uppercase;
+  color:#E9C989;text-shadow:0 1px 0 rgba(60,15,8,.55),0 -1px 0 rgba(255,235,190,.25)}
+.pg.backcover.hard{padding:0 58px 0 44px}
+.pg.backcover.hard .medal{width:150px;height:150px;border-radius:50%;margin:64px 0 34px;overflow:hidden;background:#FBF3F1;
+  box-shadow:0 0 0 3px rgba(60,15,8,.18),0 2px 3px 3px rgba(60,15,8,.20);display:grid;place-items:center}
+.pg.backcover.hard .medal img{width:136px;height:136px}
+.pg.backcover.hard .backq{color:#FBEDE7;font-size:22px}
+.pg.backcover.hard .dash{border-color:#E9C989}
+.pg.backcover.hard .backs{color:#F3DCD3}
+.pg.backcover.hard .backf{color:#E7C4B8}
+
+/* endpapers: the inside of each board, a quiet repeat of the seed of life */
+.pg.endpaper{
+  background-color:#F4DCD4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23E7BFB3' stroke-width='1.1'%3E%3Ccircle cx='32' cy='32' r='9'/%3E%3Ccircle cx='32' cy='23' r='9'/%3E%3Ccircle cx='32' cy='41' r='9'/%3E%3Ccircle cx='24.2' cy='27.5' r='9'/%3E%3Ccircle cx='39.8' cy='27.5' r='9'/%3E%3Ccircle cx='24.2' cy='36.5' r='9'/%3E%3Ccircle cx='39.8' cy='36.5' r='9'/%3E%3C/g%3E%3Ccircle cx='0' cy='0' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='64' cy='0' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='0' cy='64' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='64' cy='64' r='2' fill='%23E9C3B8'/%3E%3C/svg%3E");
+  background-size:64px 64px;background-position:center
+}
