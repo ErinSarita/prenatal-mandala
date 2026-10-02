@@ -136,6 +136,28 @@ select:hover{border-color:var(--rose)}
 .face2 img{width:100%;aspect-ratio:528/816;border-radius:5.3%/3.43%;display:block;box-shadow:0 12px 26px rgba(90,42,32,.18);background:var(--paper)}
 
 footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+/* ------------------------------------------------- one page, on a phone */
+/* Where one page shows at a time, the reading pages reflow to the screen at
+   a readable size and scroll within the book. The art pages (covers,
+   endpapers, half-title, mandala) keep their printed shape. */
+.hint.narrow{display:none}
+@media not all and (min-width:900px) and (min-height:560px){.hint.wide{display:none}.hint.narrow{display:block}}
+.book.single .pgbox{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.book.single .face .pgbox{overflow:hidden}
+.book.single .pgbox>.pg.flow{width:calc(var(--pw) / 1.12);height:auto;min-height:calc(var(--ph) / 1.12);padding:26px 20px 20px;transform:scale(1.12)}
+.book.single .pg.flow .foot{position:static;margin-top:24px}
+.book.single .pg.flow h1{font-size:26px}
+.book.single .pg.flow .wheel{width:46px;height:46px;top:22px;right:20px}
+.book.single .pg.flow.month .eb{margin-right:58px}
+.book.single .pg.flow h1.mt{font-size:23px;margin-right:56px;min-height:0}
+.book.single .pg.flow .wheel.big{width:66px;height:66px;top:26px}
+.book.single .pg.flow h1.part{font-size:32px;margin-right:76px}
+.book.single .pg.flow.contents .cols{column-count:1}
+.book.single .pg.flow .quads{grid-template-columns:1fr}
+.book.single .pg.flow.circle h1{white-space:normal;text-wrap:balance}
+.book.single .pg.flow ul.toc li{line-height:1.7}
+.book.single .pg.flow.dense ul.refs:not(.small){column-count:1}
+
 /* ------------------------------------------------------------------ print */
 #printbook{display:none}
 @page{size:5.5in 8.5in;margin:0}
@@ -189,7 +211,8 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
         <button type="button" data-c="terragold"><i style="background:linear-gradient(135deg,#93402F 50%,#D9AE62 50%)"></i>Terracotta, gold</button>
         <button type="button" data-c="camel"><i style="background:#C39B6B"></i>Camel</button>
       </div>
-      <p class="hint">Drag a page corner to turn it, or tap either side. Arrow keys work too.</p>
+      <p class="hint wide">Drag a page corner to turn it, or tap either side. Arrow keys work too.</p>
+      <p class="hint narrow">Scroll to read each page. Swipe sideways, or tap either side, to turn it.</p>
     </div>
   </section>
 
@@ -250,7 +273,9 @@ const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const book = document.getElementById("book"), leaf = document.getElementById("leaf"), cast = document.getElementById("cast");
 const sL = document.getElementById("sL"), sR = document.getElementById("sR");
 const fFront = leaf.querySelector(".front"), fBack = leaf.querySelector(".back");
-const mqSpread = matchMedia("(min-width: 760px)");
+// Two pages side by side only where there is room for them; a phone, turned
+// either way, reads one page at a time.
+const mqSpread = matchMedia("(min-width: 900px) and (min-height: 560px)");
 let spread = mqSpread.matches;
 let view = 0;          // spread: index of the opening (0 is the cover alone); single: page index
 let pw = 380;          // page width in px
@@ -274,13 +299,16 @@ function size() {
   document.documentElement.style.setProperty("--ph", Math.round(pw * 816 / 528) + "px");
 }
 
-const pageHTML = p => `<div class="pg ${GUIDE[p].cls}">${GUIDE[p].html}</div>`;
+// Reading pages can reflow on a phone; the art pages keep their shape.
+const ART = /\b(cover|backcover|endpaper|blank|halftitle|frontis)\b/;
+const pageHTML = p => `<div class="pg ${GUIDE[p].cls}${ART.test(GUIDE[p].cls) ? "" : " flow"}">${GUIDE[p].html}</div>`;
 function fill(el, p) {
   const box = el.querySelector(".pgbox");
   const key = p === null ? "" : String(p);
   if (box.dataset.p === key) return;
   box.dataset.p = key;
   box.innerHTML = p === null ? "" : pageHTML(p);
+  box.scrollTop = 0;
   // Only the pages lying open are read aloud; the turning leaf is decoration.
   box.setAttribute("aria-hidden", el.classList.contains("face") ? "true" : "false");
 }
@@ -342,6 +370,8 @@ function begin(to) {
     sL.style.boxShadow = sR.style.boxShadow = "";
   } else {
     fill(fFront, lo); fill(fBack, null);
+    // The page lifting away keeps the place it was being read at.
+    if (fwd) fFront.querySelector(".pgbox").scrollTop = sR.querySelector(".pgbox").scrollTop;
     fill(sR, hi); sR.hidden = false;
   }
   leaf.hidden = false;
