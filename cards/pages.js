@@ -261,6 +261,34 @@
     <div class="box blush"><p><b>Why this guide says "may."</b> The imprints on these pages are possible, not certain. Every baby meets her experiences with her own temperament, and the people around her shape what those experiences come to mean.</p></div>
     ${foot(n)}`);
 
+  // Regression: early impressions returning to awareness, and the parent's
+  // own early story stirred by pregnancy. A facing pair after memory.
+  add("Memories that return", "", n => `
+    <div class="eb">Foundations · Regression</div>
+    <h1>Memories that return</h1>
+    <p>For a century, people in therapy have described experiences that seem to come from before words: a sense of the womb, of being born, of how they were received. In pre- and perinatal psychology these are called regression experiences, early impressions returning to conscious awareness.</p>
+    <div class="lab">What has been gathered</div>
+    <ul class="lead">
+      <li>From the 1960s, psychiatrists Frank Lake and Stanislav Grof recorded clients reliving womb and birth experiences in deep therapeutic states.</li>
+      <li>Obstetrician David Cheek, working with hypnosis, described adults recalling the movements and circumstances of their own births.</li>
+      <li>David Chamberlain compared the birth memories of mothers and their children, recalled separately under hypnosis, and found many details matched (<i>Babies Remember Birth</i>).</li>
+      <li>Ham and Klimo found that adults' recalled sense of their mothers' feelings in pregnancy matched what their mothers reported.</li>
+      <li>Surveys in Japan found many young children speaking, unprompted, of the womb or their birth (Ikegawa).</li>
+    </ul>
+    <p class="note">A careful note: memory recalled in hypnosis or deep states can be shaped by suggestion and expectation, and mainstream science doubts that memories like these can form so early. What these accounts are is still being explored.</p>
+    ${foot(n)}`);
+
+  add("How early memory may be held", "", n => `
+    <div class="eb">Foundations · Regression</div>
+    <h1>How early memory may be held</h1>
+    <p>How could experience from before birth be carried? Part of the answer may be implicit memory: patterns of feeling held in the body and nervous system before there are words for them. Some practitioners speak of cellular or energetic memory, something carried that research has not yet found a way to measure.</p>
+    <p>However it is held, what people describe is often felt in the body first: in breath, in posture, in emotions that seem older than the story they know.</p>
+    <div class="lab">Pregnancy as a doorway</div>
+    <p>Carrying a child often stirs a parent's own earliest story. Feelings may rise that seem bigger than the moment, or familiar in a way that is hard to name: a fear of being left, a longing to be held. In this lens, such moments may be your own early imprints surfacing, a natural part of becoming a parent.</p>
+    <p>Meeting them gently matters for you both. What is felt and understood can be soothed, and what is soothed is less likely to be passed on.</p>
+    <div class="box blush"><p>The healing practice on the back of each card is a place to begin. If what surfaces feels larger than you can hold, the people on page ${no("People who can walk with you")} work with exactly these early experiences.</p></div>
+    ${foot(n)}`);
+
   add("Trauma and resilience", "", n => `
     <div class="eb">Foundations · Trauma and resilience</div>
     <h1>Trauma and resilience</h1>
@@ -607,6 +635,7 @@
     <div class="lab">Sources drawn on</div>
     <ul class="refs small">
       <li>Buckley, S. J. (2003). Undisturbed birth. <i>JOPPPAH, 17</i>(4).</li>
+      <li>Cheek, D. B. (1975). Maladjustment patterns apparently related to imprinting at birth. <i>American Journal of Clinical Hypnosis</i>. Grof, S. (1975). <i>Realms of the Human Unconscious</i>.</li>
       <li>Center on the Developing Child, Harvard University. Toxic stress. Coalition for Improving Maternity Services. Mother-Friendly Childbirth Initiative.</li>
       <li>Dana, D. (2018). <i>The Polyvagal Theory in Therapy</i>. DeCasper, A. J., and Fifer, W. P. (1980). <i>Science, 208</i>.</li>
       <li>DeCasper, A. J., and Spence, M. J. (1986). <i>Infant Behavior and Development, 9</i>.</li>
@@ -614,7 +643,7 @@
       <li>Emerson, W. The Elephant in the Birthing Room.</li>
       <li>Fischbein, S. J., and Freeze, R. (2018). <i>BMC Pregnancy and Childbirth, 18</i>, 397.</li>
       <li>Ham, J. T., and Klimo, J. (2000). Fetal awareness of maternal emotional states. <i>JOPPPAH, 15</i>(2).</li>
-      <li>Kisilevsky, B. S., et al. (2003). <i>Psychological Science, 14</i>(3). Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2).</li>
+      <li>Ikegawa, A. (2005). Fetal and infant memory in the womb and at birth. <i>JOPPPAH, 20</i>(2). Kisilevsky, B. S., et al. (2003). <i>Psychological Science, 14</i>(3). Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2).</li>
       <li>Levine, P. A. (1997). <i>Waking the Tiger</i>. Mampe, B., et al. (2009). <i>Current Biology, 19</i>(23).</li>
       <li>Mennella, J. A., Jagnow, C. P., and Beauchamp, G. K. (2001). <i>Pediatrics, 107</i>(6). Porges, S. W. (2011). <i>The Polyvagal Theory</i>.</li>
       <li>Lorenz, K. (1935). Der Kumpan in der Umwelt des Vogels. Rank, O. (1924). <i>The Trauma of Birth</i>.</li>
@@ -650,7 +679,7 @@
   /* ---- the contents page, built from the pages themselves ---- */
   const GROUPS = [
     ["Beginning", ["Key to the mandala", "Welcome"]],
-    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "Speaking to your baby", "She is listening", "How each month is read"]],
+    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Memories that return", "How early memory may be held", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "Speaking to your baby", "She is listening", "How each month is read"]],
     ["Using this guide", ["Using the cards"]],
     ["Part one · The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
