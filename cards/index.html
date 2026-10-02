@@ -51,12 +51,12 @@ button{font:inherit;color:inherit}
    round the edges, the way a hardcover's boards stand proud of its pages. */
 .case{position:absolute;z-index:0;pointer-events:none;border-radius:5px;
   background:
-    repeating-linear-gradient(0deg,rgba(255,240,230,.045) 0 1px,transparent 1px 3px),
-    repeating-linear-gradient(90deg,rgba(40,10,5,.07) 0 1px,transparent 1px 3px),
-    linear-gradient(#9E4636,#8A3B2D);
+    repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(120,80,60,.07) 0 1px,transparent 1px 3px),
+    linear-gradient(#EADFD3,#DCCDBD);
   box-shadow:0 18px 34px rgba(90,42,32,.30),0 3px 6px rgba(90,42,32,.20)}
 /* the spine, a darker band where the boards fold */
-.case.open::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:22px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(30,8,4,.35),transparent)}
+.case.open::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:22px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(90,50,30,.22),transparent)}
 .slot.left{left:0;border-radius:6px 0 0 6px}
 .slot.right{left:var(--pw);border-radius:0 6px 6px 0}
 .book.single .slot.right{left:0;border-radius:6px}

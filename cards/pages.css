@@ -241,3 +241,29 @@
 .pg.contents .lab{margin:14px 0 4px}
 .pg.dense ul.refs.small li{margin-bottom:0}.pg.dense h1{font-size:30px}
 .pg.cover.hard .medal.big svg{width:284px;height:284px;display:block}
+
+/* ------------------------------------------- the lighter cloth, for foil */
+/* A pale oat linen, so the coral, pink, and peach foils read clearly. */
+.pg.hard{
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(120,80,60,.07) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 90% at 30% 20%,#F1E7DD,#E7DACC 70%,#DFD0C0);
+  color:var(--inkpg)
+}
+.pg.cover.hard::before{background:linear-gradient(90deg,rgba(90,50,30,.16),rgba(255,255,255,.35) 55%,transparent)}
+.pg.backcover.hard::before{background:linear-gradient(270deg,rgba(90,50,30,.16),rgba(255,255,255,.35) 55%,transparent)}
+.pg.cover.hard .stamp{width:300px;height:300px;margin:4px 0 30px}
+.pg.cover.hard .stamp svg{width:300px;height:300px;display:block}
+/* deeper gold, so the foil lettering holds on a pale cloth */
+.pg.hard .gilt,.pg.hard .foil{background:linear-gradient(100deg,#8E6526 0%,#C99A4E 26%,#A47630 48%,#D4AA5E 70%,#8A6124 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.7)) drop-shadow(0 -.5px 0 rgba(80,45,15,.35))}
+.pg.cover.hard .covs{color:var(--coralpg)}
+.pg.cover.hard .covlens{color:var(--mutedpg)}
+.pg.hard .dash,.pg.cover.hard .dash,.pg.backcover.hard .dash{border-color:#B98A45}
+.pg.backcover.hard .backq{color:var(--inkpg)}
+.pg.backcover.hard .backs{color:var(--inkpg)}
+.pg.backcover.hard .backf{color:var(--mutedpg)}
+.pg.backcover.hard .medal{box-shadow:0 0 0 3px rgba(120,80,60,.14),inset 0 2px 5px rgba(90,50,30,.22)}
+.pg.backcover.hard .stamp.small{width:160px;height:160px;margin:62px 0 32px}.pg.backcover.hard .stamp.small svg{width:160px;height:160px;display:block}
