@@ -34,6 +34,71 @@
     return `<svg class="wheel" viewBox="-101 -101 202 202" aria-hidden="true">${s}</svg>`;
   }
 
+  /* ---- the foil mandala for the front cover ------------------------- */
+  // The mandala reduced to its shapes: no words, no numbers. Each colour is
+  // a foil, a sweep of light and dark bands in its own hue that all run the
+  // same way, so the whole design catches the light together.
+  const FOILS = {
+    coral: ["#B23F28", "#EE8063", "#C44A31", "#F49A80", "#C9513A", "#EA7C60", "#AD3D27"],
+    salmon: ["#C55A43", "#F8AA93", "#D46C53", "#FDBBA6", "#D7705A", "#F4A28B", "#BE553F"],
+    pink: ["#D9786C", "#FBC4B9", "#E68E82", "#FFD2C9", "#E89286", "#F9BFB3", "#D27367"],
+    peach: ["#E9AE9E", "#FBE3DA", "#F2BFB1", "#FFEAE3", "#F1C0B2", "#FADBD1", "#E5A797"],
+    rose: ["#A9705C", "#EBC6B2", "#B87F69", "#F4D6C5", "#BA826C", "#E6BEA9", "#A26A57"]};
+  // Gradients live once in the document, not inside each copy of the cover,
+  // so every copy (open, turning, printed) finds them.
+  if (!document.getElementById("foil-defs")) {
+    const stops = c => c.map((h, i) => `<stop offset="${(i / (c.length - 1)).toFixed(3)}" stop-color="${h}"/>`).join("");
+    document.body.insertAdjacentHTML("beforeend", `<svg id="foil-defs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      ${Object.entries(FOILS).map(([k, c]) => `<linearGradient id="foil-${k}" gradientUnits="userSpaceOnUse" x1="-420" y1="-420" x2="420" y2="420">${stops(c)}</linearGradient>`).join("")}
+      <filter id="foil-shine" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="b"/>
+        <feSpecularLighting in="b" surfaceScale="3" specularConstant=".55" specularExponent="32" lighting-color="#FFF6EE" result="s"><fePointLight x="-260" y="-420" z="380"/></feSpecularLighting>
+        <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+        <feComposite in="SourceGraphic" in2="s2" operator="arithmetic" k1="0" k2="1" k3=".22" k4="0"/>
+      </filter></defs></svg>`);
+  }
+  function foilMandala() {
+    const f = k => `url(#foil-${k})`, GAP = "#FBF3F1";
+    const pt = (r, a) => [(r * Math.sin(a)).toFixed(2), (-r * Math.cos(a)).toFixed(2)];
+    const seg = i => [i / 12 * 2 * Math.PI, (i + 1) / 12 * 2 * Math.PI];
+    // a segment of a ring whose outer edge swells outward, as on the mandala
+    const cell = (r0, r1, a0, a1, bulge) => {
+      const m = (a0 + a1) / 2, c = r1 / Math.cos((a1 - a0) / 2) + bulge;
+      const [x0, y0] = pt(r0, a0), [x1, y1] = pt(r1, a0), [cx, cy] = pt(c, m), [x2, y2] = pt(r1, a1), [x3, y3] = pt(r0, a1);
+      return `M${x0} ${y0}L${x1} ${y1}Q${cx} ${cy} ${x2} ${y2}L${x3} ${y3}A${r0} ${r0} 0 0 0 ${x0} ${y0}Z`;
+    };
+    let g = "";
+    // braid: two strands twisting round the whole circle
+    const strand = ph => { let d = ""; for (let k = 0; k <= 720; k++) { const a = k / 720 * 2 * Math.PI, r = 398 + 7 * Math.sin(66 * a + ph); const [x, y] = pt(r, a); d += (k ? "L" : "M") + x + " " + y; } return d + "Z"; };
+    g += `<path d="${strand(0)}" fill="none" stroke="${f("pink")}" stroke-width="6"/><path d="${strand(Math.PI)}" fill="none" stroke="${f("coral")}" stroke-width="5"/>`;
+    // time ring: a circle, a tick for every week, longer at weeks 1, 14, 28, 40
+    const wk = w => (w <= 14 ? (w - 1) / 13 * 90 : w <= 28 ? 90 + (w - 14) / 14 * 90 : 180 + (w - 28) / 12 * 90) * Math.PI / 180;
+    g += `<circle r="330" fill="none" stroke="${f("rose")}" stroke-width="2.4"/>`;
+    const bw = [wk(37), wk(40) + 2 * (wk(40) - wk(39))];
+    { const [a, b] = bw, [x0, y0] = pt(352, a), [x1, y1] = pt(352, b), [x2, y2] = pt(342, b), [x3, y3] = pt(342, a);
+      g += `<path d="M${x0} ${y0}A352 352 0 0 1 ${x1} ${y1}L${x2} ${y2}A342 342 0 0 0 ${x3} ${y3}Z" fill="${f("pink")}"/>`; }
+    for (let w = 1; w <= 40; w++) {
+      const major = [1, 14, 28, 40].includes(w), a = wk(w);
+      const [x0, y0] = pt(330, a), [x1, y1] = pt(major ? 356 : 340, a);
+      g += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${f("rose")}" stroke-width="${major ? 3.4 : 2.2}" stroke-linecap="round"/>`;
+      if (major) { const [dx, dy] = pt(364, a); g += `<rect x="${dx - 4}" y="${dy - 4}" width="8" height="8" transform="rotate(45 ${dx} ${dy})" fill="${f("rose")}"/>`; }
+    }
+    // outer petals, each with its small dot
+    for (let i = 0; i < 12; i++) {
+      const [a0, a1] = seg(i), inset = 0.035;
+      g += `<path d="${cell(287, 338, a0 + inset, a1 - inset, 26)}" fill="${f("coral")}" stroke="${GAP}" stroke-width="5" stroke-linejoin="round"/>`;
+      const [x, y] = pt(326, (a0 + a1) / 2); g += `<circle cx="${x}" cy="${y}" r="4.5" fill="${GAP}"/>`;
+    }
+    // the three rings, outside in, so each inner edge sits over the next
+    [[212, 284, "salmon", 8], [140, 214, "pink", 10], [50, 142, "peach", 10]].forEach(([r0, r1, k, b]) => {
+      for (let i = 0; i < 12; i++) { const [a0, a1] = seg(i); g += `<path d="${cell(r0, r1, a0, a1, b)}" fill="${f(k)}" stroke="${GAP}" stroke-width="6.5" stroke-linejoin="round"/>`; }
+    });
+    // the center: the Seed of Life in a coral disc
+    g += `<circle r="52" fill="${f("coral")}" stroke="${GAP}" stroke-width="5"/><circle r="42" fill="none" stroke="${GAP}" stroke-width="2"/>`;
+    for (let k = -1; k < 6; k++) { const [x, y] = k < 0 ? [0, 0] : pt(14, k * Math.PI / 3); g += `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${GAP}" stroke-width="2"/>`; }
+    return `<svg class="foilmandala" viewBox="-420 -420 840 840" role="img" aria-label="The Pregnancy and Birth Mandala, in foil"><g filter="url(#foil-shine)">${g}</g></svg>`;
+  }
+
   /* ---- the pages ----------------------------------------------------- */
   const P = []; // {title, cls, html(n)} where n is the printed page number
   const add = (title, cls, html) => { P.push({ title, cls, html }); return P.length; };
@@ -45,7 +110,7 @@
   // Cover
   add("Cover", "cover hard", () => `
     <div class="eb center gilt">A guide to the twelve cards</div>
-    <div class="medal big"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala"></div>
+    <div class="medal big">${foilMandala()}</div>
     <h1 class="covt gilt">The Pregnancy<br>and Birth Mandala</h1>
     <p class="covs">From the first days to the first hour</p>
     <div class="dash"></div>
