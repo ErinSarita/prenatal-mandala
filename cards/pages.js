@@ -74,7 +74,7 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><span class="dot" style="background:#E35F43"></span><b>The center.</b> The Seed of Life holds the place of your baby.</li>
+      <li><span class="dot" style="background:#E35F43"></span><b>The center.</b> Represented by the Flower of Life symbol.</li>
       <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The child.</b> Her growth, and what she may be sensing.</li>
       <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, hormones, and feelings.</li>
       <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints and what helps.</li>
@@ -87,7 +87,11 @@
       ${quad(6, 9, "Third trimester", "Months 7 to 9")}
       ${quad(9, 12, "Birth", "Labor, birth, first hour")}
     </div>
-    <p class="tight"><b>The outer edge</b> counts the forty weeks, from week 1 at the top. <b>The braid</b> of three strands, for child, mother, and educator, holds the circle together.</p>
+    <div class="lab">Around the edge</div>
+    <ul class="rings">
+      <li><span class="dot" style="background:transparent;border:1.5px solid #B98C80"></span><b>The outer edge.</b> The forty weeks, from week 1 at the top.</li>
+      <li><span class="dot" style="background:#F2B4A8;box-shadow:inset 0 0 0 3px #FBE3DD"></span><b>The braid.</b> Three strands, for child, mother, and educator, holding the circle together.</li>
+    </ul>
     <div class="box blush"><p><b>See it come alive.</b> The interactive mandala opens every month in detail, and with a due date entered it shows today, the birth window, and the moons of your pregnancy.<br><a href="../">erinsarita.github.io/prenatal-mandala</a></p></div>
     ${foot(n)}`);
 
