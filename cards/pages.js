@@ -147,7 +147,7 @@
 
   // Cover
   add("Cover", "cover hard", () => `
-    <div class="eb center gilt">Twelve cards for pregnancy and birth</div>
+    <div class="eb center gilt">Cards for pregnancy and birth</div>
     <div class="stamp">${foilMandala()}</div>
     <h1 class="covt gilt">The Pregnancy<br>and Birth Mandala</h1>
     <p class="covs">Companion book to the card deck</p>
@@ -160,7 +160,7 @@
   // right-hand page. First the half-title, then the contents on its own with
   // a blank page facing it, then the mandala facing the Welcome.
   add("Half-title", "halftitle", () => `
-    <div class="eb center">Twelve cards for pregnancy and birth</div>
+    <div class="eb center">Cards for pregnancy and birth</div>
     <h1 class="htt">The Pregnancy<br>and Birth Mandala</h1>
     <div class="dash"></div>
     <p class="hts">Companion book to the card deck</p>`);
@@ -605,7 +605,7 @@
     <div class="stamp small">${foilMandala()}</div>
     <p class="backq">At the center of all of this is a child who is already present, already listening, and already being shaped by the world around her.</p>
     <div class="dash"></div>
-    <p class="backs">Twelve cards and a guidebook for the journey of pregnancy and birth, drawn from the Pregnancy and Birth Mandala and the lens of pre- and perinatal education.</p>
+    <p class="backs">A card deck and guidebook for the journey of pregnancy and birth, drawn from the Pregnancy and Birth Mandala and the lens of pre- and perinatal education.</p>
     <div class="backf">
       <p>Created by Erin Singleton as part of APPPAH's Prenatal &amp; Perinatal Educator certification.</p>
       <p>An educational companion, not medical advice. Talk with your care provider about your own pregnancy.</p>
