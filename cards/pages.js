@@ -56,9 +56,7 @@
   // Frontispiece: the whole mandala, large, before anything else is said.
   add("The mandala", "frontis", () => `
     <div class="eb center">The Pregnancy and Birth Mandala</div>
-    <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>
-    <p class="fcap">Read from the center out, and clockwise from the top</p>
-    <p class="fsub">The child · The mother · The educator · Connecting and healing</p>`);
+    <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>`);
 
   // Contents (filled in once every page exists)
   add("Contents", "contents", n => contents(n));

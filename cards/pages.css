@@ -210,3 +210,4 @@
 .pg .fsub{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mutedpg);margin:0}
 .pg .lines.tall{margin-top:6px}
 .pg.frontis .fsub{font-size:9.5px;letter-spacing:.12em;white-space:nowrap}
+.pg.frontis .halo{margin-bottom:40px}
