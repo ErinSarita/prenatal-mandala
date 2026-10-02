@@ -210,7 +210,7 @@
     <p>Pregnancy is often described in weeks, tests, and appointments. This deck invites you to see it another way: as a journey you and your baby take together, from the first days to the first hour after birth.</p>
     <p>In pre- and perinatal education, the baby is understood as aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after. This is not a weight to carry. It is an invitation to slow down, to notice, and to connect.</p>
     <p>The cards come from a mandala, a circle organized around a center. At its center is your baby. Around her is you. Around you is what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
-    <p>The pages that follow lay the foundation: what this lens is and where it comes from, what an imprint is and how the body remembers, trauma and resilience, your nervous system, and how each month is read. Then come the cards themselves, month by month, and people who can walk with you further.</p>
+    <p>The pages that follow lay the foundation: what this lens is and where it comes from, what an imprint is and how the body remembers, trauma and resilience, your nervous system, why speaking to your baby matters, and how each month is read. Then come the cards themselves, month by month, and people who can walk with you further.</p>
     <blockquote>There are no secrets you can keep from your baby, so talk to her, and more importantly, listen.<cite>Karen Strange, Simple Tools for Mothers</cite></blockquote>
     ${foot(n)}`);
 
@@ -318,6 +318,39 @@
     </ul>
     <p><b>Putting it into practice.</b> Each card turns this understanding into small, daily acts: talking to her, answering her movements, settling yourself, guarding the birth space, and repairing after hard moments.</p>
     <div class="box blush"><p>This is not about getting everything right. It is about noticing, connecting, and repairing, which every family can do.</p></div>
+    ${foot(n)}`);
+
+  // Speaking to her: a facing pair, so the question and the evidence are
+  // read together, before the cards themselves begin.
+  add("Speaking to your baby", "", n => `
+    <div class="eb">Foundations · Speaking to her</div>
+    <h1>Why speak to a baby who has no words?</h1>
+    <p>Many practices on the cards ask you to talk to your baby: to tell her what is happening, what you feel, and what you hope. It can feel odd at first. She cannot understand words yet. So what reaches her?</p>
+    <div class="lab">What reaches her</div>
+    <ul class="lead">
+      <li><b>Your voice.</b> From mid-pregnancy she hears, and your voice, carried through your own body, is the loudest and clearest in her world.</li>
+      <li><b>Rhythm and warmth.</b> Long before meaning, she takes in the music of speech: its pace, its tone, its rise and fall.</li>
+      <li><b>Your body.</b> When you speak tenderly, your breath slows, your heart steadies, and your muscles soften. She lives inside these changes.</li>
+      <li><b>Your chemistry.</b> Warmth and connection bring oxytocin, the hormone of calm and closeness, and ease the stress hormones that matter most when they linger.</li>
+    </ul>
+    <p>In pre- and perinatal education, words are understood as carriers of your attention, your intention, and your feeling. She may not know what "you are safe" means. She can feel what it is like when you mean it.</p>
+    <div class="box"><p><b>For partners.</b> Your voice reaches her too, from just outside the womb. Babies come to know the voices they hear often, so a partner who speaks to her before birth is already familiar when she arrives.</p></div>
+    ${foot(n)}`);
+
+  add("She is listening", "", n => `
+    <div class="eb">Foundations · Speaking to her</div>
+    <h1>She is listening</h1>
+    <div class="lab">What research shows</div>
+    <ul class="lead">
+      <li>Before birth, babies' heart rates quicken to a recording of their mother's voice, and slow to a stranger's (Kisilevsky and colleagues, 2003).</li>
+      <li>Newborns prefer their mother's voice, and a story read aloud to them in the womb (DeCasper and Fifer, 1980; DeCasper and Spence, 1986).</li>
+      <li>Newborns' cries already carry the melody of the language spoken around them (Mampe and colleagues, 2009), and they recognize sounds heard often before birth (Partanen and colleagues, 2013).</li>
+      <li>Mothers who sang lullabies through pregnancy and after birth reported a stronger bond, and their newborns cried less (Persico and colleagues, 2017).</li>
+    </ul>
+    <p class="muted">Research cannot yet say how much of your meaning she receives. It does show that she is listening, learning your voice, and responding to it, and that speaking to her changes you as well.</p>
+    <div class="lab">How to begin</div>
+    <p>Start small: good morning, her name, a hand on your belly. Tell her what you are about to do. Name what you feel: "I am worried today, and it is not about you." Invite your partner to speak to her too. Then pause, and notice. She may answer with a move.</p>
+    <div class="box blush"><p>Each card offers words you can say to her. Take them as a starting place, and make them your own.</p></div>
     ${foot(n)}`);
 
   add("How each month is read", "", n => `
@@ -580,10 +613,12 @@
       <li>Emerson, W. The Elephant in the Birthing Room.</li>
       <li>Fischbein, S. J., and Freeze, R. (2018). <i>BMC Pregnancy and Childbirth, 18</i>, 397.</li>
       <li>Ham, J. T., and Klimo, J. (2000). Fetal awareness of maternal emotional states. <i>JOPPPAH, 15</i>(2).</li>
-      <li>Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2). Levine, P. A. (1997). <i>Waking the Tiger</i>.</li>
+      <li>Kisilevsky, B. S., et al. (2003). <i>Psychological Science, 14</i>(3). Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2).</li>
+      <li>Levine, P. A. (1997). <i>Waking the Tiger</i>. Mampe, B., et al. (2009). <i>Current Biology, 19</i>(23).</li>
       <li>Mennella, J. A., Jagnow, C. P., and Beauchamp, G. K. (2001). <i>Pediatrics, 107</i>(6). Porges, S. W. (2011). <i>The Polyvagal Theory</i>.</li>
       <li>Lorenz, K. (1935). Der Kumpan in der Umwelt des Vogels. Rank, O. (1924). <i>The Trauma of Birth</i>.</li>
-      <li>Nathanielsz, P. W. <i>Life in the Womb</i>. Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
+      <li>Nathanielsz, P. W. <i>Life in the Womb</i>. Partanen, E., et al. (2013). <i>PNAS, 110</i>(37). Persico, G., et al. (2017). <i>Women and Birth, 30</i>(4).</li>
+      <li>Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
@@ -614,7 +649,7 @@
   /* ---- the contents page, built from the pages themselves ---- */
   const GROUPS = [
     ["Beginning", ["Key to the mandala", "Welcome"]],
-    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "How each month is read"]],
+    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "Speaking to your baby", "She is listening", "How each month is read"]],
     ["Using this guide", ["Using the cards"]],
     ["Part one · The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
