@@ -1,0 +1,109 @@
+/* The guidebook's pages, drawn at print size: 528 × 816 px is 5.5 × 8.5 in.
+   Everything is scoped to .pg so the site around the book is untouched. */
+.pg{
+  --pink:#FBF3F1; --blushpg:#F7E3DC; --inkpg:#522B24; --mutedpg:#8E5E52; --labelpg:#A8452E; --coralpg:#D2533A;
+  --rulepg:#E6D3D1; --boxline:#EAD3D0;
+  position:relative;width:528px;height:816px;overflow:hidden;background:var(--pink);color:var(--inkpg);
+  padding:44px 48px 0;font-family:Mulish,'Avenir Next','Segoe UI',sans-serif;font-size:12.6px;line-height:1.58;
+  text-align:left;-webkit-font-smoothing:antialiased
+}
+.pg.blush{background:var(--blushpg)}
+.pg p{margin:0 0 9px}
+.pg b{font-weight:700}
+.pg a{color:var(--labelpg);text-decoration:underline;text-underline-offset:2px}
+.pg .eb{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--mutedpg);margin:0 0 10px}
+.pg .eb.center{text-align:center}
+.pg h1{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:33px;line-height:1.12;margin:0 0 14px;color:var(--inkpg);letter-spacing:0;text-wrap:balance}
+.pg h1.mt{font-size:27px;margin:0 130px 0 0;min-height:62px;display:flex;align-items:flex-end}
+.pg h1.part{font-size:40px;line-height:1.05;margin:0 0 6px}
+.pg h1.ct{margin-bottom:8px}
+.pg h2{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:18.5px;line-height:1.2;color:var(--coralpg);margin:13px 0 5px}
+.pg h3{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:17px;line-height:1.2;margin:0 0 8px}
+.pg hr{border:0;border-top:1px solid var(--rulepg);margin:12px 0}
+.pg .sub{font-family:Marcellus,Georgia,serif;font-size:21px;color:var(--coralpg);margin:0 0 14px}
+.pg .plede{font-family:Marcellus,Georgia,serif;font-size:16.5px;line-height:1.55;margin:0 0 16px;max-width:none;color:var(--inkpg)}
+.pg .lab{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--labelpg);margin:12px 0 6px}
+.pg .box{background:#FFFFFF;border:1px solid var(--boxline);border-radius:14px;padding:14px 16px 6px;margin:12px 0}
+.pg .box.blush{background:var(--blushpg);border-color:transparent}
+.pg .box.soft{background:var(--pink);border-color:transparent;padding:16px 18px 8px}
+.pg .box .lab{margin-top:0}
+.pg .muted{color:var(--mutedpg)}
+.pg .tight{margin-bottom:6px}
+.pg em{font-style:italic}
+
+/* the wheel in the corner */
+.pg .wheel{position:absolute;top:36px;right:48px;width:70px;height:70px}
+.pg .wheel.big{top:56px;right:48px;width:108px;height:108px}
+
+/* the month pages */
+.pg.month h2:first-of-type{margin-top:4px}
+.pg.month .box{margin-top:12px}
+
+/* lists */
+.pg ol.steps{list-style:none;counter-reset:s;margin:4px 0 10px;padding:0}
+.pg ol.steps li{counter-increment:s;position:relative;padding-left:46px;margin:0 0 9px}
+.pg ol.steps li::before{content:counter(s);position:absolute;left:0;top:-6px;font-family:Marcellus,Georgia,serif;font-size:25px;color:var(--coralpg)}
+.pg ol.steps.tight li{margin-bottom:7px}
+.pg ul.rings,.pg ul.lead,.pg ul.refs{list-style:none;margin:4px 0 8px;padding:0}
+.pg ul.rings li{position:relative;padding-left:30px;margin:0 0 8px}
+.pg .dot{display:inline-block;width:16px;height:16px;border-radius:50%;flex:none}
+.pg ul.rings .dot{position:absolute;left:0;top:1px}
+.pg ul.lead li{margin:0 0 9px;padding-left:14px;border-left:2px solid #F3B8AC}
+.pg ul.refs li{margin:0 0 3px;padding-left:12px;text-indent:-12px}
+.pg ul.refs.small{font-size:11px;line-height:1.45}
+.pg ul.refs.small li{margin-bottom:2px}
+.pg .parts>div{display:grid;grid-template-columns:22px 1fr;column-gap:10px;margin:0 0 6px}
+.pg .parts .dot{margin-top:3px}
+.pg .parts h3{margin:0 0 2px;font-size:17px;color:var(--coralpg)}
+.pg .parts p{grid-column:2}
+.pg dl.time{display:grid;grid-template-columns:74px 1fr;gap:6px 12px;margin:2px 0 0}
+.pg dl.time dt{font-family:Marcellus,Georgia,serif;font-size:15px;color:var(--coralpg);line-height:1.35}
+.pg dl.time dd{margin:0;line-height:1.5}
+
+/* contents */
+.pg ul.toc{list-style:none;margin:0;padding:0}
+.pg ul.toc li{display:flex;justify-content:space-between;gap:12px;font-size:12.6px;line-height:1.5;padding:0 6px;margin:0 -6px;border-radius:5px;cursor:pointer}
+.pg ul.toc li.b{font-weight:700}
+.pg ul.toc li span:last-child{color:var(--mutedpg);font-variant-numeric:tabular-nums}
+.pg ul.toc li:hover{background:rgba(227,95,67,.10)}
+.pg ul.toc.small li{font-size:13.5px;line-height:1.75}
+.pg h1.ct+.lab{margin-top:6px}
+.pg .lab+ul.toc{margin-top:-2px}
+
+/* quotes */
+.pg blockquote{margin:22px 0 0;padding:2px 0 0 18px;border-left:3px solid #F4A398;font-family:Marcellus,Georgia,serif;font-size:17.5px;line-height:1.45;color:var(--coralpg)}
+.pg blockquote cite{display:block;margin-top:10px;font-family:Mulish,sans-serif;font-style:normal;font-size:11.5px;color:var(--mutedpg)}
+
+/* notes */
+.pg .lines i{display:block;height:28px;border-bottom:1px solid var(--rulepg)}
+
+/* footer */
+.pg .foot{position:absolute;left:48px;right:48px;top:760px;border-top:1px solid var(--rulepg);padding-top:11px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mutedpg)}
+
+/* covers */
+.pg.cover,.pg.backcover{text-align:center;display:flex;flex-direction:column;align-items:center}
+.pg.cover{padding-top:50px}
+.pg .mandala{width:420px;height:auto;margin:4px 0 26px}
+.pg .mandala.small{width:184px;margin:52px 0 30px}
+.pg .covt{font-size:41px;line-height:1.1;margin:0 0 10px;text-align:center}
+.pg .covs{font-family:Marcellus,Georgia,serif;font-size:19px;color:var(--coralpg);margin:0 0 6px}
+.pg .covlens{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mutedpg);margin:0}
+.pg .dash{width:64px;border-top:1.5px solid #E2735C;margin:34px auto 16px}
+.pg .by{font-size:12.5px;letter-spacing:.06em;color:var(--mutedpg)}
+.pg .backq{font-family:Marcellus,Georgia,serif;font-size:24px;line-height:1.35;max-width:380px;margin:0}
+.pg .backcover .dash,.pg.backcover .dash{margin:22px auto 22px}
+.pg .backs{font-size:13px;max-width:380px}
+.pg .backf{margin-top:auto;padding-bottom:44px;font-size:11.5px;color:var(--mutedpg);max-width:400px}
+.pg .backf p{margin:0 0 8px}
+
+/* two pages that hold more than the rest */
+.pg.contents h1.ct{font-size:28px;margin:0 0 2px}
+.pg.contents .lab{margin:8px 0 1px;font-size:10px}
+.pg.contents ul.toc li{font-size:12px;line-height:1.42}
+.pg.dense{font-size:12px;line-height:1.46}
+.pg.dense h1{margin-bottom:10px}
+.pg.dense hr{margin:8px 0}
+.pg.dense .lab{margin:6px 0 4px}
+.pg.dense .tight{margin-bottom:5px}
+.pg.dense .box{margin:8px 0 0;padding:10px 14px 2px}
+.pg .note{margin-top:14px;padding-top:10px;border-top:1px solid var(--rulepg);color:var(--mutedpg)}

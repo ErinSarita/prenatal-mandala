@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Pregnancy and Birth Mandala</title>
-<meta name="description" content="A guidebook and twelve cards for the journey from the first days to the first hour.">
+<meta name="description" content="A guidebook and twelve cards for pregnancy and birth, through the lens of pre- and perinatal education.">
 <link rel="icon" href="../favicon.ico?v=2" sizes="any">
 <link rel="icon" href="../favicon.svg?v=2" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="pages.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
 /* A pamphlet on a blush table: the guidebook turns like paper, the contents
@@ -50,7 +51,9 @@ button{font:inherit;color:inherit}
 .slot.right{left:var(--pw);border-radius:0 6px 6px 0}
 .book.single .slot.right{left:0;border-radius:6px}
 .slot[hidden]{display:none}
-.slot img,.face img{width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.pgbox{position:absolute;inset:0;overflow:hidden}
+.pgbox>.pg{transform:scale(var(--k));transform-origin:0 0}
+.pgbox img{-webkit-user-drag:none;pointer-events:none}
 /* the gutter, a soft fold where the pages meet the spine */
 .book:not(.single) .slot.left::after,.book:not(.single) .slot.right::after{content:"";position:absolute;top:0;bottom:0;width:34px;pointer-events:none}
 .book:not(.single) .slot.left::after{right:0;background:linear-gradient(to left,rgba(90,42,32,.16),transparent)}
@@ -68,9 +71,6 @@ button{font:inherit;color:inherit}
 .face.back .shade{background:linear-gradient(to right,rgba(90,42,32,.38),rgba(90,42,32,.08) 60%,transparent)}
 .cast{position:absolute;top:0;height:100%;width:var(--pw);left:var(--pw);pointer-events:none;opacity:0;z-index:2;background:linear-gradient(to right,rgba(90,42,32,.28),transparent 70%)}
 .book.single .cast{left:0}
-/* the printed contents page answers a tap on any line */
-.hot{position:absolute;left:8%;right:8%;display:block;border:0;padding:0;background:transparent;cursor:pointer;border-radius:4px}
-.hot:hover,.hot:focus-visible{background:rgba(227,95,67,.10)}
 
 .controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
 .round{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--white);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center}
@@ -113,6 +113,15 @@ select:hover{border-color:var(--rose)}
 .face2 img{width:100%;aspect-ratio:528/816;border-radius:5.3%/3.43%;display:block;box-shadow:0 12px 26px rgba(90,42,32,.18);background:var(--paper)}
 
 footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+/* ------------------------------------------------------------------ print */
+#printbook{display:none}
+@page{size:5.5in 8.5in;margin:0}
+@media print{
+  body{padding:0;background:none}
+  .wrap{display:none}
+  #printbook{display:block}
+  #printbook .pg{break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 @media (prefers-reduced-motion:reduce){.mini img{transition:none}.viewer.enter .face2{animation:none}}
 </style>
 </head>
@@ -121,21 +130,21 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
 <div class="wrap">
   <header>
     <a class="back" href="../">&#8249; The mandala</a>
-    <div class="eyebrow">Prenatal and Perinatal Education</div>
+    <div class="eyebrow">Pre- and Perinatal Education</div>
     <h1>The Pregnancy and Birth Mandala</h1>
-    <p class="lede">A guidebook and twelve cards for the journey from the first days to the first hour.</p>
+    <p class="lede">A guidebook and twelve cards for pregnancy and birth, seen through the lens of pre- and perinatal education: your baby as a feeling, sensing participant from the first days to the first hour.</p>
   </header>
 
   <section aria-label="Guidebook">
     <div class="bookcol">
       <div class="stage">
         <div class="book" id="book" aria-roledescription="guidebook" aria-label="Guidebook. Drag a page to turn it, or tap the right side to go forward and the left side to go back.">
-          <div class="slot left" id="sL"><img alt=""></div>
-          <div class="slot right" id="sR"><img alt=""></div>
+          <div class="slot left" id="sL"><div class="pgbox"></div></div>
+          <div class="slot right" id="sR"><div class="pgbox"></div></div>
           <div class="cast" id="cast"></div>
           <div class="leaf" id="leaf" hidden>
-            <div class="face front"><img alt=""><i class="shade"></i></div>
-            <div class="face back"><img alt=""><i class="shade"></i></div>
+            <div class="face front"><div class="pgbox"></div><i class="shade"></i></div>
+            <div class="face back"><div class="pgbox"></div><i class="shade"></i></div>
           </div>
         </div>
       </div>
@@ -147,7 +156,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
       <div class="controls">
         <label for="jump" class="hint">Go to</label>
         <select id="jump"></select>
-        <a class="btn" href="guidebook.pdf" target="_blank" rel="noopener">Open the PDF</a>
+        <button class="btn" id="print" type="button">Print or save as PDF</button>
       </div>
       <p class="hint">Drag a page corner to turn it, or tap either side. Arrow keys work too.</p>
     </div>
@@ -186,20 +195,14 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
     <div>An educational companion, not medical advice. Talk with your care provider about your own pregnancy.</div>
   </footer>
 </div>
+<div id="printbook" aria-hidden="true"></div>
+<script src="pages.js"></script>
 
 <script>
 /* ============================================================ the content */
-const N = 26;
+const N = GUIDE.length;
 const pad = n => String(n).padStart(2, "0");
-const pImg = i => `img/p${pad(i + 1)}.jpg`;
-const TITLES = ["Cover","Contents","Welcome","Using the cards","Reading the mandala",
-  "Beginnings, an overview","Month 1 · The Beginning","Month 2 · The Discovery","Month 3 · Taking Root",
-  "The Middle, an overview","Month 4 · The First Flutters","Month 5 · The First Sounds","Month 6 · The Rhythm",
-  "The Ripening, an overview","Month 7 · Light and Voices","Month 8 · The Turning","Month 9 · Ripening",
-  "The Threshold, an overview","Labor · The Threshold","Birth · Through the Gate","First Hour · The Welcome",
-  "The heart of the practices","People who can walk with you","Help, reading, and sources","Notes","Back cover"];
-// Where each line sits on the printed contents page, in image pixels (1056 × 1632).
-const HOT_Y = {3:298,4:340,5:382,6:470,7:512,8:552,9:594,10:684,11:724,12:766,13:808,14:896,15:938,16:980,17:1022,18:1110,19:1152,20:1194,21:1236,22:1324,23:1366,24:1408,25:1448};
+const TITLES = GUIDE.map(g => g.title);
 const CARDS = [
   ["Month 1","The Beginning","First trimester · Weeks 1–4"],["Month 2","The Discovery","First trimester · Weeks 5–8"],["Month 3","Taking Root","First trimester · Weeks 9–13"],
   ["Month 4","The First Flutters","Second trimester · Weeks 14–17"],["Month 5","The First Sounds","Second trimester · Weeks 18–22"],["Month 6","The Rhythm","Second trimester · Weeks 23–27"],
@@ -236,28 +239,19 @@ function size() {
   const maxH = Math.max(360, window.innerHeight * 0.8);
   pw = Math.floor(Math.min(spread ? stageW / 2 : stageW, maxH * 528 / 816, 440));
   document.documentElement.style.setProperty("--pw", pw + "px");
+  document.documentElement.style.setProperty("--k", pw / 528);
   document.documentElement.style.setProperty("--ph", Math.round(pw * 816 / 528) + "px");
 }
 
-function fill(el, p, alt) {
-  const img = el.querySelector("img");
-  el.dataset.p = p === null ? "" : p;
-  if (p === null) { img.removeAttribute("src"); img.alt = ""; }
-  else {
-    const src = pImg(p);
-    if (img.getAttribute("src") !== src) img.src = src;
-    img.alt = alt === false ? "" : `Page ${p + 1}: ${TITLES[p]}`;
-  }
-  el.querySelectorAll(".hot").forEach(h => h.remove());
-  if (p === 1 && el.classList.contains("slot")) {
-    for (const [n, y] of Object.entries(HOT_Y)) {
-      const b = document.createElement("button");
-      b.className = "hot"; b.dataset.go = n - 1;
-      b.style.top = ((y - 26) / 1632 * 100) + "%"; b.style.height = (40 / 1632 * 100) + "%";
-      b.setAttribute("aria-label", `Go to page ${n}, ${TITLES[n - 1]}`);
-      el.appendChild(b);
-    }
-  }
+const pageHTML = p => `<div class="pg ${GUIDE[p].cls}">${GUIDE[p].html}</div>`;
+function fill(el, p) {
+  const box = el.querySelector(".pgbox");
+  const key = p === null ? "" : String(p);
+  if (box.dataset.p === key) return;
+  box.dataset.p = key;
+  box.innerHTML = p === null ? "" : pageHTML(p);
+  // Only the pages lying open are read aloud; the turning leaf is decoration.
+  box.setAttribute("aria-hidden", el.classList.contains("face") ? "true" : "false");
 }
 
 function settle() {
@@ -273,11 +267,6 @@ function settle() {
   document.getElementById("next").disabled = view === last();
   markToc(ps);
   history.replaceState(null, "", `#page-${ps[0] + 1}`);
-  preload(view);
-}
-
-function preload(v) {
-  [v - 1, v + 1, v - 2, v + 2].forEach(k => { if (k >= 0 && k <= last()) pagesOf(k).forEach(p => { new Image().src = pImg(p); }); });
 }
 
 // Set up a turn from the current opening to `to` (any distance away).
@@ -286,11 +275,11 @@ function begin(to) {
   ctx = { to, fwd, lo, hi, t: fwd ? 0 : 1 };
   if (spread) {
     // Leaf: front is the right page of the lower opening, back is the left page of the higher.
-    fill(fFront, R(lo), false); fill(fBack, L(hi), false);
+    fill(fFront, R(lo)); fill(fBack, L(hi));
     fill(sL, L(lo)); sL.hidden = L(lo) === null;
     fill(sR, R(hi)); sR.hidden = R(hi) === null;
   } else {
-    fill(fFront, lo, false); fill(fBack, null);
+    fill(fFront, lo); fill(fBack, null);
     fill(sR, hi); sR.hidden = false;
   }
   leaf.hidden = false;
@@ -333,18 +322,10 @@ function play(target, ms, done) {
 
 function finishNow() { if (ctx) { cancelAnimationFrame(anim); anim = 0; end(ctx.goal ?? (ctx.fwd ? ctx.t >= .5 : ctx.t <= .5)); } }
 
-function decoded(pages) {
-  return Promise.race([
-    Promise.all(pages.filter(p => p !== null).map(p => { const i = new Image(); i.src = pImg(p); return i.decode().catch(() => {}); })),
-    new Promise(r => setTimeout(r, 600))]);
-}
-
-async function turnTo(to) {
+function turnTo(to) {
   finishNow();
   to = Math.max(0, Math.min(last(), to));
   if (to === view) return;
-  const need = spread ? [L(to), R(to), R(Math.min(view, to)), L(Math.max(view, to))] : [to];
-  await decoded(need);
   begin(to);
   play(ctx.fwd ? 1 : 0, Math.abs(to - view) > 1 ? 900 : 760, true);
 }
@@ -381,7 +362,8 @@ function release(e) {
   const p = press; press = null; book.classList.remove("dragging");
   if (!p.dragging) {
     if (e.type === "pointercancel") return;
-    const hot = p.target.closest && p.target.closest(".hot");
+    if (p.target.closest("a")) return; // a link on the page opens as a link
+    const hot = p.target.closest("[data-go]");
     if (hot) { goPage(+hot.dataset.go); return; }
     const half = spread ? pw : pw / 2;
     go(p.rel >= half ? 1 : -1);
@@ -395,7 +377,7 @@ book.addEventListener("pointerup", release);
 book.addEventListener("pointercancel", release);
 book.addEventListener("dragstart", e => e.preventDefault());
 // Keyboard users reach the contents lines as buttons; Enter on one jumps.
-book.addEventListener("click", e => { const h = e.target.closest(".hot"); if (h && e.detail === 0) goPage(+h.dataset.go); });
+book.addEventListener("click", e => { if (e.target.closest("a")) e.stopPropagation(); });
 
 document.getElementById("prev").onclick = () => go(-1);
 document.getElementById("next").onclick = () => go(1);
@@ -410,6 +392,13 @@ const jump = document.getElementById("jump");
 TITLES.forEach((t, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${i + 1} · ${t}`; jump.appendChild(o); });
 jump.onchange = () => goPage(+jump.value);
 function markToc(ps) { jump.value = ps[0]; }
+
+/* ---- print ---- */
+document.getElementById("print").onclick = () => {
+  const pb = document.getElementById("printbook");
+  if (!pb.childElementCount) pb.innerHTML = GUIDE.map((_, i) => pageHTML(i)).join("");
+  window.print();
+};
 
 /* ---- size and mode ---- */
 function relayout() {
