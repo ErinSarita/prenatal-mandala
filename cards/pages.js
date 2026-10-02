@@ -66,8 +66,32 @@
   // Contents (filled in once every page exists)
   add("Contents", "contents", n => contents(n));
 
-  // Frontispiece: the whole mandala, large, on the left, facing the Welcome
-  // so it can be seen while the Welcome is read.
+  // The mandala on the right, and its key facing it on the left, with the
+  // way to the interactive mandala.
+  const quad = (a, b, name, sub) => `<div class="q">${wheel(a, b).replace('class="wheel"', 'class="qw"')}<div><b>${name}</b><span>${sub}</span></div></div>`;
+  add("Key to the mandala", "key", n => `
+    <div class="eb">The mandala · Key</div>
+    <h1>Key to the mandala</h1>
+    <div class="lab">The rings, from the center out</div>
+    <ul class="rings">
+      <li><span class="dot" style="background:#E35F43"></span><b>The center.</b> The Seed of Life holds the place of your baby.</li>
+      <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The child.</b> Her growth, and what she may be sensing.</li>
+      <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, hormones, and feelings.</li>
+      <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints and what helps.</li>
+      <li><span class="dot" style="background:#E35F43"></span><b>Connecting and healing.</b> The outer petals: practices for you and your baby.</li>
+    </ul>
+    <div class="lab">Around the circle, clockwise from the top</div>
+    <div class="quads">
+      ${quad(0, 3, "First trimester", "Months 1 to 3")}
+      ${quad(3, 6, "Second trimester", "Months 4 to 6")}
+      ${quad(6, 9, "Third trimester", "Months 7 to 9")}
+      ${quad(9, 12, "Birth", "Labor, birth, first hour")}
+    </div>
+    <p class="tight"><b>The outer edge</b> counts the forty weeks, from week 1 at the top. <b>The braid</b> of three strands, for child, mother, and educator, holds the circle together.</p>
+    <div class="box blush"><p><b>See it come alive.</b> The interactive mandala opens every month in detail, and with a due date entered it shows today, the birth window, and the moons of your pregnancy.<br><a href="../">erinsarita.github.io/prenatal-mandala</a></p></div>
+    ${foot(n)}`);
+
+  // Frontispiece: the whole mandala, large, on a right-hand page.
   add("The mandala", "frontis", () => `
     <div class="eb center">The Pregnancy and Birth Mandala</div>
     <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>`);
@@ -162,24 +186,6 @@
       <p><b>Write it down.</b> A small journal beside the deck can hold what you notice and what surfaces.</p>
       <p><b>Ask for help.</b> If a practice stirs more than you can hold, page ${no("People who can walk with you")} lists people who can help.</p>
     </div>
-    ${foot(n)}`);
-
-  add("Reading the mandala", "", n => `
-    <div class="eb">Reading the mandala</div>
-    <h1>From the center out</h1>
-    <p>The circle begins at the top with the first day of the last period and moves clockwise through three trimesters of three months each. The last quarter is birth: labor, the birth itself, and the first hour.</p>
-    <ul class="rings">
-      <li><span class="dot" style="background:#E35F43"></span><b>The center.</b> The Seed of Life, a pattern linked with creation and beginnings, holds the place of your baby.</li>
-      <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The child.</b> Her growth and what she may be sensing, month by month.</li>
-      <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, hormones, and feelings.</li>
-      <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints, what helps, and ways to build resilience, through the pre- and perinatal lens. On the cards, this is "Good to know."</li>
-      <li><span class="dot" style="background:#E35F43"></span><b>Connecting and healing.</b> Practices for you and your baby, and for your own earliest stories.</li>
-    </ul>
-    <hr>
-    <p class="tight"><b>The time wheel</b> counts the forty weeks. With a date entered online, it shows today and the birth window, from 37 to 42 weeks.</p>
-    <p class="tight"><b>The ten moons</b> mark the true full and new moons of your pregnancy, an old way of counting its length.</p>
-    <p class="tight"><b>The braid</b> of three strands, for child, mother, and educator, holds the whole circle together.</p>
-    <div class="box blush"><p><b>Explore the full mandala online</b> to read every month in detail and see your own moons: <a href="../">erinsarita.github.io/prenatal-mandala</a></p></div>
     ${foot(n)}`);
 
   /* ---- the four parts and twelve months ---- */
@@ -439,9 +445,9 @@
 
   /* ---- the contents page, built from the pages themselves ---- */
   const GROUPS = [
-    ["Beginning", ["Welcome"]],
+    ["Beginning", ["Key to the mandala", "Welcome"]],
     ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Why it matters", "How each month is read"]],
-    ["Using this guide", ["Using the cards", "Reading the mandala"]],
+    ["Using this guide", ["Using the cards"]],
     ["Part one · The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
     ["Part three · The third trimester", [PART_TITLES[2], ...MONTHS.slice(6, 9).map(m => m[1])]],

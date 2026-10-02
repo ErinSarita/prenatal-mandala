@@ -218,3 +218,11 @@
 .pg .htt{font-size:32px;line-height:1.15;text-align:center;margin:0}
 .pg.halftitle .dash{margin:22px auto 16px}
 .pg .hts{font-family:Marcellus,Georgia,serif;font-size:15px;color:var(--coralpg)}
+
+/* key to the mandala */
+.pg.key ul.rings li{margin-bottom:5px}
+.pg .quads{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin:2px 0 12px}
+.pg .q{display:flex;gap:10px;align-items:center}
+.pg .qw{width:40px;height:40px;flex:none}
+.pg .q b{display:block;font-family:Marcellus,Georgia,serif;font-weight:400;font-size:15px;color:var(--coralpg);line-height:1.2}
+.pg .q span{font-size:11.5px;color:var(--mutedpg)}
