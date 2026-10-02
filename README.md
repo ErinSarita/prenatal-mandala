@@ -1,4 +1,4 @@
-# The Prenatal Mandala
+# The Pregnancy and Birth Mandala
 
 A teaching map of pregnancy and birth, read from the center out: the child, the mother, the educator, and practices for connecting with the prenate.
 
