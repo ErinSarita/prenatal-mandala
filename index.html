@@ -222,7 +222,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <h3>When to share it</h3>
     <p>The mandala is best understood as a whole before birth, and it can be used alongside the pregnancy as each phase unfolds. An educator might offer it in quarters: begin the first quarter as early as possible, and introduce each trimester shortly before it begins, around weeks 10 to 13 for the second and weeks 24 to 27 for the third. Share the birth quarter in the early to middle third trimester, around weeks 28 to 34, so the family has time to practice and plan well before the birth window opens at 37 weeks.</p>
     <h3>When the unexpected happens</h3>
-    <p>Pregnancy and birth do not always go as planned. Whether a hard experience becomes trauma often depends less on what happened than on how it was lived through: whether the mother felt informed, supported, respected, and part of the decisions. The same turn of events can be held as overwhelming or as something met and moved through. Perception is shaped by support, so resilience can be built ahead of time.</p>
+    <p>Pregnancy and birth do not always go as planned. Whether a hard experience becomes trauma often depends less on what happened than on how it was lived through: whether the mother felt informed, supported, respected, and part of the decisions. The same turn of events can be held as overwhelming or as something met and moved through. Perception is shaped by support, so resilience can be built ahead of time. The educator ring carries these practices month by month, under Building resilience, at the point in the pregnancy where each one fits.</p>
     <ul class="refs">
       <li><b>Prepare for flexibility, not fear.</b> Exploring other paths, such as a longer labor, an induction, or a cesarean, lets a family meet a change as a choice rather than a collapse of the plan.</li>
       <li><b>Keep her in the decisions.</b> Knowing she can ask questions, take a moment, and say yes or no helps her stay the one choosing, even when plans change (MFCI).</li>
@@ -355,6 +355,7 @@ const EDUCATOR = [
   {imp:"The mother's own unresolved history, and the chemistry of her states reaching the baby.",
    teach:"Fetal programming: nourishment, rest, and stress shape lifelong health (Nathanielsz), offered as encouragement, never as blame. Models of care: technocratic, humanistic, and holistic (Davis-Floyd), and the Mother-Friendly Childbirth Initiative.",
    best:"Create a safe, trauma-informed space where she can share her history if she chooses, without probing, and refer her to a therapist or other professional when more support is needed. Share information about models of care so she can choose the one that fits her.",
+   res:"Screenings can bring unexpected news. Help her stay informed and part of each decision, and give the feelings room before any choice is made.",
    src:"Seng & Taylor (2015); Nathanielsz; Davis-Floyd (2022); MFCI"},
   {imp:"Whether her movements are noticed and met.",
    teach:"Bonding before birth. The baby is aware and communicating, and her movements are her way of telling her story (Strange).",
@@ -363,6 +364,7 @@ const EDUCATOR = [
   {imp:"The sound world of the home: music, laughter, and raised voices. Offspring in Ham and Klimo's study recalled all three.",
    teach:"The baby can hear. Ham and Klimo describe a father whose \"hoo, hoo\" game from the fifth month led his newborn to stop nursing and turn toward his voice.",
    best:"Coach partners to talk, sing, and play with the baby. Encourage repair after loud or tense moments.",
+   res:"The anatomy scan can bring unexpected findings. Help the family ask what a result means and what the options are, and remind them they can take time before deciding.",
    src:"Ham & Klimo (2000); Strange"},
   {imp:"The emotional climate over time: ongoing tension or neglect, or warmth and contact (Raffai).",
    teach:"Everyone brings a birth story into the birth room (Emerson). Grounding and oxytocin moments as everyday regulation the baby feels (Strange). A teachable moment for the educator to share or hold, as fits the family: from about 24 weeks, a baby born early may survive with intensive care.",
@@ -371,26 +373,32 @@ const EDUCATOR = [
   {imp:"Fear in the room: the mother's, the family's, and a practitioner's past cases.",
    teach:"Buckley's four hormone systems of birth and what helps them flow. Mother-friendly rights in labor: companions, freedom to move, food and drink.",
    best:"Help plan the birth space and who will advocate. Buckley recommends a doula as an advocate at a hospital birth.",
+   res:"Begin preparing for flexibility, not fear. Explore other paths, such as a longer labor, an induction, or a cesarean, so a change can be met as a choice rather than a collapse of the plan.",
    src:"Emerson; Buckley (2003); MFCI"},
   {imp:"Position, and how decisions are made about a breech baby.",
    teach:"With a skilled provider, vaginal breech birth is again an option for some mothers (Fischbein and Freeze). Continuous monitoring in low-risk labors is linked to about 20 percent more cesareans.",
    best:"Suggest a baby doula, someone who follows the baby's journey through birth (Strange). Plan help for the weeks after birth.",
+   res:"Practice how she will stay in the decisions: asking about benefits, risks, and alternatives, taking a moment, and saying yes or no (MFCI). A breech or position decision is a good place to rehearse this.",
    src:"Fischbein & Freeze (2018); MFCI; Strange"},
   {imp:"Timing and who is in charge. Induction and augmentation can interrupt the natural rhythm of birth, and babies may feel interrupted or intruded upon.",
    teach:"The ARRIVE trial and elective induction at 39 weeks. Synthetic oxytocin and postpartum mood (Kroll-Desrosiers).",
    best:"Support informed, unhurried decisions about induction. Share antenatal colostrum expression after 37 weeks, with the provider's approval (Singh).",
+   res:"Plan continuous support: who will stay with her through anything unexpected (Buckley; Seng and Taylor). Talk through what she would want if labor needs to be induced or plans change.",
    src:"Buckley (2003); ARRIVE trial review; Kroll-Desrosiers et al. (2017); Singh et al. (2009)"},
   {imp:"Interruption: induction, augmentation, and routine interventions.",
    teach:"Undisturbed birth: privacy, safety, and not being watched (Buckley). Labor is a part of nature, and walking and eating belong in it (Gaskin).",
    best:"Guard the space: dim light, quiet, and only people the parents know and trust (Verny). No routine procedures without a reason (MFCI). Practitioners tend to their own birth stories and past cases (Emerson).",
+   res:"If plans change in labor, support helps her stay present: a companion who stays, clear explanations, and a pause for her yes or no. Remind her she can tell the baby what is happening.",
    src:"Buckley (2003); Gaskin; Verny; MFCI; Emerson"},
   {imp:"Every physiological birth event leaves a psychological imprint (Verny). Harsh lights, noise, routine suctioning, and tight wrapping. IV narcotics may leave a baby drowsy or out of touch.",
    teach:"Words anyone can say to the baby: \"You are out now. You made it. You are safe.\" (Strange)",
    best:"Gentle cesarean when surgery is needed, and delayed cord clamping (Davis-Floyd).",
+   res:"If the birth takes an unexpected turn, such as a cesarean or a separation, the baby can be told what is happening, held close as soon as possible, and offered repair words afterward (Strange).",
    src:"Verny; Buckley (2003); Strange; Davis-Floyd (2022)"},
   {imp:"Welcome or separation. Verny cites research where birth complications combined with early maternal rejection were linked to later violence.",
    teach:"Humanistic care keeps mother and baby together. Taking the baby to a nursery for bathing is not part of this model (Davis-Floyd).",
    best:"Protect skin to skin, breastfeeding, and rooming-in (MFCI). If the birth was hard, help the family tell the baby the story afterward (Strange).",
+   res:"In the days after, help her tell the story and be heard, especially if it was hard. Watch for lingering distress, such as flashbacks, numbness, or avoidance, and refer to trauma-informed or perinatal mental health support (Seng and Taylor).",
    src:"Verny; Davis-Floyd (2022); MFCI; Strange"}
 ];
 
@@ -914,7 +922,7 @@ function select(phase, ring, idx, user){
       <div class="lane l-child${hl("child",i)}"><h4>${sw("--child")}The child</h4><p>${c.grow}</p><p class="take">${c.take}</p></div>
       <div class="lane l-mother${hl("mother",i)}"><h4>${sw("--mother")}The mother</h4><p>${m.body}</p><p>${m.heart}</p></div>
       <div class="lane l-edu${hl("support",i)}"><h4>${sw("--support")}The educator</h4>
-        <p><b>Possible imprints.</b> ${e.imp}</p><p><b>Teach.</b> ${e.teach}</p><p><b>Best practices.</b> ${e.best}</p>
+        <p><b>Possible imprints.</b> ${e.imp}</p><p><b>Teach.</b> ${e.teach}</p><p><b>Best practices.</b> ${e.best}</p>${e.res?`<p><b>Building resilience.</b> ${e.res}</p>`:""}
         <p class="src">${e.src}</p></div>
     </article>`;
   }).join("");
