@@ -140,6 +140,7 @@ svg.dimming .cell.off{opacity:.28}
 .ring p{margin:0}
 .ring ul{margin:0;padding-left:20px;display:grid;gap:6px}
 #r-practice h4{border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
+.support{background:color-mix(in srgb, var(--support) 12%, transparent);border-radius:10px;padding:10px 12px;font-size:14.5px}
 .mcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:14px;scroll-margin-top:16px}
 .mcard.cur{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .mt{font-family:var(--display);font-size:24px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
@@ -405,6 +406,9 @@ const HEALING = [
     "<b>Repair together.</b> As the family tells the baby her story, the parents can offer the same kindness to the younger selves in their own stories (Strange)."],
    src:"Strange; Seng & Taylor (2015); Kroll-Desrosiers et al. (2017)"}
 ];
+
+// where to turn when this work needs more than reflection; the same note closes each phase
+const HEALING_SUPPORT = "Professionals who do this work include pre- and perinatal (PPN) practitioners and therapists, trauma-informed psychotherapists, perinatal mental health specialists (such as those certified through Postpartum Support International), somatic therapists, and doulas or birth story listeners. Modalities often used include prenatal and birth therapy in the tradition of Castellino and Emerson, Somatic Experiencing, EMDR, craniosacral therapy, and birth story listening. An educator can help a family find the right fit, and refers on whenever feelings feel too big to hold alone.";
 
 const PRACTICE = [
   {items:[
@@ -910,7 +914,8 @@ function select(phase, ring, idx, user){
       ${ul(pr.items)}<p class="src">${pr.src}</p>
       <h4>Healing for the mother and partner</h4>
       <p class="about">Pregnancy can stir the parents' own earliest stories: their conception, their time in the womb, and their own birth. Exploring them gently can bring healing, for themselves and for the baby.</p>
-      ${ul(HEALING[s].items)}<p class="src">${HEALING[s].src}</p></div>`;
+      ${ul(HEALING[s].items)}<p class="src">${HEALING[s].src}</p>
+      <p class="support"><b>If more support is needed.</b> ${HEALING_SUPPORT}</p></div>`;
   const target = idx!=null ? document.getElementById("mo-"+idx) : ring==="practice" ? document.getElementById("r-practice") : null;
   if(!user){} else if(target && window.matchMedia("(max-width:900px)").matches===false){
     const rect=target.getBoundingClientRect(); if(rect.top<0||rect.top>window.innerHeight*0.7) target.scrollIntoView({behavior:"smooth",block:"start"});
