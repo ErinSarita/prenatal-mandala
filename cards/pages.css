@@ -121,3 +121,14 @@
 .pg.circle .eb+.entry{margin-top:4px}
 .pg.contents .lab{margin:7px 0 1px}
 .pg.contents ul.toc li{line-height:1.38}
+.pg .ring{display:flex;gap:10px;align-items:center;margin:10px 0 2px;padding:8px 10px;background:var(--blushpg);border-radius:10px}
+.pg .ringicon{width:34px;height:34px;flex:none}
+.pg .rname{font-family:Marcellus,Georgia,serif;font-size:15.5px;color:var(--coralpg);line-height:1.2}
+.pg .rhint{font-size:10.5px;color:var(--mutedpg);line-height:1.35}
+.pg .ring+.entry{border-top:0}
+.pg.circle h1{font-size:30px;text-wrap:nowrap}
+.pg.circle .row{height:24px}
+.pg.circle .row label{padding-top:9px}
+.pg.circle .entry{padding:6px 0 5px 30px}
+.pg.circle .enum{top:8px}
+.pg.circle .ring{margin:6px 0 0}

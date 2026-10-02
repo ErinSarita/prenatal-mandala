@@ -325,24 +325,37 @@
     <div class="box blush"><p>An educator can help you find the right fit. Choose people who listen, who leave you feeling safe, and who let you set the pace. Keep their details on the next two pages.</p></div>
     ${foot(n)}`);
 
-  // Two pages to fill in by hand: the people and modalities she has found.
-  const entry = k => `
+  // Two pages to fill in by hand, in three rings around her: the people
+  // who care for her body, the people who love her, and the pre- and
+  // perinatal support she finds.
+  const ringIcon = k => {
+    const r = [14, 24, 34], c = ["#FCA59B", "#EE8A73", "#E35F43"];
+    return `<svg class="ringicon" viewBox="-36 -36 72 72" aria-hidden="true">${r.map((rr, i) =>
+      `<circle r="${rr}" fill="none" stroke="${i === k ? c[i] : "#F1D3CC"}" stroke-width="${i === k ? 7 : 4}"/>`).join("")}<circle r="5" fill="#E35F43"/></svg>`;
+  };
+  const ring = (k, name, hint) => `<div class="ring">${ringIcon(k)}<div><div class="rname">${name}</div><div class="rhint">${hint}</div></div></div>`;
+  const entry = (k, role) => `
     <div class="entry">
       <div class="enum">${k}</div>
-      <div class="row two"><label>Name</label><label>Profession</label></div>
+      <div class="row two"><label>Name</label><label>${role}</label></div>
       <div class="row"><label>Contact</label></div>
       <div class="row"><label></label></div>
     </div>`;
-  add("My circle of support", "circle", n => `
+  add("My circles of support", "circle", n => `
     <div class="eb">Going deeper with support</div>
-    <h1>My circle of support</h1>
-    <p class="muted">The practitioners, educators, and modalities you find, kept in one place for when you need them.</p>
-    ${[1, 2, 3, 4, 5, 6].map(entry).join("")}
+    <h1>My circles of support</h1>
+    <p class="muted">Three rings of people around you and your baby.</p>
+    ${ring(0, "Ring one · Care providers", "Midwife, doctor, doula, lactation consultant, pediatrician")}
+    ${[1, 2, 3].map(k => entry(k, "Profession")).join("")}
+    ${ring(1, "Ring two · Family and friends", "The people who will cook, listen, hold the baby, and hold you")}
+    ${[4, 5, 6].map(k => entry(k, "Relationship")).join("")}
     ${foot(n)}`);
-  add("My circle of support, continued", "circle", n => `
-    <div class="eb">My circle of support · Continued</div>
-    ${[7, 8, 9, 10, 11, 12].map(entry).join("")}
+  add("My circles of support, continued", "circle", n => `
+    <div class="eb">My circles of support · Continued</div>
+    ${ring(2, "Ring three · Pre- and perinatal support", "Pre- and perinatal practitioners and educators, prenatal and birth therapy, Somatic Experiencing, craniosacral therapy, birth story listening, bonding programs")}
+    ${[7, 8, 9, 10, 11, 12].map(k => entry(k, "Modality")).join("")}
     <div class="row"><label>Notes</label></div>
+    <div class="row"><label></label></div>
     <div class="row"><label></label></div>
     ${foot(n)}`);
 
@@ -406,7 +419,7 @@
     ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
     ["Part three · The third trimester", [PART_TITLES[2], ...MONTHS.slice(6, 9).map(m => m[1])]],
     ["Part four · Birth", [PART_TITLES[3], ...MONTHS.slice(9, 12).map(m => m[1])]],
-    ["Going deeper", ["The heart of the practices", "People who can walk with you", "My circle of support", "Help, reading, and sources", "Notes"]]];
+    ["Going deeper", ["The heart of the practices", "People who can walk with you", "My circles of support", "Help, reading, and sources", "Notes"]]];
   function contents(n) {
     return `
     <div class="eb">Contents</div>
