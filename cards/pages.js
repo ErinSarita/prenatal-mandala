@@ -147,10 +147,10 @@
 
   // Cover
   add("Cover", "cover hard", () => `
-    <div class="eb center gilt">A guide to the twelve cards</div>
+    <div class="eb center gilt">Twelve cards for pregnancy and birth</div>
     <div class="stamp">${foilMandala()}</div>
     <h1 class="covt gilt">The Pregnancy<br>and Birth Mandala</h1>
-    <p class="covs">From the first days to the first hour</p>
+    <p class="covs">Companion book to the card deck</p>
     <div class="dash"></div>
     <p class="covlens">Through the lens of pre- and perinatal education</p>
     <p class="foil">Erin Singleton</p>`);
@@ -160,10 +160,10 @@
   // right-hand page. First the half-title, then the contents on its own with
   // a blank page facing it, then the mandala facing the Welcome.
   add("Half-title", "halftitle", () => `
-    <div class="eb center">A guide to the twelve cards</div>
+    <div class="eb center">Twelve cards for pregnancy and birth</div>
     <h1 class="htt">The Pregnancy<br>and Birth Mandala</h1>
     <div class="dash"></div>
-    <p class="hts">From the first days to the first hour</p>`);
+    <p class="hts">Companion book to the card deck</p>`);
   add("Blank", "blank", () => "");
 
   // Contents (filled in once every page exists)
