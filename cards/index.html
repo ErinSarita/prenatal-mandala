@@ -120,6 +120,14 @@ select:hover{border-color:var(--rose)}
 .mini[aria-pressed="true"] img{outline-color:var(--gold);transform:translateY(-5px)}
 .mini span{font-size:11px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 
+.printcards{max-width:880px;margin:8px auto 0;width:100%;background:var(--white);border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.pc-head{display:flex;flex-direction:column;gap:2px}
+.pc-head b{font-family:var(--display);font-weight:400;font-size:20px}
+.pc-head span{font-size:14px;color:var(--muted)}
+.pc-links{display:flex;gap:10px;flex-wrap:wrap}
+.pc-steps{margin:0;padding-left:20px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.pc-steps b{color:var(--ink);font-weight:600}
+
 /* ----------------------------------------------------------------- viewer */
 .viewer{background:var(--blush);border-radius:28px;padding:28px clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
 .viewer[hidden]{display:none}
@@ -224,6 +232,18 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
     </div>
     <div class="deck" id="deck"></div>
     <div class="groups" aria-hidden="true"><span>First trimester</span><span>Second trimester</span><span>Third trimester</span><span>Birth</span></div>
+    <div class="printcards">
+      <div class="pc-head"><b>Print your own deck</b><span>Fronts and backs line up when printed double-sided, so each card is ready to cut out.</span></div>
+      <div class="pc-links">
+        <a class="btn" href="pdf/cards-large.pdf" download="Pregnancy and Birth Mandala cards, large.pdf">Large cards · 5 × 8 in · 6 sheets</a>
+        <a class="btn" href="pdf/cards-standard.pdf" download="Pregnancy and Birth Mandala cards, standard.pdf">Standard cards · 3.3 × 5 in · 3 sheets</a>
+      </div>
+      <ol class="pc-steps">
+        <li>Print on US Letter, <b>double-sided</b>, <b>flip on long edge</b> (usually the default).</li>
+        <li>Set the scale to <b>actual size (100%)</b>, not "fit to page", so the backs land behind the fronts.</li>
+        <li>Cut along the small corner marks. Heavier paper or card stock makes a sturdier deck, and a corner punch rounds the corners.</li>
+      </ol>
+    </div>
   </section>
 
   <section class="viewer" id="viewer" aria-live="polite" hidden>

@@ -7,3 +7,5 @@ Created by Erin Singleton, a student in APPPAH's Prenatal & Perinatal Educator c
 The mandala is the single file `index.html`. The guidebook and the twelve cards live in `cards/`: the guidebook is written as text in `cards/pages.js` and styled by `cards/pages.css`, so it can be edited and printed. Both are served with GitHub Pages.
 
 The guidebook's PDFs, one per cover style, are made by `cards/build-pdf.py` (headless Chrome, exactly 5.5 × 8.5 inches) and saved in `cards/pdf/`. Run it again after changing the guidebook: `python3 cards/build-pdf.py`.
+
+The printable cards, `cards/pdf/cards-large.pdf` and `cards/pdf/cards-standard.pdf`, are made by `cards/build-cards-pdf.py` from the card images. Printed double-sided on US Letter with "flip on long edge" at actual size, each back lands behind its front.
