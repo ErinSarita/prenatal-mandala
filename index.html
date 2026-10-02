@@ -386,24 +386,24 @@ const EDUCATOR = [
 // Healing for the mother and partner: pregnancy can stir the parents' own earliest stories
 const HEALING = [
   {items:[
-    "<b>Explore her own conception.</b> What does she know about how she came to be, and how the news of her was received? She might ask her mother or family, or simply reflect and write.",
-    "<b>Notice what surfaces.</b> Pregnancy can bring a mother closer to her own childhood and let buried feelings rise (Davis-Floyd). Meet them gently, and seek trauma-informed support when they are big (Seng and Taylor).",
-    "<b>For the partner.</b> The same questions belong to the partner: their own conception, and how they were welcomed."],
+    "<b>Explore your own conception.</b> What do you know about how you came to be, and how the news of you was received? You might ask your mother or family, or simply reflect and write.",
+    "<b>Notice what surfaces.</b> Pregnancy can bring you closer to your own childhood and let buried feelings rise (Davis-Floyd). Meet them gently, and seek trauma-informed support when they feel big (Seng and Taylor).",
+    "<b>For your partner.</b> The same questions belong to your partner: their own conception, and how they were welcomed."],
    src:"Davis-Floyd (2022); Seng & Taylor (2015); Chamberlain"},
   {items:[
-    "<b>Learn her own birth story.</b> Ask her mother, family, or records how she was born: the length of labor, who was there, and whether she was kept close or taken away.",
-    "<b>Her time in her mother's womb.</b> Reflect on what her mother's pregnancy was like: calm, stressful, a time of loss or conflict. Hold these possible imprints with compassion for her mother too.",
-    "<b>For the partner.</b> Everyone brings a birth story into the birth room (Emerson). The partner can explore theirs as well."],
+    "<b>Learn your own birth story.</b> Ask your mother, family, or records how you were born: the length of labor, who was there, and whether you were kept close or taken away.",
+    "<b>Your time in your mother's womb.</b> Reflect on what her pregnancy with you was like: calm, stressful, a time of loss or conflict. Hold these possible imprints with compassion for her too.",
+    "<b>For your partner.</b> Everyone brings a birth story into the birth room (Emerson). Your partner can explore theirs as well."],
    src:"Emerson; Raffai (2021); Strange"},
   {items:[
-    "<b>Trace fears back to their roots.</b> Fears about this birth often echo her own birth or her mother's. Naming where a fear comes from can soften its hold (Emerson).",
-    "<b>Tend earlier births.</b> If she has given birth before, give that story room to be told and heard before this one begins.",
-    "<b>Support for the partner.</b> Partners carry fears and birth stories too. Inviting them to speak keeps them from filling the birth room unspoken."],
+    "<b>Trace fears back to their roots.</b> Fears about this birth often echo your own birth or your mother's. Naming where a fear comes from can soften its hold (Emerson).",
+    "<b>Tend earlier births.</b> If you have given birth before, give that story room to be told and heard before this one begins.",
+    "<b>Make room for your partner.</b> Partners carry fears and birth stories too. Inviting them to speak keeps those fears from filling the birth room unspoken."],
    src:"Emerson; Buckley (2003); Seng & Taylor (2015)"},
   {items:[
-    "<b>Tell the birth story and be heard.</b> In the days and weeks after, both parents can tell the story of this birth to someone who listens without judgment, especially if it was hard.",
-    "<b>Notice old echoes.</b> Giving birth can stir memories of her own beginning. Gentle support, and care for her mood in the months after, help her heal alongside her baby (Kroll-Desrosiers).",
-    "<b>Repair together.</b> As the family tells the baby her story, the parents can offer the same kindness to the younger selves in their own stories (Strange)."],
+    "<b>Tell the birth story and be heard.</b> In the days and weeks after, you and your partner can each tell the story of this birth to someone who listens without judgment, especially if it was hard.",
+    "<b>Notice old echoes.</b> Giving birth can stir memories of your own beginning. Gentle support, and care for your mood in the months after, help you heal alongside your baby (Kroll-Desrosiers).",
+    "<b>Repair together.</b> As you tell your baby her story, offer the same kindness to the younger you in your own story (Strange)."],
    src:"Strange; Seng & Taylor (2015); Kroll-Desrosiers et al. (2017)"}
 ];
 
@@ -917,7 +917,7 @@ function select(phase, ring, idx, user){
       <p class="about">For the whole ${s<3?"trimester":"birth"}.</p>
       ${ul(pr.items)}<p class="src">${pr.src}</p>
       <h4>Healing for the mother and partner</h4>
-      <p class="about">Pregnancy can stir the parents' own earliest stories: their conception, their time in the womb, and their own birth. Exploring them gently can bring healing, for themselves and for the baby.</p>
+      <p class="about">Practices for the mother, and her partner, to explore in their own time. The educator can offer them; the exploring is theirs. Pregnancy can stir your own earliest stories: your conception, your time in the womb, and your own birth. Exploring them gently can bring healing, for you and for your baby.</p>
       ${ul(HEALING[s].items)}<p class="src">${HEALING[s].src}</p>
       <p class="support"><b>If more support is needed.</b> ${HEALING_SUPPORT}</p></div>`;
   const target = idx!=null ? document.getElementById("mo-"+idx) : ring==="practice" ? document.getElementById("r-practice") : null;
