@@ -269,3 +269,52 @@
 .pg.backcover.hard .stamp.small{width:160px;height:160px;margin:62px 0 32px}.pg.backcover.hard .stamp.small svg{width:160px;height:160px;display:block}
 .pg ul.rings svg.sym{width:18px;height:18px;top:0;left:-1px}
 .pg ul.rings svg.sym{width:21px;height:21px;top:-1px;left:-2px}
+
+/* ---------------------------------------------------- cover style choices */
+/* The cover can be shown in several cloths while the design is being chosen.
+   The oat linen above is the default; each choice below restyles only the
+   covers and the boards. */
+
+/* Terracotta: the original cloth, with lettering in pale gold and cream */
+[data-cover^="terra"] .pg.hard{
+  background:
+    repeating-linear-gradient(0deg,rgba(255,240,230,.045) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(40,10,5,.07) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 90% at 30% 20%,#A54C3B,#8E3D2F 70%,#83372A)}
+[data-cover^="terra"] .pg.cover.hard::before{background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,230,220,.10) 55%,transparent)}
+[data-cover^="terra"] .pg.backcover.hard::before{background:linear-gradient(270deg,rgba(0,0,0,.22),rgba(255,230,220,.10) 55%,transparent)}
+[data-cover^="terra"] .pg.hard .gilt,[data-cover^="terra"] .pg.hard .foil{
+  background:linear-gradient(100deg,#C99A4E 0%,#F3DCA2 28%,#D9AE62 50%,#F6E3B0 72%,#C4924A 100%);
+  -webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 -1px 0 rgba(40,8,4,.55)) drop-shadow(0 1px 0 rgba(255,220,190,.18))}
+[data-cover^="terra"] .pg.cover.hard .covs{color:#F6D9CC}
+[data-cover^="terra"] .pg.cover.hard .covlens{color:#E9C1B2}
+[data-cover^="terra"] .pg.hard .dash{border-color:#D9AE62}
+[data-cover^="terra"] .pg.backcover.hard .backq{color:#F6D9CC}
+[data-cover^="terra"] .pg.backcover.hard .backs{color:#F3DCD3}
+[data-cover^="terra"] .pg.backcover.hard .backf{color:#E7C4B8}
+
+/* Terracotta, gold: the whole mandala in gold foil, a little smaller */
+[data-cover="terragold"] .foilmandala [fill^="url"]{fill:url(#foil-gold)}
+[data-cover="terragold"] .foilmandala [stroke^="url"]{stroke:url(#foil-gold)}
+[data-cover="terragold"] .pg.cover.hard .stamp{width:256px;height:256px;margin:26px 0 52px}
+[data-cover="terragold"] .pg.cover.hard .stamp svg{width:256px;height:256px}
+[data-cover="terragold"] .pg.backcover.hard .stamp.small{width:140px;height:140px;margin:72px 0 42px}
+[data-cover="terragold"] .pg.backcover.hard .stamp.small svg{width:140px;height:140px}
+
+/* Camel: a warm skin-toned cloth, lettering in deep bronze and cream */
+[data-cover="camel"] .pg.hard{
+  background:
+    repeating-linear-gradient(0deg,rgba(255,245,230,.08) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(70,40,15,.07) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 90% at 30% 20%,#D2AC7E,#BF9666 70%,#B2885A)}
+[data-cover="camel"] .pg.cover.hard::before{background:linear-gradient(90deg,rgba(60,30,10,.22),rgba(255,240,220,.18) 55%,transparent)}
+[data-cover="camel"] .pg.backcover.hard::before{background:linear-gradient(270deg,rgba(60,30,10,.22),rgba(255,240,220,.18) 55%,transparent)}
+[data-cover="camel"] .pg.hard .gilt,[data-cover="camel"] .pg.hard .foil{
+  background:linear-gradient(100deg,#5E3A14 0%,#8C6229 30%,#6B4419 52%,#93692E 74%,#5A3712 100%);
+  -webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 rgba(255,235,205,.45)) drop-shadow(0 -.5px 0 rgba(50,25,8,.35))}
+[data-cover="camel"] .pg.cover.hard .covs{color:#7E2E1F}
+[data-cover="camel"] .pg.cover.hard .covlens{color:#5E3D22}
+[data-cover="camel"] .pg.hard .dash{border-color:#7E5724}
+[data-cover="camel"] .pg.backcover.hard .backq{color:#3E2416}
+[data-cover="camel"] .pg.backcover.hard .backs{color:#4A2E1C}
+[data-cover="camel"] .pg.backcover.hard .backf{color:#5E3D22}
