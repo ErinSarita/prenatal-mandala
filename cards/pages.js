@@ -43,47 +43,69 @@
     salmon: ["#C55A43", "#F8AA93", "#D46C53", "#FDBBA6", "#D7705A", "#F4A28B", "#BE553F"],
     pink: ["#D9786C", "#FBC4B9", "#E68E82", "#FFD2C9", "#E89286", "#F9BFB3", "#D27367"],
     peach: ["#E9AE9E", "#FBE3DA", "#F2BFB1", "#FFEAE3", "#F1C0B2", "#FADBD1", "#E5A797"],
-    rose: ["#A9705C", "#EBC6B2", "#B87F69", "#F4D6C5", "#BA826C", "#E6BEA9", "#A26A57"]};
+    rose: ["#A9705C", "#EBC6B2", "#B87F69", "#F4D6C5", "#BA826C", "#E6BEA9", "#A26A57"],
+    gold: ["#8E6526", "#D9B36A", "#A47630", "#E6C887", "#AE8139", "#D4AA5E", "#8A6124"]};
   // The shapes are drawn twice from one plan: once in foil, and once as a
   // stencil whose gaps are black, so the gaps are cut clean through and the
-  // cloth shows between the shapes, as it would under real foil.
+  // cloth shows between the shapes, as it would under real foil. Radii are
+  // taken from the mandala itself (its braid runs at 398).
   function foilShapes(mask) {
     const f = k => mask ? "#FFF" : `url(#foil-${k})`, GAP = mask ? "#000" : "none";
-    const pt = (r, a) => [(r * Math.sin(a)).toFixed(2), (-r * Math.cos(a)).toFixed(2)];
+    const pt = (r, a) => [+(r * Math.sin(a)).toFixed(2), +(-r * Math.cos(a)).toFixed(2)];
+    const P = (r, a) => pt(r, a).join(" ");
     const seg = i => [i / 12 * 2 * Math.PI, (i + 1) / 12 * 2 * Math.PI];
-    // a segment of a ring whose outer edge swells outward, as on the mandala
     const cell = (r0, r1, a0, a1, bulge) => {
       const m = (a0 + a1) / 2, c = r1 / Math.cos((a1 - a0) / 2) + bulge;
-      const [x0, y0] = pt(r0, a0), [x1, y1] = pt(r1, a0), [cx, cy] = pt(c, m), [x2, y2] = pt(r1, a1), [x3, y3] = pt(r0, a1);
-      return `M${x0} ${y0}L${x1} ${y1}Q${cx} ${cy} ${x2} ${y2}L${x3} ${y3}A${r0} ${r0} 0 0 0 ${x0} ${y0}Z`;
+      return `M${P(r0, a0)}L${P(r1, a0)}Q${P(c, m)} ${P(r1, a1)}L${P(r0, a1)}A${r0} ${r0} 0 0 0 ${P(r0, a0)}Z`;
+    };
+    // An outer petal: straight sides rising from the ring, corners rounded,
+    // meeting in a soft point at the middle of its segment.
+    const petal = (a0, a1) => {
+      const d = 0.03, m = (a0 + a1) / 2, b0 = a0 + d, b1 = a1 - d;
+      return `M${P(257, b0)}L${P(265, b0)}Q${P(273, b0)} ${P(275, b0 + 0.03)}` +
+        `Q${P(292, b0 + (m - b0) * 0.55)} ${P(301, m - 0.022)}Q${P(305, m)} ${P(301, m + 0.022)}` +
+        `Q${P(292, b1 - (b1 - m) * 0.55)} ${P(275, b1 - 0.03)}Q${P(273, b1)} ${P(265, b1)}` +
+        `L${P(257, b1)}A257 257 0 0 0 ${P(257, b0)}Z`;
     };
     let g = "";
-    // braid: two strands twisting round the whole circle
-    const strand = ph => { let d = ""; for (let k = 0; k <= 720; k++) { const a = k / 720 * 2 * Math.PI, r = 398 + 7 * Math.sin(66 * a + ph); const [x, y] = pt(r, a); d += (k ? "L" : "M") + x + " " + y; } return d + "Z"; };
-    g += `<path d="${strand(0)}" fill="none" stroke="${f("pink")}" stroke-width="6"/><path d="${strand(Math.PI)}" fill="none" stroke="${f("coral")}" stroke-width="5"/>`;
-    // time ring: a circle, a tick for every week, longer at weeks 1, 14, 28, 40
+
+    // The braid: a plait of three strands, drawn as two rows of slanted
+    // links that lean against each other, coral, pink, and peach in turn.
+    const N = 150, R = 398, strands = ["coral", "pink", "peach"];
+    for (let k = 0; k < N; k++) {
+      [[R + 3.4, 0, 1], [R - 3.4, 0.5, -1]].forEach(([rr, off, lean], row) => {
+        const a = (k + off) / N * 2 * Math.PI, [x, y] = pt(rr, a);
+        const deg = a * 180 / Math.PI + lean * 40;
+        g += `<ellipse cx="${x}" cy="${y}" rx="13.5" ry="4.8" transform="rotate(${deg.toFixed(2)} ${x} ${y})" fill="${f(strands[(k + row) % 3])}" stroke="${GAP}" stroke-width=".9"/>`;
+      });
+    }
+
+    // The time ring, in gold: a thin circle, a tick for each week, and longer
+    // ticks with a small diamond at weeks 1, 14, 28, and 40. Weeks 1 to 14
+    // fill the first quarter, 14 to 28 the second, 28 to 40 the third.
     const wk = w => (w <= 14 ? (w - 1) / 13 * 90 : w <= 28 ? 90 + (w - 14) / 14 * 90 : 180 + (w - 28) / 12 * 90) * Math.PI / 180;
-    g += `<circle r="330" fill="none" stroke="${f("rose")}" stroke-width="2.6"/>`;
-    { const a = wk(37), b = wk(40) + 2 * (wk(40) - wk(39)), [x0, y0] = pt(354, a), [x1, y1] = pt(354, b), [x2, y2] = pt(343, b), [x3, y3] = pt(343, a);
-      g += `<path d="M${x0} ${y0}A354 354 0 0 1 ${x1} ${y1}L${x2} ${y2}A343 343 0 0 0 ${x3} ${y3}Z" fill="${f("pink")}"/>`; }
+    g += `<circle r="310" fill="none" stroke="${f("gold")}" stroke-width="1.1" opacity=".8"/>`;
+    g += `<circle r="331" fill="none" stroke="${f("gold")}" stroke-width="1.8"/>`;
+    { const a = wk(37), b = wk(40) + 2 * (wk(40) - wk(39));
+      g += `<path d="M${P(327, a)}A327 327 0 0 1 ${P(327, b)}L${P(315, b)}A315 315 0 0 0 ${P(315, a)}Z" fill="${f("pink")}"/>`; }
     for (let w = 1; w <= 40; w++) {
       const major = [1, 14, 28, 40].includes(w), a = wk(w);
-      const [x0, y0] = pt(330, a), [x1, y1] = pt(major ? 358 : 341, a);
-      g += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${f("rose")}" stroke-width="${major ? 3.6 : 2.4}" stroke-linecap="round"/>`;
-      if (major) { const [dx, dy] = pt(366, a); g += `<rect x="${dx - 4.5}" y="${dy - 4.5}" width="9" height="9" transform="rotate(45 ${dx} ${dy})" fill="${f("rose")}"/>`; }
+      g += `<line x1="${pt(major ? 310 : 331, a)[0]}" y1="${pt(major ? 310 : 331, a)[1]}" x2="${pt(major ? 343 : 339, a)[0]}" y2="${pt(major ? 343 : 339, a)[1]}" stroke="${f("gold")}" stroke-width="${major ? 2.6 : 1.5}" stroke-linecap="round"/>`;
+      if (major) { const [dx, dy] = pt(350, a); g += `<rect x="${dx - 4}" y="${dy - 4}" width="8" height="8" transform="rotate(45 ${dx} ${dy})" fill="${f("gold")}"/>`; }
     }
+
     // outer petals, each with its small dot
     for (let i = 0; i < 12; i++) {
-      const [a0, a1] = seg(i), inset = 0.035;
-      g += `<path d="${cell(287, 338, a0 + inset, a1 - inset, 26)}" fill="${f("coral")}" stroke="${GAP}" stroke-width="5" stroke-linejoin="round"/>`;
-      const [x, y] = pt(326, (a0 + a1) / 2); g += `<circle cx="${x}" cy="${y}" r="4.5" fill="${mask ? "#000" : "none"}"/>`;
+      const [a0, a1] = seg(i);
+      g += `<path d="${petal(a0, a1)}" fill="${f("coral")}"/>`;
+      const [x, y] = pt(281, (a0 + a1) / 2); g += `<circle cx="${x}" cy="${y}" r="3.6" fill="${mask ? "#000" : "none"}"/>`;
     }
     // the three rings, outside in, so each inner edge sits over the next
-    [[212, 284, "salmon", 8], [140, 214, "pink", 10], [50, 142, "peach", 10]].forEach(([r0, r1, k, b]) => {
-      for (let i = 0; i < 12; i++) { const [a0, a1] = seg(i); g += `<path d="${cell(r0, r1, a0, a1, b)}" fill="${f(k)}" stroke="${GAP}" stroke-width="6.5" stroke-linejoin="round"/>`; }
+    [[201, 256, "salmon", 3], [138, 202, "pink", 4], [51, 139, "peach", 4]].forEach(([r0, r1, k, b]) => {
+      for (let i = 0; i < 12; i++) { const [a0, a1] = seg(i); g += `<path d="${cell(r0, r1, a0, a1, b)}" fill="${f(k)}" stroke="${GAP}" stroke-width="5" stroke-linejoin="round"/>`; }
     });
     // the center: the Seed of Life in a coral disc
-    g += `<circle r="52" fill="${f("coral")}" stroke="${GAP}" stroke-width="5"/><circle r="42" fill="none" stroke="${GAP}" stroke-width="2"/>`;
+    g += `<circle r="51" fill="${f("coral")}" stroke="${GAP}" stroke-width="5"/><circle r="42" fill="none" stroke="${GAP}" stroke-width="2"/>`;
     for (let k = -1; k < 6; k++) { const [x, y] = k < 0 ? [0, 0] : pt(14, k * Math.PI / 3); g += `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${GAP}" stroke-width="2"/>`; }
     return g;
   }
@@ -95,11 +117,22 @@
       ${Object.entries(FOILS).map(([k, c]) => `<linearGradient id="foil-${k}" gradientUnits="userSpaceOnUse" x1="-420" y1="-420" x2="420" y2="420">${stops(c)}</linearGradient>`).join("")}
       <mask id="foil-cut" maskUnits="userSpaceOnUse" x="-420" y="-420" width="840" height="840">${foilShapes(true)}</mask>
       <filter id="foil-shine" x="-5%" y="-5%" width="110%" height="110%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="1.6" result="b"/>
-        <feSpecularLighting in="b" surfaceScale="3" specularConstant=".6" specularExponent="30" lighting-color="#FFF6EE" result="s"><fePointLight x="-260" y="-420" z="380"/></feSpecularLighting>
-        <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
-        <feComposite in="SourceGraphic" in2="s2" operator="arithmetic" k1="0" k2="1" k3=".25" k4="0" result="lit"/>
-        <feDropShadow in="lit" dx="0" dy="1" stdDeviation=".6" flood-color="#5A2A20" flood-opacity=".35"/>
+        <!-- Pressed in, not raised: a shadow just inside each shape's upper
+             left edge, where the die pushed the cloth down, and a faint
+             catch of light inside the lower right edge. -->
+        <feOffset in="SourceAlpha" dx="1.6" dy="2" result="o1"/>
+        <feComposite in="SourceAlpha" in2="o1" operator="out" result="rim1"/>
+        <feGaussianBlur in="rim1" stdDeviation="1.1" result="rim1b"/>
+        <feFlood flood-color="#3A1A10" flood-opacity=".55"/>
+        <feComposite in2="rim1b" operator="in" result="shade"/>
+        <feOffset in="SourceAlpha" dx="-1.2" dy="-1.4" result="o2"/>
+        <feComposite in="SourceAlpha" in2="o2" operator="out" result="rim2"/>
+        <feGaussianBlur in="rim2" stdDeviation=".9" result="rim2b"/>
+        <feFlood flood-color="#FFF8F0" flood-opacity=".6"/>
+        <feComposite in2="rim2b" operator="in" result="catch"/>
+        <feComposite in="shade" in2="SourceAlpha" operator="in" result="shadeIn"/>
+        <feComposite in="catch" in2="SourceAlpha" operator="in" result="catchIn"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="shadeIn"/><feMergeNode in="catchIn"/></feMerge>
       </filter></defs></svg>`);
   }
   const foilMandala = () => `<svg class="foilmandala" viewBox="-420 -420 840 840" role="img" aria-label="The Pregnancy and Birth Mandala, stamped in foil"><g filter="url(#foil-shine)"><g mask="url(#foil-cut)">${foilShapes(false)}</g></g></svg>`;
