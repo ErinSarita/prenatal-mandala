@@ -347,7 +347,8 @@
       <li>Newborns' cries already carry the melody of the language spoken around them (Mampe and colleagues, 2009), and they recognize sounds heard often before birth (Partanen and colleagues, 2013).</li>
       <li>Mothers who sang lullabies through pregnancy and after birth reported a stronger bond, and their newborns cried less (Persico and colleagues, 2017).</li>
     </ul>
-    <p class="muted">Research cannot yet say how much of your meaning she receives. It does show that she is listening, learning your voice, and responding to it, and that speaking to her changes you as well.</p>
+    <p>There is an intelligence in her that we cannot fully grasp, and research cannot yet say how much of your meaning she receives. What we can see is what it brings: she listens, comes to know your voice, and responds, and speaking to her changes you as well.</p>
+    <p>That is where its importance lies. Each time you speak to her, the relationship grows. She is seen, she is heard, she is accounted for, and the connection you build becomes a resource you can both return to.</p>
     <div class="lab">How to begin</div>
     <p>Start small: good morning, her name, a hand on your belly. Tell her what you are about to do. Name what you feel: "I am worried today, and it is not about you." Invite your partner to speak to her too. Then pause, and notice. She may answer with a move.</p>
     <div class="box blush"><p>Each card offers words you can say to her. Take them as a starting place, and make them your own.</p></div>
