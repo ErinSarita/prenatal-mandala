@@ -152,6 +152,7 @@ svg.dimming .cell.off{opacity:.28}
 .take{font-style:italic}
 .src{font-size:12.5px;color:var(--muted)}
 .intro{display:grid;gap:14px}
+.center-msg + .intro{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .intro h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0;line-height:1.15}
 .intro p{margin:0;max-width:62ch}
 .legend{display:grid;gap:10px;margin:0;padding:0;list-style:none}
@@ -823,14 +824,13 @@ PHASES.forEach((ph,s)=>{
   const b=document.createElement("button"); b.className="tab"; b.type="button"; b.setAttribute("role","tab");
   b.textContent=ph.short; b.id="tab-"+ph.id; b.addEventListener("click",()=>select(s,null,null,true)); tabs.appendChild(b);
 });
-const ab=document.createElement("button"); ab.className="tab"; ab.type="button"; ab.setAttribute("role","tab"); ab.textContent="How to read"; ab.addEventListener("click",showIntro); tabs.prepend(ab);
+const ab=document.createElement("button"); ab.className="tab"; ab.type="button"; ab.setAttribute("role","tab"); ab.textContent="How to read"; ab.addEventListener("click",()=>showIntro()); tabs.prepend(ab);
 
 function sw(v){ return `<span class="sw" style="background:var(${v})"></span>`; }
 function ul(items){ return "<ul>"+items.map(i=>`<li>${i}</li>`).join("")+"</ul>"; }
 
-function showCenter(user){
-  sel={phase:null,ring:null,idx:null}; applySel(); markTabs();
-  panel.innerHTML=`<div class="center-msg">
+// the prenate at the heart opens How to read, so it is seen without having to find the center
+const CENTER_HTML=`<div class="center-msg">
     <div class="eyebrow">The center</div>
     <h2>The prenate at the heart</h2>
     <p>This mandala is centered on the prenate, the child growing within the womb. Every ring around her exists to understand and support her journey.</p>
@@ -838,14 +838,14 @@ function showCenter(user){
     <p>When the mother, her family, and her care team understand this journey, they can meet it with awareness and care. The mother is supported, the baby is welcomed, and both can move through pregnancy and birth with a deeper sense of connection, safety, and trust.</p>
     <p>This is the purpose of the mandala: to hold the whole journey in one view, so that whoever is looking at it, a mother, a partner, or an educator, keeps the child at the center.</p>
     <p class="sym">At the very center is the Seed of Life, seven circles often linked with creation and beginnings. Here it holds the place of the child, the seed from which the whole journey unfolds.</p>
-    <p><button class="btn" type="button" id="toIntro">How to read the mandala</button></p>
   </div>`;
-  document.getElementById("toIntro").addEventListener("click",showIntro);
+function showCenter(user){
+  showIntro();
   if(user && window.matchMedia("(max-width:900px)").matches) panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function showIntro(){
   sel={phase:null,ring:null,idx:null}; applySel(); markTabs();
-  panel.innerHTML=`<div class="intro">
+  panel.innerHTML=CENTER_HTML+`<div class="intro">
     <h2>Reading from the center out</h2>
     <p>We begin at the center with the child, the heart and focus of this whole journey, and move outward from her. Each ring is a layer within the same phase of the pregnancy, so reading straight out from any petal shows how the child, the mother, the educator, and the practices meet at that moment.</p>
     <ul class="legend">
@@ -960,7 +960,7 @@ document.getElementById("clear").addEventListener("click",()=>{ inp.value=""; se
 
 draw();
 let saved=null; try{ saved=localStorage.getItem("pm-edd"); }catch(e){}
-if(saved){ setEDD(saved,false); } else { setStatus(); select(1,"child",4); }
+if(saved){ setEDD(saved,false); } else { setStatus(); showIntro(); }
 setMode(mode,false);
 if(location.hash==="#intro") showIntro();
 
