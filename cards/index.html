@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Pregnancy and Birth Mandala</title>
-<meta name="description" content="A guidebook and twelve cards for pregnancy and birth, through the lens of pre- and perinatal education.">
+<meta name="description" content="A guidebook and card deck for pregnancy and birth, through the lens of pre- and perinatal education.">
 <link rel="icon" href="../favicon.ico?v=2" sizes="any">
 <link rel="icon" href="../favicon.svg?v=2" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=2">
@@ -155,7 +155,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
     <a class="back" href="../">&#8249; The mandala</a>
     <div class="eyebrow">Pre- and Perinatal Education</div>
     <h1>The Pregnancy and Birth Mandala</h1>
-    <p class="lede">A guidebook and twelve cards for pregnancy and birth, seen through the lens of pre- and perinatal education: your baby as a feeling, sensing participant from the first days to the first hour.</p>
+    <p class="lede">A guidebook and card deck for pregnancy and birth, seen through the lens of pre- and perinatal education: your baby as a feeling, sensing participant from the first days to the first hour.</p>
   </header>
 
   <section aria-label="Guidebook">
@@ -196,7 +196,7 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
   <section aria-label="Card deck">
     <div class="sechead">
       <div class="eyebrow">The deck</div>
-      <h2>Twelve cards</h2>
+      <h2>The cards</h2>
       <p>Tap a card to open it below, front and back.</p>
     </div>
     <div class="deck" id="deck"></div>
@@ -505,7 +505,7 @@ CARDS.forEach((c, i) => {
 function openCard(i, scroll) {
   current = (i + CARDS.length) % CARDS.length;
   const c = CARDS[current];
-  document.getElementById("vEye").textContent = `Card ${current + 1} of 12 · ${c[2]}`;
+  document.getElementById("vEye").textContent = `Card ${current + 1} of ${CARDS.length} · ${c[2]}`;
   document.getElementById("vTitle").textContent = `${c[0]} · ${c[1]}`;
   const f = document.getElementById("vFront"), b = document.getElementById("vBack");
   f.src = `img/c${pad(current * 2 + 1)}.jpg`; f.alt = `Front of card ${current + 1}, ${c[1]}`;
