@@ -44,13 +44,12 @@
 
   // Cover
   add("Cover", "cover hard", () => `
-    <div class="plate">
-      <div class="eb center">A guide to the twelve cards</div>
-      <img class="mandala" src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala">
-      <h1 class="covt">The Pregnancy<br>and Birth Mandala</h1>
-      <p class="covs">From the first days to the first hour</p>
-      <p class="covlens">Through the lens of pre- and perinatal education</p>
-    </div>
+    <div class="eb center gilt">A guide to the twelve cards</div>
+    <div class="medal big"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala"></div>
+    <h1 class="covt gilt">The Pregnancy<br>and Birth Mandala</h1>
+    <p class="covs">From the first days to the first hour</p>
+    <div class="dash"></div>
+    <p class="covlens">Through the lens of pre- and perinatal education</p>
     <p class="foil">Erin Singleton</p>`);
   add("Inside front cover", "endpaper", () => "");
 

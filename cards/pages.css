@@ -175,3 +175,24 @@
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23E7BFB3' stroke-width='1.1'%3E%3Ccircle cx='32' cy='32' r='9'/%3E%3Ccircle cx='32' cy='23' r='9'/%3E%3Ccircle cx='32' cy='41' r='9'/%3E%3Ccircle cx='24.2' cy='27.5' r='9'/%3E%3Ccircle cx='39.8' cy='27.5' r='9'/%3E%3Ccircle cx='24.2' cy='36.5' r='9'/%3E%3Ccircle cx='39.8' cy='36.5' r='9'/%3E%3C/g%3E%3Ccircle cx='0' cy='0' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='64' cy='0' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='0' cy='64' r='2' fill='%23E9C3B8'/%3E%3Ccircle cx='64' cy='64' r='2' fill='%23E9C3B8'/%3E%3C/svg%3E");
   background-size:64px 64px;background-position:center
 }
+
+/* front cover: the mandala in a round cutout, the lettering in gold foil */
+.pg.cover.hard{padding:46px 44px 0 58px;align-items:center}
+.pg.hard .medal{border-radius:50%;overflow:hidden;background:#FBF3F1;display:grid;place-items:center;
+  box-shadow:0 0 0 3px rgba(60,15,8,.18),0 2px 3px 3px rgba(60,15,8,.20),inset 0 2px 5px rgba(60,15,8,.25)}
+.pg.cover.hard .medal.big{width:300px;height:300px;margin:6px 0 34px}
+.pg.cover.hard .medal.big img{width:276px;height:276px}
+/* Gold foil: a metallic sweep clipped to the letters, pressed into the cloth. */
+.pg.hard .gilt{color:#E6C27E;background:linear-gradient(100deg,#C99A4E 0%,#F3DCA2 28%,#D9AE62 50%,#F6E3B0 72%,#C4924A 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 1px 0 rgba(50,12,6,.55))}
+.pg.cover.hard .eb.gilt{font-size:10.5px;letter-spacing:.26em;margin-bottom:26px}
+.pg.cover.hard .covt{font-size:40px;line-height:1.12;margin:0 0 12px}
+.pg.cover.hard .covs{font-size:17px;color:#F6D9CC;margin:0}
+.pg.cover.hard .dash{width:56px;border-top:1.5px solid #D9AE62;margin:18px auto 14px}
+.pg.cover.hard .covlens{font-size:9.5px;letter-spacing:.2em;color:#E9C1B2}
+.pg.cover.hard .foil{margin:auto 0 46px}
+.pg.hard .foil{color:#E6C27E;background:linear-gradient(100deg,#C99A4E,#F3DCA2 35%,#D9AE62 60%,#F6E3B0 85%,#C4924A);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;
+  filter:drop-shadow(0 1px 0 rgba(50,12,6,.55))}
+.pg.backcover.hard .backq{color:#F6D9CC}
