@@ -819,7 +819,9 @@
     <div class="lab">Conceiving with help</div>
     <p>IVF, donor eggs or sperm, or a surrogate can make a beginning feel clinical, or full of waiting and loss. Many in this field invite parents to tell the baby the story of how she came to be, and how long and how much she was wanted. If a donor or surrogate is part of her story, it can be told with gratitude, and at her pace as she grows.</p>
     <div class="lab">Without a partner, or without support</div>
-    <p>You may be single by choice, separated, or with a partner who is not involved. Her first world is you and the people you gather around you: friends, family, a doula, a community. The circles of support on page ${no("My circles of support")} are a place to start. If you are not safe at home, the hotlines on page ${no("Help, reading, and sources")} can help.</p>
+    <p>You may be single by choice, separated, or with a partner who is not involved. Her first world is you and the people you gather around you: friends, family, a doula, a community. The circles of support on page ${no("My circles of support")} are a place to start.</p>
+    <div class="lab">When home is not safe</div>
+    <p>Abuse can begin or grow worse in pregnancy, and it reaches your baby as well as you. You deserve safety. In the United States, the National Domestic Violence Hotline is open day and night: call 1-800-799-7233, or text START to 88788. A doula, a care provider, or a friend can help you make a plan.</p>
     ${foot(n)}`);
 
   add("Loss, and hope after loss", "", n => `
@@ -829,6 +831,10 @@
     <p>If you have lost a pregnancy or a child before, hope and fear often arrive together, and letting yourself attach can feel risky. This is natural. Some parents tell the new baby about her brother or sister, so the loss is held in the open rather than in silence. She is not a replacement. She is herself.</p>
     <div class="lab">When this pregnancy brings hard news</div>
     <p>A difficult diagnosis, a twin who does not continue, or a pregnancy that ends: these are griefs that deserve time and support. Your baby can still be spoken to, held in your attention, and named. Perinatal loss and perinatal hospice support exist for exactly these paths.</p>
+    <div class="lab">Carrying a baby you will not raise</div>
+    <p>If you are a surrogate, or carrying a baby toward adoption, she is still listening to you now. Many find it meaningful to speak to her honestly, about who will hold her and that she was carried with care. Your own feelings, including grief, deserve support too.</p>
+    <div class="lab">Adopting a baby</div>
+    <p>If you are adopting, your baby will arrive with a story that began before you, including the loss of the first voice she knew. Telling her that story, and meeting her early grief with patience, is a gift (Verrier, <i>The Primal Wound</i>).</p>
     <div class="lab">Grief has its own timing</div>
     <p>Grief may come in waves: at scans, due dates, and anniversaries. Partners often grieve differently, and both ways are real. Groups such as Share Pregnancy and Infant Loss Support, and Postpartum Support International, offer companionship along the way.</p>
     ${foot(n)}`);
@@ -913,6 +919,7 @@
       <div class="lab">If you need support now (United States)</div>
       <p class="tight"><b>National Maternal Mental Health Hotline:</b> call or text 1-833-TLC-MAMA (1-833-852-6262).</p>
       <p class="tight"><b>Postpartum Support International HelpLine:</b> call or text 1-800-944-4773.</p>
+      <p class="tight"><b>National Domestic Violence Hotline:</b> call 1-800-799-7233, or text START to 88788.</p>
       <p class="tight">In a crisis, call or text 988. In an emergency, call 911.</p>
     </div>
     <div class="lab">Further reading</div>
@@ -1024,6 +1031,7 @@
       <li>Nathanielsz, P. W. <i>Life in the Womb</i>. Partanen, E., et al. (2013). <i>PNAS, 110</i>(37). Persico, G., et al. (2017). <i>Women and Birth, 30</i>(4).</li>
       <li>Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
+      <li>Verrier, N. N. (1993). <i>The Primal Wound: Understanding the Adopted Child</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
     ${foot(n)}`);
