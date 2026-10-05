@@ -140,6 +140,28 @@
   /* ---- the pages ----------------------------------------------------- */
   const P = []; // {title, cls, html(n)} where n is the printed page number
   const add = (title, cls, html) => { P.push({ title, cls, html }); return P.length; };
+  // The window of tolerance, drawn: three bands, and a day's line moving
+  // through them, rising above in a hard moment, dipping below, and coming
+  // back each time.
+  function windowGraph() {
+    const lab = (y, t, s, c) => `<text x="0" y="${y}" class="wg-t" fill="${c}">${t}</text><text x="0" y="${y + 13}" class="wg-s">${s}</text>`;
+    return `<svg class="wgraph" viewBox="0 0 432 176" role="img" aria-label="The window of tolerance: a line moving through a middle band, rising above it in a hard moment and dipping below it, and returning each time.">
+      <rect x="112" y="4" width="320" height="44" rx="6" fill="#F7DCD3"/>
+      <rect x="112" y="48" width="320" height="80" fill="#FBEFEA"/>
+      <rect x="112" y="128" width="320" height="44" rx="6" fill="#E8D6D2"/>
+      <line x1="112" y1="48" x2="432" y2="48" stroke="#D9AE62" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <line x1="112" y1="128" x2="432" y2="128" stroke="#D9AE62" stroke-width="1.2" stroke-dasharray="4 3"/>
+      ${lab(22, "Above the window", "racing, panicked, on edge", "#C9533A")}
+      ${lab(86, "Your window", "present, feeling, thinking", "#8A6124")}
+      ${lab(150, "Below the window", "numb, foggy, far away", "#7A4A40")}
+      <path d="M118 88 C130 76 140 76 152 88 S174 100 186 88 C198 74 204 26 218 22 C234 18 236 70 248 86 S272 100 284 88 S306 74 318 86 C330 100 334 150 348 152 C364 154 366 102 376 90 S404 76 416 88 S428 96 432 92" fill="none" stroke="#5A2A20" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="218" cy="22" r="3" fill="#C9533A"/><circle cx="348" cy="152" r="3" fill="#7A4A40"/>
+      <text x="226" y="16" class="wg-n">a hard moment</text>
+      <text x="356" y="164" class="wg-n">shutting down</text>
+      <text x="244" y="62" class="wg-n">back, with resourcing</text>
+    </svg>`;
+  }
+
   // The printed number is a page's place in the book, with the front
   // endpaper uncounted: the cover is 1, so the contents falls on page 4.
   const no = t => P.findIndex(p => p.title === t); // printed number of a page, by title
@@ -164,10 +186,10 @@
     <h1 class="htt">The Pregnancy<br>and Birth Mandala</h1>
     <div class="dash"></div>
     <p class="hts">Companion book to the card deck</p>`);
-  add("Blank", "blank", () => "");
-
-  // Contents (filled in once every page exists)
-  add("Contents", "contents", n => contents(n));
+  // Contents, across a spread: the opening pages and Part One on the left,
+  // Parts Two to Four on the right.
+  add("Contents", "contents", n => contents(n, 0));
+  add("Contents, continued", "contents", n => contents(n, 1));
 
   // The mandala on the right, and its key facing it on the left, with the
   // way to the interactive mandala.
@@ -210,11 +232,113 @@
     <p>Pregnancy is often described in weeks, tests, and appointments. This deck invites you to see it another way: as a journey you and your baby take together, from the first days to the first hour after birth.</p>
     <p>In pre- and perinatal education, the baby is understood as aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after. This is not a weight to carry. It is an invitation to slow down, to notice, and to connect.</p>
     <p>The cards come from a mandala, a circle organized around a center. At its center is your baby. Around her is you. Around you is what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
-    <p>The pages that follow lay the foundation: what this lens is and where it comes from, what an imprint is and how the body remembers, trauma and resilience, your nervous system, why speaking to your baby matters, and how each month is read. Then come the cards themselves, month by month, and people who can walk with you further.</p>
+    <p>The pages that follow lay the foundation: who your baby already is, how your world becomes hers, what an imprint is, your nervous system and your feelings, and how to speak with her. Then come the months, one card at a time, and people who can walk with you further.</p>
     <blockquote>There are no secrets you can keep from your baby, so talk to her, and more importantly, listen.<cite>Karen Strange, Simple Tools for Mothers</cite></blockquote>
     ${foot(n)}`);
 
+  add("Start here", "", n => `
+    <div class="eb">Start here</div>
+    <h1>A conscious pregnancy</h1>
+    <p>Pregnancy is often lived as a series of tests and dates, with the baby treated as a passenger until birth. Pre- and perinatal education offers another way: your baby is already here, sensing, learning, and taking in her world, and the months before birth are the beginning of your relationship.</p>
+    <p>A conscious pregnancy means growing aware of her, and aware of yourself: your feelings, your body, the world around you, and how all of it reaches her.</p>
+    <div class="lab">What the deck is for</div>
+    <p>The cards turn this into something you can do. Each holds a picture of her month and of yours, the imprint that may form and the question it may answer, and practices for connecting with her and for your own healing.</p>
+    <div class="lab">How to use this book</div>
+    <ul class="lead">
+      <li><b>Begin with the foundations.</b> Read them at your own pace. They explain why the practices matter.</li>
+      <li><b>Then go to your month.</b> Read its page here, and keep its card close.</li>
+      <li><b>Return whenever you need to.</b> The foundations are here for hard days, and the "Going deeper" pages at the back are here when you want more.</li>
+      <li><b>If your path is harder,</b> through loss, conceiving with help, a hard birth, or grief, begin with page ${no("When the path is harder")}.</li>
+    </ul>
+    ${foot(n)}`);
+
+  add("Your baby is already here", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>Your baby is already here</h1>
+    <p>Long before she is born, your baby is moving, sensing, sleeping and waking, and learning. She is not waiting to begin. Her life, and her relationship with you, have already started.</p>
+    <p>Pre- and perinatal psychology takes the view that she is a feeling, sensing person from the very beginning: aware in her own way, and taking in how she is received. David Chamberlain called the prenate "a conscious, sentient being."</p>
+    <p>Science can measure her responses: a quickening heart, a turn toward a voice, a startle at a sound. It cannot yet measure her inner experience, and how and when awareness begins is still debated.</p>
+    <div class="box blush"><p><b>A question to carry.</b> What would change if you met her, from today, as someone and not something? Not as a project to manage, but as a person getting to know you.</p></div>
+    ${foot(n)}`);
+
+  add("What she senses, and when", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>What she senses, and when</h1>
+    <p class="muted">Times are approximate, and every baby develops in her own way.</p>
+    <dl class="time">
+      <dt>From 7 to 8 weeks</dt><dd><b>Movement and touch.</b> She begins to move, long before you can feel it. The first touch receptors form around her mouth, and by about 20 weeks most of her body can sense touch.</dd>
+      <dt>From 10 to 15 weeks</dt><dd><b>Taste.</b> Taste buds form, and she swallows amniotic fluid flavored by what you eat.</dd>
+      <dt>From 18 to 25 weeks</dt><dd><b>Hearing.</b> The first sounds reach her, your voice clearest of all, and by about 25 weeks she responds to sound.</dd>
+      <dt>From 26 to 28 weeks</dt><dd><b>Light.</b> Her eyes open, and she can sense bright light through your belly.</dd>
+      <dt>From 28 to 32 weeks</dt><dd><b>Dreaming sleep.</b> Active, dreaming sleep appears, and she spends much of each day in it.</dd>
+      <dt>The last weeks</dt><dd><b>Learning and memory.</b> She grows used to sounds she hears often, knows your voice from a stranger's, and after birth prefers the voices, songs, and stories she heard in the womb.</dd>
+      <dt>All along</dt><dd><b>Your states.</b> Through your heartbeat, breath, movement, and the chemistry that crosses the placenta, she lives inside the rhythm of your days.</dd>
+    </dl>
+    ${foot(n)}`);
+
+  add("You are her first world", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>You are her first world</h1>
+    <p>Before she meets the world, she lives inside yours. Everything that reaches her comes through you: what you feel, what you think, what you take in, the rhythms of your days, and the people around you.</p>
+    <div class="lab">Your inner world</div>
+    <div class="parts">
+      <div><span class="dot" style="background:#FCA59B"></span><h3>Emotional</h3><p>Your feelings change your body's chemistry. Stress hormones such as cortisol, and calming ones such as oxytocin, rise and fall with your states, and some reach her through the placenta. Your heartbeat and breath, her constant background, quicken and settle with you.</p></div>
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Mental</h3><p>Your thoughts, beliefs, and expectations shape your feelings and your choices: whether you see her as someone, what you expect of birth, the stories you tell yourself. A fearful story and a trusting one feel different in the body, and so to her.</p></div>
+    </div>
+    <div class="box blush"><p>You do not need to feel calm all the time. Everyday stress is part of life, and the placenta buffers much of it. What matters most is the overall climate, and how often you find your way back.</p></div>
+    ${foot(n)}`);
+
+  add("The world around you", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>The world around you</h1>
+    <div class="parts">
+      <div><span class="dot" style="background:#E35F43"></span><h3>Physical</h3><p>Nourishment, water, rest, movement, and fresh air build her body, and what you take in, including alcohol, nicotine, and some medications, reaches her too. The sounds, light, and pace of your surroundings become part of her world.</p></div>
+      <div><span class="dot" style="background:#C9993A"></span><h3>Relational</h3><p>Your partner, family, friends, and care providers, and whether you feel safe, supported, and respected among them. Conflict and kindness both reach her through you.</p></div>
+      <div><span class="dot" style="background:#B98C80"></span><h3>The wider field</h3><p>Work, money, culture, and the times you are pregnant in. Some of this is beyond your control. Noticing it, and asking for support, is within it.</p></div>
+    </div>
+    <div class="lab">How it reaches her</div>
+    <ul class="lead">
+      <li><b>Through the placenta:</b> nutrients, hormones, and some of what you take in.</li>
+      <li><b>Through your rhythms:</b> heartbeat, breath, movement, and sleep.</li>
+      <li><b>Through sound:</b> your voice, and the voices around you.</li>
+      <li><b>Over time, through her genes:</b> early surroundings can change how genes are switched on and off, a field called epigenetics, one way experience is carried forward.</li>
+    </ul>
+    ${foot(n)}`);
+
   /* ---- foundations: the pre- and perinatal lens ---- */
+  // Hormones: the body's messengers through pregnancy, birth, and bonding.
+  add("The hormones of pregnancy", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>The hormones of pregnancy</h1>
+    <p>Hormones are your body's messengers. In pregnancy they shift more, and faster, than at almost any other time in life, building her body, preparing yours, and coloring how you feel.</p>
+    <dl class="time hormones">
+      <dt>hCG</dt><dd>Made from the first days, it is what a pregnancy test finds, and it is behind much of early nausea.</dd>
+      <dt>Progesterone</dt><dd>Keeps the pregnancy steady and relaxes smooth muscle. It can bring deep tiredness, and a slower, inward calm.</dd>
+      <dt>Estrogen</dt><dd>Grows the womb and its blood supply, and can heighten smell and feeling.</dd>
+      <dt>Relaxin</dt><dd>Softens ligaments and joints, making room for her and for birth.</dd>
+      <dt>Prolactin</dt><dd>Rises steadily to prepare your breasts for milk, and is linked with nurturing.</dd>
+      <dt>Cortisol</dt><dd>Rises naturally through pregnancy and helps her lungs and organs mature. The placenta buffers much of yours; it is long, unrelieved stress that matters most.</dd>
+      <dt>Oxytocin</dt><dd>The hormone of calm and closeness. Late in pregnancy your womb grows many more receptors for it, ready for labor.</dd>
+    </dl>
+    <div class="box blush"><p>With so much shifting, feelings can run bigger and change faster. This is your body at work, not a flaw in you.</p></div>
+    ${foot(n)}`);
+
+  add("The hormones of birth and bonding", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>The hormones of birth and bonding</h1>
+    <p>Sarah Buckley describes four hormone systems that carry mother and baby through birth (Buckley, 2015).</p>
+    <dl class="time hormones">
+      <dt>Oxytocin</dt><dd>Brings the rhythm of contractions, and love. It peaks at birth and in the first hour, skin to skin.</dd>
+      <dt>Endorphins</dt><dd>Your own pain relief, carrying you inward as labor deepens.</dd>
+      <dt>Adrenaline</dt><dd>Early in labor, fear or disturbance can slow things down. At the very end, a surge gives strength for the final pushes, and makes your baby alert to meet you.</dd>
+      <dt>Prolactin</dt><dd>Begins milk and mothering, and brings a quiet calm.</dd>
+    </dl>
+    <p>These flow best when you feel safe, warm, private, and unobserved. Your baby has birth hormones of her own too, which protect her through labor and prepare her lungs.</p>
+    <div class="lab">The chemistry of connection</div>
+    <p>Oxytocin is released by touch, warmth, eye contact, a loving voice, skin to skin, and breastfeeding, in both of you. Each time, the bond is laid down a little deeper. Partners change too: in fathers who care closely for their babies, oxytocin rises and testosterone falls (Gordon and colleagues, 2010; Gettler and colleagues, 2011).</p>
+    <div class="box blush"><p>The "oxytocin moments" on the cards are practice for this: pleasure and closeness on purpose, so the pathway is well worn before she arrives.</p></div>
+    ${foot(n)}`);
+
   add("The pre- and perinatal lens", "", n => `
     <div class="eb">Foundations · The lens</div>
     <h1>What is pre- and perinatal education?</h1>
@@ -230,6 +354,21 @@
       <dt>Since</dt><dd>Research on fetal programming, attachment, and the developing nervous system shows how early environments shape lifelong health.</dd>
     </dl>
     <p class="note">Today APPPAH, the Association for Prenatal and Perinatal Psychology and Health, trains educators and practitioners to bring this understanding to families. This guide grew out of that training.</p>
+    ${foot(n)}`);
+
+  add("Why it matters", "", n => `
+    <div class="eb">Foundations · Purpose</div>
+    <h1>Why it matters, for the benefit of all</h1>
+    <p>Seeing pregnancy through this lens turns it from something that happens to you into a relationship you take part in. Knowing what may leave an impression lets you offer more of what nourishes, and meet hard moments with repair instead of guilt.</p>
+    <ul class="lead">
+      <li><b>For your baby.</b> A welcome felt from the start, a nervous system that learns calm from yours, and early experiences of being heard.</li>
+      <li><b>For you.</b> Less fear and more confidence, a way to connect before you can hold her, and room for your own story to heal.</li>
+      <li><b>For your partner and family.</b> A real part from the beginning: a voice she comes to know, a hand that answers her movements.</li>
+      <li><b>For those who care for you.</b> A shared language for guarding the birth space and keeping mother and baby together.</li>
+      <li><b>For the generations to come.</b> Patterns pass from parent to child. Each gentle beginning, and each repair, changes what is passed on.</li>
+    </ul>
+    <p><b>Putting it into practice.</b> Each card turns this understanding into small, daily acts: talking to her, answering her movements, settling yourself, guarding the birth space, and repairing after hard moments.</p>
+    <div class="box blush"><p>This is not about getting everything right. It is about noticing, connecting, and repairing, which every family can do.</p></div>
     ${foot(n)}`);
 
   add("What is an imprint?", "", n => `
@@ -261,34 +400,6 @@
     <div class="box blush"><p><b>Why this guide says "may."</b> The imprints on these pages are possible, not certain. Every baby meets her experiences with her own temperament, and the people around her shape what those experiences come to mean.</p></div>
     ${foot(n)}`);
 
-  // Regression: early impressions returning to awareness, and the parent's
-  // own early story stirred by pregnancy. A facing pair after memory.
-  add("Memories that return", "", n => `
-    <div class="eb">Foundations · Regression</div>
-    <h1>Memories that return</h1>
-    <p>For a century, people in therapy have described experiences that seem to come from before words: a sense of the womb, of being born, of how they were received. In pre- and perinatal psychology these are called regression experiences, early impressions returning to conscious awareness.</p>
-    <div class="lab">What has been gathered</div>
-    <ul class="lead">
-      <li>From the 1960s, psychiatrists Frank Lake and Stanislav Grof recorded clients reliving womb and birth experiences in deep therapeutic states.</li>
-      <li>Obstetrician David Cheek, working with hypnosis, described adults recalling the movements and circumstances of their own births.</li>
-      <li>David Chamberlain compared the birth memories of mothers and their children, recalled separately under hypnosis, and found many details matched (<i>Babies Remember Birth</i>).</li>
-      <li>Ham and Klimo found that adults' recalled sense of their mothers' feelings in pregnancy matched what their mothers reported.</li>
-      <li>Surveys in Japan found many young children speaking, unprompted, of the womb or their birth (Ikegawa).</li>
-    </ul>
-    <p class="note">A careful note: memory recalled in hypnosis or deep states can be shaped by suggestion and expectation, and mainstream science doubts that memories like these can form so early. What these accounts are is still being explored.</p>
-    ${foot(n)}`);
-
-  add("How early memory may be held", "", n => `
-    <div class="eb">Foundations · Regression</div>
-    <h1>How early memory may be held</h1>
-    <p>How could experience from before birth be carried? Part of the answer may be implicit memory: patterns of feeling held in the body and nervous system before there are words for them. Some practitioners speak of cellular or energetic memory, something carried that research has not yet found a way to measure.</p>
-    <p>However it is held, what people describe is often felt in the body first: in breath, in posture, in emotions that seem older than the story they know.</p>
-    <div class="lab">Pregnancy as a doorway</div>
-    <p>Carrying a child often stirs a parent's own earliest story. Feelings may rise that seem bigger than the moment, or familiar in a way that is hard to name: a fear of being left, a longing to be held. In this lens, such moments may be your own early imprints surfacing, a natural part of becoming a parent.</p>
-    <p>Meeting them gently matters for you both. What is felt and understood can be soothed, and what is soothed is less likely to be passed on.</p>
-    <div class="box blush"><p>The healing practice on the back of each card is a place to begin. If what surfaces feels larger than you can hold, the people on page ${no("People who can walk with you")} work with exactly these early experiences.</p></div>
-    ${foot(n)}`);
-
   add("Trauma and resilience", "", n => `
     <div class="eb">Foundations · Trauma and resilience</div>
     <h1>Trauma and resilience</h1>
@@ -297,8 +408,7 @@
     <div class="lab">Resilience</div>
     <p>Resilience is the capacity to meet difficulty and find the way back to balance. It is not a fixed trait. It grows through relationship: being soothed, being understood, and knowing repair after rupture.</p>
     <p>For your baby, resilience begins with co-regulation: her young nervous system borrows steadiness from yours. For you, it grows through support, rest, and tools you can reach for in the moment. Each return to calm is practice, for both of you, in the way back.</p>
-    <div class="lab">The window of tolerance</div>
-    <p>Daniel Siegel describes a zone in which we can feel strong feelings and still think, connect, and respond. Above it we may feel flooded or panicked; below it, numb or far away. Support and resourcing widen this window over time, and labor asks for a wide one.</p>
+    <p>The pages that follow give you a map for this: your nervous system, and your window of tolerance.</p>
     <div class="box blush"><p>Each "Imprints and what helps" section holds both sides: what may be hard, and what builds resilience.</p></div>
     ${foot(n)}`);
 
@@ -314,6 +424,91 @@
     <p>Porges calls the body's constant, wordless scanning for safety <i>neuroception</i>. Your baby senses your state through your heartbeat, breath, voice, and chemistry, and her system begins to tune to yours.</p>
     <p>Trauma can leave a nervous system stuck in mobilized or shut-down states. Resilience is the flexibility to move through them and find the way back to safety.</p>
     <p class="note">Polyvagal theory is widely used by therapists and educators, and some of its physiological details are still debated by researchers. Its map of states is offered here as a practical guide.</p>
+    ${foot(n)}`);
+
+  add("Your window of tolerance", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>Your window of tolerance</h1>
+    <p>Daniel Siegel describes a <i>window of tolerance</i>, which some call a window of capacity: the range in which you can feel strong feelings and still think, connect, and respond. Everyone has one, and it widens and narrows with sleep, support, hormones, and stress.</p>
+    ${windowGraph()}
+    <div class="parts">
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Above the window</h3><p>A racing heart, a tight chest, panic, irritability, a mind that will not settle. This is the mobilized state.</p></div>
+      <div><span class="dot" style="background:#F6C9BE"></span><h3>Inside the window</h3><p>Present, able to feel and to think. You can notice your baby, and respond rather than react.</p></div>
+      <div><span class="dot" style="background:#9A4434"></span><h3>Below the window</h3><p>Numb, foggy, flat, far away, wanting to shut down. This is the shut-down state.</p></div>
+    </div>
+    <p>Pregnancy can narrow the window: tiredness, nausea, shifting hormones, and old memories stirring. This is not a failing. It is a signal to resource.</p>
+    ${foot(n)}`);
+
+  add("Widening your window", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>Widening your window</h1>
+    <ul class="lead">
+      <li><b>Notice where you are.</b> A few times a day, ask: am I above, inside, or below my window right now? Naming it already helps.</li>
+      <li><b>If you are above it,</b> slow the out-breath, feel your feet, let your eyes rest on something pleasant, lower the noise and light, and move gently.</li>
+      <li><b>If you are below it,</b> move a little, splash cool water on your face, sit upright, hold something warm, reach for a familiar voice, and name five things you can see.</li>
+      <li><b>Over time,</b> sleep, nourishment, people who feel safe, the practices on the cards, and therapy if old pain keeps the window narrow.</li>
+    </ul>
+    <div class="lab">Her window grows inside yours</div>
+    <p>A baby cannot yet calm herself. She borrows steadiness from you, first through your body, later through your arms and voice. This is called co-regulation. Each time you find your way back into your window, you are showing her the way.</p>
+    <div class="box blush"><p>In labor, a wide window lets you stay present through great intensity. The practices you build now are preparation for then.</p></div>
+    ${foot(n)}`);
+
+  add("Feelings", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>Feelings: emotional intelligence in pregnancy</h1>
+    <p>Emotional intelligence is the ability to notice, name, and work with feelings, your own and other people's. In pregnancy it becomes a gift to two people at once.</p>
+    <div class="lab">Feelings are information</div>
+    <p>Joy, fear, grief, anger, and ambivalence each have something to tell you. They are not verdicts on you as a mother.</p>
+    <div class="lab">Name it to tame it</div>
+    <p>Daniel Siegel's phrase for a simple finding: putting a feeling into words can calm the brain's alarm (Lieberman and colleagues, 2007). "I feel scared" is already a step toward steadiness.</p>
+    <div class="lab">Mixed feelings are normal</div>
+    <p>Many parents feel two things at once: wanting this baby and grieving the life before, love and fear, excitement and dread. Both can be true.</p>
+    ${foot(n)}`);
+
+  add("Your feelings, and hers", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>Your feelings, and hers</h1>
+    <p>Your baby feels what you feel, through your body, but she cannot yet tell whose feeling it is. Pre- and perinatal practice offers a simple way to help: tell her.</p>
+    <ul class="lead">
+      <li>"I am angry right now, and it is not about you."</li>
+      <li>"I am sad today. You did nothing wrong."</li>
+      <li>"That was a hard moment. I am back now, and I am glad you are here."</li>
+    </ul>
+    <p>This begins what Karen Strange calls healthy separateness: she can be with your feeling without carrying it as her own.</p>
+    <div class="box"><p><b>When feelings are big.</b> If sadness, worry, or numbness last two weeks or more, or you have thoughts of harming yourself, reach out. Depression and anxiety in pregnancy are common and treatable, and page ${no("Help, reading, and sources")} lists where to turn.</p></div>
+    ${foot(n)}`);
+
+  // The parent's own healing: what may rise in pregnancy, and why it is a
+  // time of opening. A facing pair, with where to turn for more.
+  add("Your own healing", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>Your own healing</h1>
+    <p>Carrying a child often brings your own beginning closer. As you prepare to meet her, parts of your own story may rise to meet you.</p>
+    <div class="lab">What may come up</div>
+    <ul class="lead">
+      <li>Your own birth, and what you know or sense about it.</li>
+      <li>Your mother, your childhood, and the ways you were cared for, or were not.</li>
+      <li>Earlier pregnancies, losses, or births, including one you may be looking back on now.</li>
+      <li>Old fears, griefs, or patterns in your relationships, sometimes felt first in the body.</li>
+    </ul>
+    <p>None of this means something is wrong. It is a natural part of becoming a parent, and often a sign that something is ready to be met.</p>
+    <div class="lab">How the healing practices help</div>
+    <p>The back of every card holds a practice for your own healing: reflecting on your own beginning, telling your story, meeting your younger self with kindness, and offering yourself the repair you are learning to offer her. What is felt and soothed in you is less likely to be passed on.</p>
+    ${foot(n)}`);
+
+  add("A time for transformation", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>A time for transformation</h1>
+    <p>Pregnancy is a time of deep change. Your hormones, body, sleep, relationships, and sense of who you are all shift at once. Anthropologist Dana Raphael named this passage <i>matrescence</i>: the becoming of a mother, as profound as adolescence.</p>
+    <p>The brain changes too. Imaging studies show that pregnancy reshapes areas involved in understanding others, changes that last for years (Hoekzema and colleagues, 2017). Many in this field see this openness as a rare window, a time when old patterns are more able to shift.</p>
+    <p>So what rises now can be met as an opportunity. Healing in pregnancy is not only for you. It changes the world your baby grows in, and what is passed on.</p>
+    <div class="lab">If you need more support</div>
+    <ul class="lead">
+      <li><b>People who can walk with you,</b> page ${no("People who can walk with you")}: practitioners and approaches that work with early experience.</li>
+      <li><b>My circles of support,</b> page ${no("My circles of support")}: a place to keep their names and numbers.</li>
+      <li><b>Memories that return,</b> page ${no("Memories that return")}: how early memory can surface, and how it may be held.</li>
+      <li><b>Help, reading, and sources,</b> page ${no("Help, reading, and sources")}: if you need support now.</li>
+    </ul>
     ${foot(n)}`);
 
   add("Resourcing yourself", "", n => `
@@ -333,25 +528,25 @@
     <div class="box blush"><p>The back of each card holds practices with time set aside to connect: with your baby, with your partner, and with yourself. Return to them whenever you need resourcing.</p></div>
     ${foot(n)}`);
 
-  add("Why it matters", "", n => `
-    <div class="eb">Foundations · Purpose</div>
-    <h1>Why it matters, for the benefit of all</h1>
-    <p>Seeing pregnancy through this lens turns it from something that happens to you into a relationship you take part in. Knowing what may leave an impression lets you offer more of what nourishes, and meet hard moments with repair instead of guilt.</p>
-    <ul class="lead">
-      <li><b>For your baby.</b> A welcome felt from the start, a nervous system that learns calm from yours, and early experiences of being heard.</li>
-      <li><b>For you.</b> Less fear and more confidence, a way to connect before you can hold her, and room for your own story to heal.</li>
-      <li><b>For your partner and family.</b> A real part from the beginning: a voice she comes to know, a hand that answers her movements.</li>
-      <li><b>For those who care for you.</b> A shared language for guarding the birth space and keeping mother and baby together.</li>
-      <li><b>For the generations to come.</b> Patterns pass from parent to child. Each gentle beginning, and each repair, changes what is passed on.</li>
-    </ul>
-    <p><b>Putting it into practice.</b> Each card turns this understanding into small, daily acts: talking to her, answering her movements, settling yourself, guarding the birth space, and repairing after hard moments.</p>
-    <div class="box blush"><p>This is not about getting everything right. It is about noticing, connecting, and repairing, which every family can do.</p></div>
+  add("A daily check-in", "", n => `
+    <div class="eb">Foundations · Your inner world</div>
+    <h1>A daily check-in</h1>
+    <p>A few minutes, once or twice a day, ties everything in this book together. It is the bridge to the cards.</p>
+    <ol class="steps">
+      <li><b>Pause.</b> Stop where you are, and feel your feet or your seat.</li>
+      <li><b>Breathe.</b> A few slow breaths, with the out-breath a little longer.</li>
+      <li><b>Notice yourself.</b> Where am I in my window? What am I feeling? Name it.</li>
+      <li><b>Turn toward her.</b> A hand on your belly. Notice her: movement, stillness, the weight of her.</li>
+      <li><b>Speak.</b> Good morning, what the day holds, what you feel and whose it is.</li>
+      <li><b>Listen.</b> Pause, and notice what comes: a movement, a sense, a feeling.</li>
+    </ol>
+    <div class="box blush"><p>Then turn to your card, and choose one practice for the day.</p></div>
     ${foot(n)}`);
 
   // Speaking to her: a facing pair, so the question and the evidence are
   // read together, before the cards themselves begin.
   add("Speaking to your baby", "", n => `
-    <div class="eb">Foundations · Speaking to her</div>
+    <div class="eb">Connecting with her · Speaking to her</div>
     <h1>Why speak to a baby who has no words?</h1>
     <p>Many practices on the cards ask you to talk to your baby: to tell her what is happening, what you feel, and what you hope. It can feel odd at first. She cannot understand words yet. So what reaches her?</p>
     <div class="lab">What reaches her</div>
@@ -366,7 +561,7 @@
     ${foot(n)}`);
 
   add("She is listening", "", n => `
-    <div class="eb">Foundations · Speaking to her</div>
+    <div class="eb">Connecting with her · Speaking to her</div>
     <h1>She is listening</h1>
     <div class="lab">What research shows</div>
     <ul class="lead">
@@ -382,8 +577,36 @@
     <div class="box blush"><p>Each card offers words you can say to her. Take them as a starting place, and make them your own.</p></div>
     ${foot(n)}`);
 
+  add("Your part in this", "", n => `
+    <div class="eb">Connecting with her</div>
+    <h1>Your part in this</h1>
+    <p>This knowledge is not meant to add worry. It is meant to give you back your part. Much of pregnancy is beyond anyone's control. Your part is the relationship, and the choices that shape it.</p>
+    <ul class="lead">
+      <li><b>Connection.</b> You can turn toward her every day, in small ways.</li>
+      <li><b>Awareness.</b> You can notice your own states, and find your way back to steadiness.</li>
+      <li><b>Choice.</b> You can ask questions, choose your care and your support, and give or withhold consent.</li>
+      <li><b>Voice.</b> You can speak to her, and speak up for her and for yourself.</li>
+      <li><b>Repair.</b> When hard moments come, you can return, name what happened, and reconnect.</li>
+    </ul>
+    <div class="box blush"><p><b>It is not too late.</b> Whatever has already happened in this pregnancy, or in your own beginning, connection and repair can begin today. This is not about perfection. It is about presence.</p></div>
+    ${foot(n)}`);
+
+  add("For partners", "", n => `
+    <div class="eb">Connecting with her</div>
+    <h1>For partners</h1>
+    <p>Your baby is getting to know you too. A partner's voice, touch, and steadiness reach her, and your support shapes the mother's world, which is her world.</p>
+    <ul class="lead">
+      <li><b>Speak and sing to her.</b> A voice heard often before birth is familiar after it.</li>
+      <li><b>Answer her movements.</b> A hand on the belly when she kicks, and a word in reply.</li>
+      <li><b>Steady the mother.</b> Your calm helps widen her window. Take on what you can, listen without fixing, and protect her rest.</li>
+      <li><b>Be part of the decisions.</b> Learn the choices ahead, and help speak up for what she wants.</li>
+      <li><b>Meet your own story.</b> Becoming a parent can stir your own beginning too. The healing practices are for you as well.</li>
+    </ul>
+    <div class="box"><p>Partners have their own feelings in pregnancy, including worry, distance, or a sense of being on the outside. Naming them, and finding support, is part of the work.</p></div>
+    ${foot(n)}`);
+
   add("How each month is read", "", n => `
-    <div class="eb">Foundations · Reading a month</div>
+    <div class="eb">Understanding the cards · Reading a month</div>
     <h1>How each month is read</h1>
     <p>Every month in this guide follows the same pattern, moving from the center of the mandala outward.</p>
     <div class="parts">
@@ -396,8 +619,46 @@
     <div class="box blush"><p><b>Three questions to carry.</b> What might she be experiencing? What am I experiencing? What would help us both?</p></div>
     ${foot(n)}`);
 
+  // A card, front and back, with numbered markers: what each part holds.
+  const mark = (k, x, y) => `<span class="mk" style="left:${x}%;top:${y}%">${k}</span>`;
+  add("Your card, front and back", "", n => `
+    <div class="eb">Understanding the cards</div>
+    <h1>Your card, front and back</h1>
+    <div class="anat">
+      <figure>${mark(1, 2, 3)}${mark(2, 72, 3)}${mark(3, 2, 24)}${mark(4, 2, 36)}${mark(5, 2, 57)}<img src="img/t/c01.jpg" alt="The front of card 1"><figcaption>Front</figcaption></figure>
+      <figure>${mark(6, 2, 10)}${mark(7, 2, 53)}${mark(8, 26, 81)}${mark(9, 2, 92)}<img src="img/c02.jpg" alt="The back of card 1"><figcaption>Back</figcaption></figure>
+    </div>
+    <ol class="anat-key">
+      <li>The month, and where it falls in the weeks of pregnancy.</li>
+      <li>The small wheel: where this card sits on the mandala.</li>
+      <li><b>Your baby:</b> her growth, and what she may be sensing.</li>
+      <li><b>You:</b> your body, hormones, and feelings.</li>
+      <li><b>Good to know:</b> her world, the possible imprints, and a note for you.</li>
+      <li><b>Practices</b> for connecting with her, with steps to follow.</li>
+      <li><b>For your own healing:</b> a practice for your own story.</li>
+      <li><b>Her question:</b> the question this month's imprint may answer.</li>
+      <li>The teachers and research behind the card.</li>
+    </ol>
+    ${foot(n)}`);
+
+  add("The heart of the practices", "", n => `
+    <div class="eb">Understanding the cards · The practices</div>
+    <h1>Seven threads behind every card</h1>
+    <p>Most practices on the cards grow from Karen Strange's <i>Simple Tools for Mothers</i>. Knowing the threads behind them helps you make the practices your own.</p>
+    <ol class="steps tight">
+      <li><b>You are her regulator.</b> She forms around what you feel and experience. When you settle, she learns how settling feels.</li>
+      <li><b>Slow down.</b> Grounding brings you into your body; pacing matches her slower rhythm. Her brain waves are six to ten times slower than yours.</li>
+      <li><b>Talk to her, and listen.</b> Tell her what you will do before you do it, tell her what is going on, tell her what you would like, and tell her the story of what happened.</li>
+      <li><b>Your feelings are yours.</b> She feels what you feel. Telling her "this is about me, not you" begins healthy separateness.</li>
+      <li><b>Oxytocin moments.</b> Pleasure on purpose wires her system to move from stress back to calm, and gives you a groove to return to.</li>
+      <li><b>Rupture and repair.</b> Hard moments come into every relationship. Returning, naming what happened, and reconnecting builds deeper trust.</li>
+      <li><b>Someone for her, too.</b> A "baby doula" follows your baby's journey through birth, the way a doula supports you.</li>
+    </ol>
+    <blockquote>It is not just what you do or say that matters, but how you are on the inside.<cite>Karen Strange</cite></blockquote>
+    ${foot(n)}`);
+
   add("Using the cards", "", n => `
-    <div class="eb">Using the cards</div>
+    <div class="eb">Understanding the cards</div>
     <h1>One card at a time</h1>
     <ol class="steps">
       <li><b>Find your card.</b> Choose the card for the month you are in. The small wheel in its corner shows where it sits on the mandala.</li>
@@ -417,28 +678,28 @@
 
   /* ---- the four parts and twelve months ---- */
   const PARTS = [
-    { eb: "Part one · Weeks 1–13", t: "The First<br>Trimester", sub: "Beginnings", seg: [0, 3],
+    { eb: "The first trimester · Weeks 1–13", t: "The First<br>Trimester", sub: "Beginnings", seg: [0, 3],
       lede: "Life is often present before anyone knows it. These first weeks are full of rapid building, and of big feelings as the news arrives.",
       baby: "From a cluster of cells to a moving fetus. Her heart begins to beat, every major organ begins, and the placenta takes root.",
       you: "Hormones rise quickly, bringing fatigue, nausea, and tenderness. The news can bring joy, fear, and old feelings to the surface.",
       lens: "She is present before anyone knows she is there. How she is welcomed, in thought, word, and feeling, is among the first things she takes in.",
       focus: "Welcome her, find one way to settle yourself, and gather the people who will support you.",
       when: "As early as you can, even before you feel ready." },
-    { eb: "Part two · Weeks 14–27", t: "The Second<br>Trimester", sub: "The Middle", seg: [3, 6],
+    { eb: "The second trimester · Weeks 14–27", t: "The Second<br>Trimester", sub: "The Middle", seg: [3, 6],
       lede: "Your baby begins to hear, you begin to feel her, and the relationship becomes something you can both sense.",
       baby: "Her movements grow coordinated, hearing begins around weeks 18 to 20, and she begins to respond to voices, touch, and sound.",
       you: "Energy often returns and your belly shows. Feeling her move can turn an idea into a relationship, and your thoughts begin to turn toward birth.",
       lens: "Her senses are opening, and relationship now runs both ways. When her movements and sounds are met, she learns she is heard.",
       focus: "Talk, sing, and answer her movements. Choose the stories you take in, and begin exploring your own birth story.",
       when: "Around weeks 10 to 13, just before this trimester begins." },
-    { eb: "Part three · Weeks 28–40", t: "The Third<br>Trimester", sub: "The Ripening", seg: [6, 9],
+    { eb: "The third trimester · Weeks 28–40", t: "The Third<br>Trimester", sub: "The Ripening", seg: [6, 9],
       lede: "Your baby grows, space grows tight, and both of your bodies prepare for birth.",
       baby: "Her eyes open, dreaming sleep appears, and she comes to know your voice. Many babies settle head down, and her own lungs may help signal when labor begins.",
       you: "Sleep grows harder and practice contractions stronger. Anticipation grows, and so can fear. Choices about position, monitoring, and induction may arise.",
       lens: "She is preparing for birth alongside you. How choices are made, and the feeling in the room, may become part of how she arrives.",
       focus: "Slow down, plan your birth space and support, practice staying in the decisions, and prepare for flexibility, not fear.",
       when: "Around weeks 24 to 27, just before this trimester begins." },
-    { eb: "Part four · Labor, birth, first hour", t: "Birth", sub: "The Threshold", seg: [9, 12],
+    { eb: "Birth · Labor, birth, first hour", t: "Birth", sub: "The Threshold", seg: [9, 12],
       lede: "Hormones, the space, and the people present all shape how your baby arrives and how she is met.",
       baby: "Labor holds her in rhythm and pressure. Birth brings light, air, and sound all at once. The first hour brings your skin, your smell, and your voice.",
       you: "Oxytocin, endorphins, adrenaline, and prolactin carry you through, and they flow best when you feel safe, private, and unobserved.",
@@ -549,20 +810,79 @@
     });
   });
 
-  add("The heart of the practices", "", n => `
-    <div class="eb">The heart of the practices</div>
-    <h1>Seven threads behind every card</h1>
-    <p>Most practices on the cards grow from Karen Strange's <i>Simple Tools for Mothers</i>. Knowing the threads behind them helps you make the practices your own.</p>
-    <ol class="steps tight">
-      <li><b>You are her regulator.</b> She forms around what you feel and experience. When you settle, she learns how settling feels.</li>
-      <li><b>Slow down.</b> Grounding brings you into your body; pacing matches her slower rhythm. Her brain waves are six to ten times slower than yours.</li>
-      <li><b>Talk to her, and listen.</b> Tell her what you will do before you do it, tell her what is going on, tell her what you would like, and tell her the story of what happened.</li>
-      <li><b>Your feelings are yours.</b> She feels what you feel. Telling her "this is about me, not you" begins healthy separateness.</li>
-      <li><b>Oxytocin moments.</b> Pleasure on purpose wires her system to move from stress back to calm, and gives you a groove to return to.</li>
-      <li><b>Rupture and repair.</b> Hard moments come into every relationship. Returning, naming what happened, and reconnecting builds deeper trust.</li>
-      <li><b>Someone for her, too.</b> A "baby doula" follows your baby's journey through birth, the way a doula supports you.</li>
-    </ol>
-    <blockquote>It is not just what you do or say that matters, but how you are on the inside.<cite>Karen Strange</cite></blockquote>
+  // Harder paths: the situations this guide does not picture, held with
+  // care, and without judgment. The opening section of Going deeper.
+  add("When the path is harder", "", n => `
+    <div class="eb">Going deeper · Harder paths</div>
+    <h1>When the path is harder</h1>
+    <p>No pregnancy follows the map exactly. Some begin in ways this guide does not picture, and some carry grief, fear, or old wounds alongside the hope. Whatever your path, the heart of this guide still holds: she is here, she is listening, and connection and repair are possible.</p>
+    <div class="lab">Conceiving with help</div>
+    <p>IVF, donor eggs or sperm, or a surrogate can make a beginning feel clinical, or full of waiting and loss. Many in this field invite parents to tell the baby the story of how she came to be, and how long and how much she was wanted. If a donor or surrogate is part of her story, it can be told with gratitude, and at her pace as she grows.</p>
+    <div class="lab">Without a partner, or without support</div>
+    <p>You may be single by choice, separated, or with a partner who is not involved. Her first world is you and the people you gather around you: friends, family, a doula, a community. The circles of support on page ${no("My circles of support")} are a place to start. If you are not safe at home, the hotlines on page ${no("Help, reading, and sources")} can help.</p>
+    ${foot(n)}`);
+
+  add("Loss, and hope after loss", "", n => `
+    <div class="eb">Going deeper · Harder paths</div>
+    <h1>Loss, and hope after loss</h1>
+    <div class="lab">Pregnancy after loss</div>
+    <p>If you have lost a pregnancy or a child before, hope and fear often arrive together, and letting yourself attach can feel risky. This is natural. Some parents tell the new baby about her brother or sister, so the loss is held in the open rather than in silence. She is not a replacement. She is herself.</p>
+    <div class="lab">When this pregnancy brings hard news</div>
+    <p>A difficult diagnosis, a twin who does not continue, or a pregnancy that ends: these are griefs that deserve time and support. Your baby can still be spoken to, held in your attention, and named. Perinatal loss and perinatal hospice support exist for exactly these paths.</p>
+    <div class="lab">Grief has its own timing</div>
+    <p>Grief may come in waves: at scans, due dates, and anniversaries. Partners often grieve differently, and both ways are real. Groups such as Share Pregnancy and Infant Loss Support, and Postpartum Support International, offer companionship along the way.</p>
+    ${foot(n)}`);
+
+  add("When birth takes a hard turn", "", n => `
+    <div class="eb">Going deeper · Harder paths</div>
+    <h1>When birth takes a hard turn</h1>
+    <div class="lab">A birth that was hard</div>
+    <p>An emergency cesarean, a frightening labor, separation, or feeling unheard can leave a mark on parents as well as babies, and many people carry a hard birth quietly for years. Telling the story to someone who listens, and telling your child what happened, are both forms of repair. Approaches such as EMDR and birth story listening can help (page ${no("People who can walk with you")}).</p>
+    <div class="lab">Early arrivals and the NICU</div>
+    <p>If she comes early or needs special care, you are still her first world. Your voice, your smell, skin to skin as soon as it is allowed, and your hand through the incubator all reach her. Ask her nurses what you can do.</p>
+    <div class="lab">When the pregnancy was not planned</div>
+    <p>An unexpected pregnancy can bring shock, ambivalence, or fear. Mixed feelings are not a verdict on your love. Telling her, "This was a surprise, and I am finding my way to you," is honest, and a beginning.</p>
+    ${foot(n)}`);
+
+  add("Looking back with kindness", "", n => `
+    <div class="eb">Going deeper · Harder paths</div>
+    <h1>Looking back with kindness</h1>
+    <p>Learning about imprints can bring up the past: a pregnancy you wish had gone differently, an older child's birth, or a pregnancy you ended. This knowledge is not a scorecard.</p>
+    <div class="lab">After an abortion</div>
+    <p>If you have ended a pregnancy, reading this may stir grief, relief, regret, or all of these at once. You made a decision with what you knew and what you had at the time. Grief and love can sit beside that decision. Some people find comfort in a private ritual of acknowledgment, or in talking with someone who listens without judgment, such as All-Options, which supports people through every pregnancy experience.</p>
+    <div class="lab">If you carry earlier trauma</div>
+    <p>Past abuse or assault can make exams, birth, and being touched hard. You can tell your care providers what helps you feel safe, and ask for trauma-informed care. A therapist can walk with you before the birth.</p>
+    <div class="lab">Repair is possible at any age</div>
+    <p>If you look back at an older child's beginning and see what was missing, it is not too late. Children of every age, and adults too, can be told their story with kindness, and repair can begin in any relationship, including the one with yourself.</p>
+    ${foot(n)}`);
+
+  // Going deeper: memory research and regression, then the words of this guide.
+  // Regression: early impressions returning to awareness, and the parent's
+  // own early story stirred by pregnancy. A facing pair after memory.
+  add("Memories that return", "", n => `
+    <div class="eb">Going deeper · Regression</div>
+    <h1>Memories that return</h1>
+    <p>For a century, people in therapy have described experiences that seem to come from before words: a sense of the womb, of being born, of how they were received. In pre- and perinatal psychology these are called regression experiences, early impressions returning to conscious awareness.</p>
+    <div class="lab">What has been gathered</div>
+    <ul class="lead">
+      <li>From the 1960s, psychiatrists Frank Lake and Stanislav Grof recorded clients reliving womb and birth experiences in deep therapeutic states.</li>
+      <li>Obstetrician David Cheek, working with hypnosis, described adults recalling the movements and circumstances of their own births.</li>
+      <li>David Chamberlain compared the birth memories of mothers and their children, recalled separately under hypnosis, and found many details matched (<i>Babies Remember Birth</i>).</li>
+      <li>Ham and Klimo found that adults' recalled sense of their mothers' feelings in pregnancy matched what their mothers reported.</li>
+      <li>Surveys in Japan found many young children speaking, unprompted, of the womb or their birth (Ikegawa).</li>
+    </ul>
+    <p class="note">A careful note: memory recalled in hypnosis or deep states can be shaped by suggestion and expectation, and mainstream science doubts that memories like these can form so early. What these accounts are is still being explored.</p>
+    ${foot(n)}`);
+
+  add("How early memory may be held", "", n => `
+    <div class="eb">Going deeper · Regression</div>
+    <h1>How early memory may be held</h1>
+    <p>How could experience from before birth be carried? Part of the answer may be implicit memory: patterns of feeling held in the body and nervous system before there are words for them. Some practitioners speak of cellular or energetic memory, something carried that research has not yet found a way to measure.</p>
+    <p>However it is held, what people describe is often felt in the body first: in breath, in posture, in emotions that seem older than the story they know.</p>
+    <div class="lab">Pregnancy as a doorway</div>
+    <p>Carrying a child often stirs a parent's own earliest story. Feelings may rise that seem bigger than the moment, or familiar in a way that is hard to name: a fear of being left, a longing to be held. In this lens, such moments may be your own early imprints surfacing, a natural part of becoming a parent.</p>
+    <p>Meeting them gently matters for you both. What is felt and understood can be soothed, and what is soothed is less likely to be passed on.</p>
+    <div class="box blush"><p>The healing practice on the back of each card is a place to begin. If what surfaces feels larger than you can hold, the people on page ${no("People who can walk with you")} work with exactly these early experiences.</p></div>
     ${foot(n)}`);
 
   add("People who can walk with you", "dense", n => `
@@ -584,6 +904,26 @@
     <p class="tight"><b>EMDR</b> helps the mind process hard memories, including a difficult birth.</p>
     <p class="tight"><b>Birth story listening</b> helps you tell your story, be heard, and find meaning in it.</p>
     <div class="box blush"><p>An educator can help you find the right fit. Choose people who listen, who leave you feeling safe, and who let you set the pace. Keep their details on the next two pages.</p></div>
+    ${foot(n)}`);
+
+  add("Help, reading, and sources", "dense", n => `
+    <div class="eb">Resources</div>
+    <h1>Help, reading, and sources</h1>
+    <div class="box blush">
+      <div class="lab">If you need support now (United States)</div>
+      <p class="tight"><b>National Maternal Mental Health Hotline:</b> call or text 1-833-TLC-MAMA (1-833-852-6262).</p>
+      <p class="tight"><b>Postpartum Support International HelpLine:</b> call or text 1-800-944-4773.</p>
+      <p class="tight">In a crisis, call or text 988. In an emergency, call 911.</p>
+    </div>
+    <div class="lab">Further reading</div>
+    <ul class="refs">
+      <li>Chamberlain, D. <i>Windows to the Womb</i>; <i>Babies Remember Birth</i>.</li>
+      <li>Verny, T., and Kelly, J. <i>The Secret Life of the Unborn Child</i>.</li>
+      <li>Buckley, S. <i>Gentle Birth, Gentle Mothering</i>.</li>
+      <li>Gaskin, I. M. <i>Ina May's Guide to Childbirth</i>.</li>
+      <li>Siegel, D., and Hartzell, M. <i>Parenting from the Inside Out</i>.</li>
+      <li>Strange, K. <i>Simple Tools for Mothers</i>.</li>
+    </ul>
     ${foot(n)}`);
 
   // Two pages to fill in by hand, in three rings around her: the people
@@ -611,6 +951,7 @@
     ${ring(1, "Ring two · Family and friends", "The people who will cook, listen, hold the baby, and hold you")}
     ${[4, 5, 6].map(k => entry(k, "Relationship")).join("")}
     ${foot(n)}`);
+
   add("My circles of support, continued", "circle", n => `
     <div class="eb">My circles of support · Continued</div>
     ${ring(2, "Ring three · Pre- and perinatal support", "Pre- and perinatal practitioners and educators, prenatal and birth therapy, Somatic Experiencing, craniosacral therapy, birth story listening, bonding programs")}
@@ -620,25 +961,48 @@
     <div class="row"><label></label></div>
     ${foot(n)}`);
 
-  add("Help, reading, and sources", "dense", n => `
+  add("Glossary", "dense", n => `
+    <div class="eb">Going deeper</div>
+    <h1>Words in this guide</h1>
+    <dl class="gloss">
+      <dt>Pre- and perinatal</dt><dd>Before birth, and around birth: from conception through the first year.</dd>
+      <dt>Prenate</dt><dd>A baby before birth.</dd>
+      <dt>Imprint</dt><dd>A lasting impression left by early experience, held in the body and nervous system before there are words.</dd>
+      <dt>Her question</dt><dd>The quiet question a month's imprint may answer for her, such as "Am I welcome?"</dd>
+      <dt>Explicit memory</dt><dd>Memory we can recall and put into words: facts, events, stories.</dd>
+      <dt>Implicit memory</dt><dd>Memory held without a sense of remembering: in the body, in feelings, in what we expect.</dd>
+      <dt>Regression</dt><dd>Early impressions returning to awareness, often in deep or therapeutic states.</dd>
+      <dt>Placenta</dt><dd>The organ that nourishes her and carries some of your chemistry to her, while buffering much of it.</dd>
+      <dt>Epigenetics</dt><dd>How surroundings change the way genes are switched on and off, without changing the genes themselves.</dd>
+      <dt>Cortisol</dt><dd>A stress hormone. Brief rises are normal; long, unrelieved stress matters most.</dd>
+      <dt>Oxytocin</dt><dd>The hormone of calm, closeness, and labor contractions.</dd>
+    </dl>
+    ${foot(n)}`);
+
+  add("Glossary, continued", "dense", n => `
+    <div class="eb">Going deeper</div>
+    <dl class="gloss">
+      <dt>Nervous system states</dt><dd>In polyvagal theory: safe and connected, mobilized, and shut down.</dd>
+      <dt>Neuroception</dt><dd>The body's wordless, constant scanning for safety and danger.</dd>
+      <dt>Window of tolerance</dt><dd>The range in which you can feel strongly and still think and connect. Also called a window of capacity.</dd>
+      <dt>Self-regulation</dt><dd>Finding your own way back to steadiness.</dd>
+      <dt>Co-regulation</dt><dd>Steadying through another person. A baby borrows steadiness from her parents.</dd>
+      <dt>Resource</dt><dd>Anything that helps your nervous system feel steadier: a person, a place, a memory, a sensation.</dd>
+      <dt>Rupture and repair</dt><dd>A break in connection, and the return that heals it. Repair builds trust.</dd>
+      <dt>Healthy separateness</dt><dd>Telling her which feelings are yours, so she need not carry them as her own.</dd>
+      <dt>Trauma</dt><dd>An experience that was too much, too fast, or too soon, with too little support.</dd>
+      <dt>Resilience</dt><dd>The capacity to meet difficulty and find the way back to balance.</dd>
+      <dt>Doula</dt><dd>A trained companion who supports the mother through birth and the weeks after.</dd>
+      <dt>Baby doula</dt><dd>Someone who follows the baby's journey through birth.</dd>
+      <dt>Informed consent</dt><dd>Your right to understand the benefits, risks, and alternatives of any care, and to say yes or no.</dd>
+      <dt>The golden hour</dt><dd>The first hour after birth, when skin to skin and closeness matter most.</dd>
+    </dl>
+    ${foot(n)}`);
+
+  // The sources have their own page, facing the help and reading.
+  add("Sources drawn on", "dense", n => `
     <div class="eb">Resources</div>
-    <h1>Help, reading, and sources</h1>
-    <div class="box blush">
-      <div class="lab">If you need support now (United States)</div>
-      <p class="tight"><b>National Maternal Mental Health Hotline:</b> call or text 1-833-TLC-MAMA (1-833-852-6262).</p>
-      <p class="tight"><b>Postpartum Support International HelpLine:</b> call or text 1-800-944-4773.</p>
-      <p class="tight">In a crisis, call or text 988. In an emergency, call 911.</p>
-    </div>
-    <div class="lab">Further reading</div>
-    <ul class="refs">
-      <li>Chamberlain, D. <i>Windows to the Womb</i>; <i>Babies Remember Birth</i>.</li>
-      <li>Verny, T., and Kelly, J. <i>The Secret Life of the Unborn Child</i>.</li>
-      <li>Buckley, S. <i>Gentle Birth, Gentle Mothering</i>.</li>
-      <li>Gaskin, I. M. <i>Ina May's Guide to Childbirth</i>.</li>
-      <li>Siegel, D., and Hartzell, M. <i>Parenting from the Inside Out</i>.</li>
-      <li>Strange, K. <i>Simple Tools for Mothers</i>.</li>
-    </ul>
-    <div class="lab">Sources drawn on</div>
+    <h1>Sources drawn on</h1>
     <ul class="refs small">
       <li>Buckley, S. J. (2003). Undisturbed birth. <i>JOPPPAH, 17</i>(4).</li>
       <li>Cheek, D. B. (1975). Maladjustment patterns apparently related to imprinting at birth. <i>American Journal of Clinical Hypnosis</i>. Grof, S. (1975). <i>Realms of the Human Unconscious</i>.</li>
@@ -649,7 +1013,11 @@
       <li>Emerson, W. The Elephant in the Birthing Room.</li>
       <li>Fischbein, S. J., and Freeze, R. (2018). <i>BMC Pregnancy and Childbirth, 18</i>, 397.</li>
       <li>Ham, J. T., and Klimo, J. (2000). Fetal awareness of maternal emotional states. <i>JOPPPAH, 15</i>(2).</li>
+      <li>Buckley, S. J. (2015). <i>Hormonal Physiology of Childbearing</i>. Childbirth Connection. Gettler, L. T., et al. (2011). <i>PNAS, 108</i>(39).</li>
+      <li>Gordon, I., et al. (2010). Oxytocin and the development of parenting in humans. <i>Biological Psychiatry, 68</i>(4).</li>
+      <li>Hoekzema, E., et al. (2017). Pregnancy leads to long-lasting changes in human brain structure. <i>Nature Neuroscience, 20</i>.</li>
       <li>Ikegawa, A. (2005). Fetal and infant memory in the womb and at birth. <i>JOPPPAH, 20</i>(2). Kisilevsky, B. S., et al. (2003). <i>Psychological Science, 14</i>(3). Kroll-Desrosiers, A. R., et al. (2017). <i>Depression and Anxiety, 34</i>(2).</li>
+      <li>Lieberman, M. D., et al. (2007). Putting feelings into words. <i>Psychological Science, 18</i>(5). Raphael, D. (1975). Matrescence, becoming a mother. In <i>Being Female</i>.</li>
       <li>Levine, P. A. (1997). <i>Waking the Tiger</i>. Mampe, B., et al. (2009). <i>Current Biology, 19</i>(23).</li>
       <li>Mennella, J. A., Jagnow, C. P., and Beauchamp, G. K. (2001). <i>Pediatrics, 107</i>(6). Porges, S. W. (2011). <i>The Polyvagal Theory</i>.</li>
       <li>Lorenz, K. (1935). Der Kumpan in der Umwelt des Vogels. Rank, O. (1924). <i>The Trauma of Birth</i>.</li>
@@ -682,24 +1050,40 @@
       <p>An educational companion, not medical advice. Talk with your care provider about your own pregnancy.</p>
     </div>`);
 
-  /* ---- the contents page, built from the pages themselves ---- */
-  const GROUPS = [
-    ["Beginning", ["Key to the mandala", "Welcome"]],
-    ["Foundations · The pre- and perinatal lens", ["The pre- and perinatal lens", "What is an imprint?", "Memory before words", "Memories that return", "How early memory may be held", "Trauma and resilience", "Your nervous system", "Resourcing yourself", "Why it matters", "Speaking to your baby", "She is listening", "How each month is read"]],
-    ["Using this guide", ["Using the cards"]],
-    ["Part one · The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
-    ["Part two · The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
-    ["Part three · The third trimester", [PART_TITLES[2], ...MONTHS.slice(6, 9).map(m => m[1])]],
-    ["Part four · Birth", [PART_TITLES[3], ...MONTHS.slice(9, 12).map(m => m[1])]],
-    ["Going deeper", ["The heart of the practices", "People who can walk with you", "My circles of support", "Help, reading, and sources", "Notes"]]];
-  function contents(n) {
-    return `
-    <div class="eb">Contents</div>
-    <h1 class="ct">Inside this guide</h1>
-    <div class="cols">${GROUPS.map(([h, items]) => `<div class="grp"><div class="lab">${h}</div><ul class="toc">${items.map(t => {
+  /* ---- the contents, built from the pages themselves ---- */
+  // Four parts: the foundations, how to read the cards, the cards, and
+  // going deeper. Each part holds its sections; each section, its pages.
+  const TOC = [
+    [0, null, [
+      [null, ["Key to the mandala", "Welcome", "Start here"]]]],
+    [0, "Part One · Foundations", [
+      ["Your baby and you", ["Your baby is already here", "What she senses, and when", "You are her first world", "The world around you", "The hormones of pregnancy", "The hormones of birth and bonding"]],
+      ["The pre- and perinatal lens", ["The pre- and perinatal lens", "Why it matters", "What is an imprint?", "Memory before words"]],
+      ["Your inner world", ["Trauma and resilience", "Your nervous system", "Your window of tolerance", "Widening your window", "Feelings", "Your feelings, and hers", "Your own healing", "A time for transformation", "Resourcing yourself", "A daily check-in"]],
+      ["Connecting with her", ["Speaking to your baby", "She is listening", "Your part in this", "For partners"]]]],
+    [1, "Part Two · Understanding the cards", [
+      [null, ["How each month is read", "Your card, front and back", "The heart of the practices", "Using the cards"]]]],
+    [1, "Part Three · The cards", [
+      ["The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
+      ["The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],
+      ["The third trimester", [PART_TITLES[2], ...MONTHS.slice(6, 9).map(m => m[1])]],
+      ["Birth", [PART_TITLES[3], ...MONTHS.slice(9, 12).map(m => m[1])]]]],
+    [1, "Part Four · Going deeper", [
+      [null, ["When the path is harder", "Loss, and hope after loss", "When birth takes a hard turn", "Looking back with kindness", "Memories that return", "How early memory may be held", "People who can walk with you", "Help, reading, and sources", "My circles of support", "Glossary", "Sources drawn on", "Notes"]]]]];
+  function contents(n, side) {
+    const line = t => {
       const i = no(t);
       return `<li data-go="${i}"${PART_TITLES.includes(t) ? ' class="b"' : ""}><span>${t}</span><span>${i}</span></li>`;
-    }).join("")}</ul></div>`).join("")}</div>
+    };
+    // The four sections of the cards sit two by two.
+    const group = ([h, items]) => `<div class="grp">${h ? `<div class="lab">${h}</div>` : ""}<ul class="toc">${items.map(line).join("")}</ul></div>`;
+    const body = TOC.filter(([sd]) => sd === side).map(([, part, groups]) =>
+      (part ? `<div class="ptitle">${part}</div>` : "") +
+      (groups.length === 4 && /cards$/.test(part) ? `<div class="grid2">${groups.map(group).join("")}</div>` : groups.map(group).join(""))).join("");
+    return `
+    <div class="eb">Contents</div>
+    ${side === 0 ? `<h1 class="ct">Inside this guide</h1>` : ""}
+    ${body}
     ${foot(n)}`;
   }
 
