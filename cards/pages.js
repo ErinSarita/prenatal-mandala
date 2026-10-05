@@ -237,7 +237,7 @@
     <h1>What is an imprint?</h1>
     <p>The word comes from Konrad Lorenz, who watched newly hatched goslings follow the first moving figure they saw, often Lorenz himself, and keep following. A first experience, met in a sensitive window, set a lasting pattern.</p>
     <p>In pre- and perinatal education, an imprint is an impression left by early experience: conception, life in the womb, birth, and the first hours and days. Because it comes before words, it is held as body memory, in the nervous system and in patterns of feeling and response, rather than as a story she can tell.</p>
-    <p>Imprints shape her first answers to quiet questions: <em>Am I welcome? Is the world safe? When I reach out, will someone meet me?</em></p>
+    <p>Imprints shape her first answers to quiet questions: <em>Am I welcome? Is the world safe? When I reach out, will someone meet me?</em> Each month in this guide, and the back of each card, names the question that month's imprint may answer.</p>
     <div class="box">
       <h3>Three things to hold</h3>
       <p><b>Imprints can nourish.</b> Welcome, calm, touch, and being spoken to leave impressions too. Most of this guide is about offering more of these.</p>
@@ -389,7 +389,7 @@
     <div class="parts">
       <div><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><h3>Your baby</h3><p>Her growth, and what she may be sensing and taking in. Read it as a description of someone, not something.</p></div>
       <div><span class="dot" style="background:#FCA59B"></span><h3>You</h3><p>Your body, hormones, and feelings. Your inner states are her first environment, so caring for yourself is caring for her.</p></div>
-      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>What this month's experiences may leave as an impression, and what tends to help: practices, people, and choices. These are possibilities to notice, not predictions.</p></div>
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>Her question for the month, what its experiences may leave as an impression, and what tends to help: practices, people, and choices. These are possibilities to notice, not predictions.</p></div>
       <div><span class="dot" style="background:#E35F43"></span><h3>To explore further</h3><p>The teachers and research behind the month, for when you want to read more deeply.</p></div>
     </div>
     <p>The back of each card carries the outer petals: practices for connecting with your baby, and one for your own healing.</p>
@@ -507,6 +507,12 @@
       "Skin to skin, oxytocin and prolactin peak. Oxytocin helps the placenta release and protects against bleeding, and prolactin begins milk and mothering. Awe, relief, exhaustion, and the first look at your baby may arrive together.",
       "Welcome or separation may be among her first lessons about the world. What helps is keeping you together: skin to skin, breastfeeding, and rooming-in, with newborn checks on your chest and the first bath waiting. If the golden hour does not happen, through separation or medical care, the bond is not lost. Relationships are built over time, and repair can begin as soon as you are together. Mixed feelings in the days after are natural and need no guilt.",
       "Humanistic care keeps mother and baby together; taking the baby to a nursery for bathing is not part of this model (Davis-Floyd). Watch in the weeks after for lingering distress, such as flashbacks, numbness, or avoidance, and reach out for support (Seng and Taylor)."]];
+  // The question each month's imprint may answer for the baby, in her voice.
+  // Kept in step with the mandala (../index.html) and the cards (add-questions.py).
+  const QUESTIONS = ["Am I wanted?", "Am I welcome?", "Is it safe to be here?",
+    "When I reach out, will someone meet me?", "Is my world a kind place?", "Can I rest here?",
+    "Can I trust those around me?", "Will I be held as space grows tight?", "Will I be given time?",
+    "Can I make it through?", "Is it safe to arrive?", "Do I belong here, with you?"];
   const PART_TITLES = ["Beginnings, an overview", "The Middle, an overview", "The Ripening, an overview", "The Threshold, an overview"];
   const short = t => t.split(" · ")[1];
 
@@ -537,7 +543,7 @@
         <hr>
         <h2>Your baby</h2><p>${m[2]}</p>
         <h2>You</h2><p>${m[3]}</p>
-        <h2>Imprints and what helps</h2><p>${m[4]}</p>
+        <h2>Imprints and what helps</h2><p class="mq"><span>Her question</span>${QUESTIONS[seg]}</p><p>${m[4]}</p>
         <div class="box"><div class="lab">To explore further</div><p>${m[5]}</p></div>
         ${foot(n)}`);
     });

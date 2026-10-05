@@ -9,3 +9,5 @@ The mandala is the single file `index.html`. The guidebook and the twelve cards 
 The guidebook's PDFs, one per cover style, are made by `cards/build-pdf.py` (headless Chrome, exactly 5.5 × 8.5 inches) and saved in `cards/pdf/`. Run it again after changing the guidebook: `python3 cards/build-pdf.py`.
 
 The printable cards, `cards/pdf/cards-large.pdf` and `cards/pdf/cards-standard.pdf`, are made by `cards/build-cards-pdf.py` from the card images. Printed double-sided on US Letter with "flip on long edge" at actual size, each back lands behind its front.
+
+Each card's back carries the question its month's imprint may answer ("Her question"). `cards/add-questions.py` sets them onto the card images, reading the untouched originals from `cards/img/orig/`, in the cards' own fonts (`cards/fonts/`, under the SIL Open Font License). The same twelve questions live in `index.html` and `cards/pages.js`; keep all three in step.
