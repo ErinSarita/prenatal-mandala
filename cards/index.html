@@ -547,7 +547,7 @@ CARDS.forEach((c, i) => {
   const b = document.createElement("button");
   b.className = "mini"; b.setAttribute("aria-pressed", "false");
   b.setAttribute("aria-label", `Card ${i + 1}, ${c[0]}, ${c[1]}`);
-  b.innerHTML = `<img src="img/t/c${pad(i * 2 + 1)}.jpg" alt="" loading="lazy"><span>${i + 1}</span>`;
+  b.innerHTML = `<img src="img/t/c${pad(i * 2 + 1)}.jpg${CARD_V}" alt="" loading="lazy"><span>${i + 1}</span>`;
   b.onclick = () => openCard(i, true);
   deck.appendChild(b);
 });
@@ -557,8 +557,8 @@ function openCard(i, scroll) {
   document.getElementById("vEye").textContent = `Card ${current + 1} of ${CARDS.length} · ${c[2]}`;
   document.getElementById("vTitle").textContent = `${c[0]} · ${c[1]}`;
   const f = document.getElementById("vFront"), b = document.getElementById("vBack");
-  f.src = `img/c${pad(current * 2 + 1)}.jpg`; f.alt = `Front of card ${current + 1}, ${c[1]}`;
-  b.src = `img/c${pad(current * 2 + 2)}.jpg`; b.alt = `Back of card ${current + 1}, ${c[1]}: practices`;
+  f.src = `img/c${pad(current * 2 + 1)}.jpg${CARD_V}`; f.alt = `Front of card ${current + 1}, ${c[1]}`;
+  b.src = `img/c${pad(current * 2 + 2)}.jpg${CARD_V}`; b.alt = `Back of card ${current + 1}, ${c[1]}: practices`;
   deck.querySelectorAll(".mini").forEach((x, k) => x.setAttribute("aria-pressed", k === current));
   viewer.hidden = false;
   viewer.classList.remove("enter"); void viewer.offsetWidth; viewer.classList.add("enter");

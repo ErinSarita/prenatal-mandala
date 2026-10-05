@@ -9,6 +9,11 @@
 (function () {
   "use strict";
 
+  // The card images carry a version, so a browser holding an older copy
+  // fetches the new one. Raise it whenever update-cards.py changes the cards.
+  const CARD_V = "?v=6";
+  window.CARD_V = CARD_V;
+
   /* ---- the little wheel in the corner -------------------------------- */
   // Twelve segments clockwise from the top: nine months, then labor, birth,
   // and the first hour. Rings from the center out: child, mother, educator,
@@ -612,7 +617,7 @@
     <div class="parts">
       <div><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><h3>Your baby</h3><p>Her growth, and what she may be sensing and taking in. Read it as a description of someone, not something.</p></div>
       <div><span class="dot" style="background:#FCA59B"></span><h3>You</h3><p>Your body, hormones, and feelings. Your inner states are her first environment, so caring for yourself is caring for her.</p></div>
-      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>Her question for the month, what its experiences may leave as an impression, and what tends to help: practices, people, and choices. These are possibilities to notice, not predictions.</p></div>
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>The baby's question for the month, what its experiences may leave as an impression, and what tends to help: practices, people, and choices. These are possibilities to notice, not predictions.</p></div>
       <div><span class="dot" style="background:#E35F43"></span><h3>To explore further</h3><p>The teachers and research behind the month, for when you want to read more deeply.</p></div>
     </div>
     <p>The back of each card carries the outer petals: practices for connecting with your baby, and one for your own healing.</p>
@@ -625,8 +630,8 @@
     <div class="eb">Understanding the cards</div>
     <h1>Your card, front and back</h1>
     <div class="anat">
-      <figure>${mark(1, 2, 3)}${mark(2, 72, 3)}${mark(3, 2, 24)}${mark(4, 2, 36)}${mark(5, 2, 57)}<img src="img/t/c01.jpg" alt="The front of card 1"><figcaption>Front</figcaption></figure>
-      <figure>${mark(6, 2, 10)}${mark(7, 2, 53)}${mark(8, 26, 81)}${mark(9, 2, 92)}<img src="img/c02.jpg" alt="The back of card 1"><figcaption>Back</figcaption></figure>
+      <figure>${mark(1, 2, 3)}${mark(2, 72, 3)}${mark(3, 2, 24)}${mark(4, 2, 36)}${mark(5, 2, 57)}<img src="img/t/c01.jpg${CARD_V}" alt="The front of card 1"><figcaption>Front</figcaption></figure>
+      <figure>${mark(6, 2, 10)}${mark(7, 2, 53)}${mark(8, 26, 81)}${mark(9, 2, 92)}<img src="img/c02.jpg${CARD_V}" alt="The back of card 1"><figcaption>Back</figcaption></figure>
     </div>
     <ol class="anat-key">
       <li>The month, and where it falls in the weeks of pregnancy.</li>
@@ -636,7 +641,7 @@
       <li><b>Good to know:</b> her world, the possible imprints, and a note for you.</li>
       <li><b>Practices</b> for connecting with her, with steps to follow.</li>
       <li><b>For your own healing:</b> a practice for your own story.</li>
-      <li><b>Her question:</b> the question this month's imprint may answer.</li>
+      <li><b>Baby's question:</b> the question this month's imprint may answer.</li>
       <li>The teachers and research behind the card.</li>
     </ol>
     ${foot(n)}`);
@@ -690,7 +695,7 @@
       <li><b>Name what happened,</b> simply: "That was loud." "That was sudden."</li>
       <li><b>Say whose it was:</b> "It was not about you." "It was not your fault."</li>
       <li><b>Reconnect:</b> your hand, your voice, your song.</li>
-      <li><b>Answer her question again,</b> with a yes: "You are welcome. You are safe. I am here."</li>
+      <li><b>Answer the baby's question again,</b> with a yes: "You are welcome. You are safe. I am here."</li>
     </ol>
     ${foot(n)}`);
 
@@ -843,7 +848,7 @@
         <hr>
         <h2>Your baby</h2><p>${m[2]}</p>
         <h2>You</h2><p>${m[3]}</p>
-        <h2>Imprints and what helps</h2><p class="mq"><span>Her question</span>${QUESTIONS[seg]}</p><p>${m[4]}</p>
+        <h2>Imprints and what helps</h2><p class="mq"><span>Baby's question</span>${QUESTIONS[seg]}</p><p>${m[4]}</p>
         <div class="box"><div class="lab">To explore further</div><p>${m[5]}</p></div>
         ${foot(n)}`);
     });
@@ -1014,7 +1019,7 @@
       <dt>Pre- and perinatal</dt><dd>Before birth, and around birth: from conception through the first year.</dd>
       <dt>Prenate</dt><dd>A baby before birth.</dd>
       <dt>Imprint</dt><dd>A lasting impression left by early experience, held in the body and nervous system before there are words.</dd>
-      <dt>Her question</dt><dd>The quiet question a month's imprint may answer for her, such as "Am I welcome?"</dd>
+      <dt>Baby's question</dt><dd>The quiet question a month's imprint may answer for the baby, such as "Am I welcome?"</dd>
       <dt>Explicit memory</dt><dd>Memory we can recall and put into words: facts, events, stories.</dd>
       <dt>Implicit memory</dt><dd>Memory held without a sense of remembering: in the body, in feelings, in what we expect.</dd>
       <dt>Regression</dt><dd>Early impressions returning to awareness, often in deep or therapeutic states.</dd>

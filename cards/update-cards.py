@@ -4,7 +4,7 @@
 Two passes over the untouched originals in img/orig/:
   1. Corrections: a few lines of card text rewritten to match the mandala
      (EDITS below), in the card's own font, size, and ink.
-  2. Her question: each card's question set on the back of the card.
+  2. Baby's question: each card's question set on the back of the card.
 
 Each month's imprint answers a question the baby may hold (see the guidebook,
 "What is an imprint?").
@@ -129,11 +129,11 @@ def main():
         if rule - last >= 150:
             # room to spare: a short rule, the label, then the question
             d.line((w / 2 - 28, mid - 40, w / 2 + 28, mid - 40), fill=RULE, width=2)
-            spaced(d, (w / 2, mid - 14), "HER QUESTION", label_f, LABEL, 3.5)
+            spaced(d, (w / 2, mid - 14), "BABY'S QUESTION", label_f, LABEL, 3.5)
             d.text((w / 2, mid + 22), q, font=q_f, fill=INK, anchor="mm")
         else:
             # a tight card: label and question only, closer together
-            spaced(d, (w / 2, mid - 17), "HER QUESTION", label_f, LABEL, 3.5)
+            spaced(d, (w / 2, mid - 17), "BABY'S QUESTION", label_f, LABEL, 3.5)
             d.text((w / 2, mid + 15), q, font=q_f, fill=INK, anchor="mm")
         im.save(os.path.join(IMG, name), quality=92)
         print(f"{name}  {q}")
