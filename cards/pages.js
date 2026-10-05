@@ -676,6 +676,30 @@
     </div>
     ${foot(n)}`);
 
+  // Every practice is also a way back: rupture and repair, then each card's
+  // practice turned toward repair. Read before the cards begin.
+  add("Every practice is a way back", "", n => `
+    <div class="eb">Understanding the cards · Repair</div>
+    <h1>Every practice is a way back</h1>
+    <p>The practices on the cards help grow good imprints: welcome, safety, being met. They are also something more. If a hard moment has already happened, the same practices become a way back. It is not too late, and repair can begin today.</p>
+    <div class="lab">Rupture and repair</div>
+    <p>A rupture is a break in connection: a fright, a loud argument, a hard day, a birth that changed course. Ruptures come into every relationship. Research with mothers and babies finds that most everyday moments between them are small mismatches, and that it is the repairing, not perfection, that builds trust and resilience (Tronick and Gianino, 1986).</p>
+    <div class="lab">The steps of repair</div>
+    <ol class="steps tight">
+      <li><b>Settle yourself.</b> Ground, and breathe.</li>
+      <li><b>Name what happened,</b> simply: "That was loud." "That was sudden."</li>
+      <li><b>Say whose it was:</b> "It was not about you." "It was not your fault."</li>
+      <li><b>Reconnect:</b> your hand, your voice, your song.</li>
+      <li><b>Answer her question again,</b> with a yes: "You are welcome. You are safe. I am here."</li>
+    </ol>
+    ${foot(n)}`);
+
+  add("Repair, month by month", "dense", n => `
+    <div class="eb">Understanding the cards · Repair</div>
+    <h1>Repair, month by month</h1>
+    <dl class="repair">${REPAIR.map(([pr, words], k) => `<dt><span>${MONTHS[k][1]}</span>${pr}</dt><dd>${words}</dd>`).join("")}</dl>
+    ${foot(n)}`);
+
   /* ---- the four parts and twelve months ---- */
   const PARTS = [
     { eb: "The first trimester · Weeks 1–13", t: "The First<br>Trimester", sub: "Beginnings", seg: [0, 3],
@@ -721,7 +745,7 @@
     ["Card 3 · First trimester · Weeks 9–13", "Month 3 · Taking Root",
       "Now called a fetus, she moves, stretches, hiccups, and swallows amniotic fluid long before you can feel it. Sensitivity to touch spreads from her face across more of her body. Some of your chemistry, including stress hormones, reaches her through the placenta.",
       "Nausea often eases near the end of this month as the placenta takes over hormone production, and your uterus begins to rise out of the pelvis. First prenatal visits and screenings usually happen now, and many families wait until now to share the news. Old feelings from childhood can surface in this window.",
-      "Your own unresolved history, and the chemistry of your states, can reach her. What helps is a safe, trauma-informed space where you can share your story if you choose, and support when it feels big. How you nourish and rest yourself shapes her lifelong health, and small, steady steps count. Worry while waiting for screening results is natural, not a failure of trust.",
+      "Your own unresolved history, and the chemistry of your states, can reach her. What helps is a safe, trauma-informed space where you can share your story if you choose, and support when it feels big. How you nourish and rest yourself shapes her lifelong health, and small, steady steps count. It is also a good time to begin looking for a doula, since many book months ahead. Worry while waiting for screening results is natural, not a failure of trust.",
       "Fetal programming, the idea that conditions in the womb shape lifelong health (Nathanielsz). The three models of care, technocratic, humanistic, and holistic (Davis-Floyd), and the Mother-Friendly Childbirth Initiative, to help you choose the care that fits you."],
     ["Card 4 · Second trimester · Weeks 14–17", "Month 4 · The First Flutters",
       "Her movements grow smoother and more coordinated, and she makes facial expressions. Her inner ear and taste buds are taking shape. Her movements meet the walls of the womb, and soon they will meet your hand.",
@@ -736,7 +760,7 @@
     ["Card 6 · Second trimester · Weeks 23–27", "Month 6 · The Rhythm",
       "She begins to respond to sound, often moving or startling at a sudden loud noise. Her lungs begin making surfactant and her brain grows quickly. Her sleep is not yet divided into stages: she moves through loose cycles of rest and activity, and her brain waves are six to ten times slower than an adult's.",
       "Your belly grows quickly. Back aches, heartburn, and swelling may begin, and a glucose screening is usually offered between weeks 24 and 28. Your thoughts may begin turning toward the birth, and your own birth story, and your mother's, may come to mind.",
-      "The emotional climate over time matters most: ongoing tension or neglect, or warmth and contact. What helps is a steady rhythm of calm, a doula or childbirth class that fits you, and the rest you need, asked for in plain words. If the screening leads to a diagnosis such as gestational diabetes, it is information to guide your care, not a judgment on your body. Disappointment is natural, and it can sit beside caring well for yourself.",
+      "The emotional climate over time matters most: ongoing tension or neglect, or warmth and contact. What helps is a steady rhythm of calm, a childbirth class that fits you, the doula you have found or are still seeking, and the rest you need, asked for in plain words. If the screening leads to a diagnosis such as gestational diabetes, it is information to guide your care, not a judgment on your body. Disappointment is natural, and it can sit beside caring well for yourself.",
       "William Emerson's \"elephant in the birthing room\": everyone brings a birth story into the birth room. Oxytocin, the hormone of calm and connection, is easier to find in labor when it has been practiced in pregnancy (Strange)."],
     ["Card 7 · Third trimester · Weeks 28–31", "Month 7 · Light and Voices",
       "Her eyes open and can sense light through your belly. She is gaining fat, practicing breathing, and moving between clear sleep states. REM sleep appears now, the active sleep linked with dreaming, and she spends much of each day in it. The voices she hears most will be familiar after birth.",
@@ -774,6 +798,21 @@
     "When I reach out, will someone meet me?", "Is my world a kind place?", "Can I rest here?",
     "Can I trust those around me?", "Will I be held as space grows tight?", "Will I be given time?",
     "Can I make it through?", "Is it safe to arrive?", "Do I belong here, with you?"];
+  // Repair: each card's own practice, turned toward repair, with words to say.
+  // Kept in step with the mandala (../index.html, REPAIR).
+  const REPAIR = [
+    ["Grounding", "If her beginning was not what you hoped, ground yourself, rest a hand on your belly, and tell her: \"You were a surprise, and now I am choosing you. You are wanted.\""],
+    ["Repair words for the news", "Return to these as often as you need: \"When we found out, we were scared. That was about us, not you. You are welcome here.\""],
+    ["A daily welcome", "After a frightening scan or a hard day, let the welcome carry a repair: \"That was a hard day. I am here now. You are safe with me.\""],
+    ["Hands on the belly", "If days pass when you could not notice her, come back with your hands: \"I was busy and far away. I am here now, and I feel you.\""],
+    ["A song for her", "After raised voices or a tense moment, sing her song, then say: \"That was loud. It was not about you. You are safe.\""],
+    ["Three daily oxytocin breaks", "After a stretch of tension, the breaks are the way back: \"It has been a hard time. I am finding calm again, for both of us.\""],
+    ["Pacing", "If fear filled the room, at a visit or at home, slow down with her afterward: \"That was frightening to hear. I am with you, and we will be cared for.\""],
+    ["Tell her what you would like", "If a decision came fast or something was done without warning, tell her after: \"That was sudden. I am sorry we did not tell you first. You are held.\""],
+    ["Tell her about the birth to come", "If birth will be helped along or scheduled, tell her before and again after: \"We chose to help you come today. You are welcome now, just as you are.\""],
+    ["Tell her what is happening", "If labor was long or interrupted, tell her after: \"That was a long, hard journey, and you made it. I am so proud of you.\""],
+    ["Repair after intensity", "Use it whenever the birth was hard: \"That was a lot. It is over. You are safe now. It was not your fault.\""],
+    ["Tell her the story of her birth", "If you were apart after birth, hold her close and tell her: \"We were apart, and I missed you. I am here now, and I am so glad you are mine.\""]];
   const PART_TITLES = ["Beginnings, an overview", "The Middle, an overview", "The Ripening, an overview", "The Threshold, an overview"];
   const short = t => t.split(" · ")[1];
 
@@ -1031,6 +1070,7 @@
       <li>Nathanielsz, P. W. <i>Life in the Womb</i>. Partanen, E., et al. (2013). <i>PNAS, 110</i>(37). Persico, G., et al. (2017). <i>Women and Birth, 30</i>(4).</li>
       <li>Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
+      <li>Tronick, E. Z., and Gianino, A. (1986). Interactive mismatch and repair. <i>Zero to Three, 6</i>(3).</li>
       <li>Verrier, N. N. (1993). <i>The Primal Wound: Understanding the Adopted Child</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
@@ -1070,7 +1110,7 @@
       ["Your inner world", ["Trauma and resilience", "Your nervous system", "Your window of tolerance", "Widening your window", "Feelings", "Your feelings, and hers", "Your own healing", "A time for transformation", "Resourcing yourself", "A daily check-in"]],
       ["Connecting with her", ["Speaking to your baby", "She is listening", "Your part in this", "For partners"]]]],
     [1, "Part Two · Understanding the cards", [
-      [null, ["How each month is read", "Your card, front and back", "The heart of the practices", "Using the cards"]]]],
+      [null, ["How each month is read", "Your card, front and back", "The heart of the practices", "Using the cards", "Every practice is a way back", "Repair, month by month"]]]],
     [1, "Part Three · The cards", [
       ["The first trimester", [PART_TITLES[0], ...MONTHS.slice(0, 3).map(m => m[1])]],
       ["The second trimester", [PART_TITLES[1], ...MONTHS.slice(3, 6).map(m => m[1])]],

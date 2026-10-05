@@ -381,3 +381,13 @@
 .pg ol.anat-key li{margin-bottom:2px}
 .pg ol.anat-key li::marker{color:var(--coralpg);font-weight:700}
 .pg.contents .grid2{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}
+
+/* repair, month by month */
+.pg dl.repair{margin:2px 0 0}
+.pg dl.repair dt{font-family:Marcellus,Georgia,serif;font-size:13px;color:var(--coralpg);margin-top:6px}
+.pg dl.repair dt span{font-family:Mulish,sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mutedpg);margin-right:8px}
+.pg dl.repair dd{margin:0;line-height:1.4}
+.pg.dense dl.repair{font-size:10.9px}
+.pg dl.repair dt{margin-top:5px;font-size:12.5px;line-height:1.25}
+.pg dl.repair dd{line-height:1.36}
+.pg.dense ul.refs.small li{margin-bottom:1px}

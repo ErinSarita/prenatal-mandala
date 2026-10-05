@@ -357,41 +357,56 @@ const QUESTIONS = ["Am I wanted?", "Am I welcome?", "Is it safe to be here?",
   "When I reach out, will someone meet me?", "Is my world a kind place?", "Can I rest here?",
   "Can I trust those around me?", "Will I be held as space grows tight?", "Will I be given time?",
   "Can I make it through?", "Is it safe to arrive?", "Do I belong here, with you?"];
+// Repair: each card's own practice, turned toward repair, with words to say.
+// Kept in step with the guidebook (cards/pages.js, REPAIR).
+const REPAIR = [
+  ["Grounding", "If her beginning was not what you hoped, ground yourself, rest a hand on your belly, and tell her: \"You were a surprise, and now I am choosing you. You are wanted.\""],
+  ["Repair words for the news", "Return to these as often as you need: \"When we found out, we were scared. That was about us, not you. You are welcome here.\""],
+  ["A daily welcome", "After a frightening scan or a hard day, let the welcome carry a repair: \"That was a hard day. I am here now. You are safe with me.\""],
+  ["Hands on the belly", "If days pass when you could not notice her, come back with your hands: \"I was busy and far away. I am here now, and I feel you.\""],
+  ["A song for her", "After raised voices or a tense moment, sing her song, then say: \"That was loud. It was not about you. You are safe.\""],
+  ["Three daily oxytocin breaks", "After a stretch of tension, the breaks are the way back: \"It has been a hard time. I am finding calm again, for both of us.\""],
+  ["Pacing", "If fear filled the room, at a visit or at home, slow down with her afterward: \"That was frightening to hear. I am with you, and we will be cared for.\""],
+  ["Tell her what you would like", "If a decision came fast or something was done without warning, tell her after: \"That was sudden. I am sorry we did not tell you first. You are held.\""],
+  ["Tell her about the birth to come", "If birth will be helped along or scheduled, tell her before and again after: \"We chose to help you come today. You are welcome now, just as you are.\""],
+  ["Tell her what is happening", "If labor was long or interrupted, tell her after: \"That was a long, hard journey, and you made it. I am so proud of you.\""],
+  ["Repair after intensity", "Use it whenever the birth was hard: \"That was a lot. It is over. You are safe now. It was not your fault.\""],
+  ["Tell her the story of her birth", "If you were apart after birth, hold her close and tell her: \"We were apart, and I missed you. I am here now, and I am so glad you are mine.\""]];
 const EDUCATOR = [
   {imp:"The circumstances of conception, and whether the baby was hoped for. Conception after a loss, or with help such as IVF or a donor, can carry its own feelings, and all of them can be met with kindness.",
    take:"From the PPN view, the baby is present and taking in her world from the very beginning, so she can be welcomed as someone, not something, from the start.",
    deep:["Prenatal consciousness: the prenate as a conscious, sentient being, with an awareness that may come before the brain (Chamberlain, The Sentient Prenate)", "Memories of the womb and of birth, shared by young children and recalled by adults (Chamberlain)", "The baby as present from conception (Strange)"],
-   best:"For families planning a pregnancy, support nourishment, rest, and the relationship. Invite the parents to explore their conception story, and meet its circumstances without judgment.",
+   best:"For families planning or newly pregnant, support nourishment, rest, and the relationship, and meet the circumstances of conception without judgment.",
    res:"Lay the foundation before any challenge comes: one simple regulation practice, such as grounding, and a circle of people she can turn to. For families who have known loss or a long road to conceive, acknowledge that hope and fear can arrive together, and that both are welcome.",
    src:"Chamberlain, The Sentient Prenate; Strange"},
   {imp:"How the news was first received. Ham and Klimo asked mothers about their first reaction and found matching feelings in what their grown children recalled. Ongoing conflict with partners or parents can reach her too, and Raffai has explored its links with the course of early pregnancy.",
    take:"The baby senses her mother's emotions. Everyday stress is buffered; it is long, unrelieved stress that matters most, and each return to calm helps.",
    deep:["Chemistry: stress hormones partly cross the placenta, which filters much of them", "Rhythms: heartbeat, breathing, movement, and voice change with emotion, and she senses them more as pregnancy goes on", "Her heart rate and movements shift with her mother's stress and relaxation (DiPietro; Ham and Klimo)"],
-   best:"Invite the partner and family into a welcoming response. If the news was hard, offer simple repair words: speaking to the baby to name what happened and reassure her, such as \"When we found out, we were scared. That was about us, not you. We are so glad you are here.\"",
+   best:"Invite the partner and family into a welcoming response, and help the mother name how the news landed.",
    res:"These early weeks are full of uncertainty, as many families wait anxiously for the first scans. Help her name the uncertainty rather than push it away, and hold hope and worry side by side. If a loss happens, her baby and her grief both deserve to be honored, with support. Hard feelings in these weeks are natural and need no guilt. Each time she moves through one and returns to calm, or tells the baby what happened, is a small repair, and these repairs build resilience for both of them.",
    src:"Ham & Klimo (2000); Raffai (2021); Strange"},
   {imp:"The mother's own unresolved history, and the chemistry of her states reaching the baby. The uncertain wait for early screening results can also be felt.",
    take:"How she nourishes and rests herself matters for her baby's lifelong health, and small, steady steps count. She can choose a model of care that fits her.",
    deep:["Fetal programming: nourishment, rest, and stress shape lifelong health (Nathanielsz), offered as encouragement, not blame", "Models of care: technocratic, humanistic, and holistic (Davis-Floyd)", "The Mother-Friendly Childbirth Initiative (MFCI)"],
-   best:"Create a safe, trauma-informed space where she can share her history if she chooses, without probing, and refer her to a therapist or other professional when more support is needed. Share information about models of care so she can choose the one that fits her.",
+   best:"Create a safe, trauma-informed space where she can share her history if she chooses, without probing, and refer her to a therapist or other professional when more support is needed. Share information about models of care so she can choose the one that fits her, and encourage her to begin looking for a doula now, since many book months ahead.",
    res:"Screenings can bring unexpected news. Help her stay informed and part of each decision, and give the feelings room before any choice is made. Worry while waiting for results is natural, not a failure of trust.",
    src:"Seng & Taylor (2015); Nathanielsz; Davis-Floyd (2022); MFCI"},
   {imp:"Whether her movements are noticed and met.",
    take:"Bonding begins before birth. The baby's movements are her way of communicating, and noticing when and how she moves is a first conversation.",
    deep:["Prenatal attachment: it grows as the mother turns her attention toward the baby", "The baby as aware and communicating, her movements a way of telling her story (Strange)"],
-   best:"Introduce simple connection practices for the mother and partner. Suggest a bonding program such as Pregnancy Dialogues.",
+   best:"Teach the language of movement: when she is most active, what her movements may be saying, and how to answer. Suggest a bonding program such as Pregnancy Dialogues.",
    res:"As the pregnancy shows, others begin sharing birth stories and advice, many of them fearful. Help her choose what she takes in, set kind boundaries, and gather stories of births that went well, so her picture of birth is shaped by more than fear. If a story leaves her shaken, that is natural, and talking it through helps her move past it.",
    src:"Strange; Raffai (2021)"},
   {imp:"The sound world of the home: music, laughter, and raised voices. Offspring in Ham and Klimo's study recalled all three.",
    take:"The baby can hear, and her mother's voice is the clearest sound of all. The voices she hears often become familiar.",
    deep:["How sound reaches her: as vibration through fluid and tissue, with the mother's voice carried through her own body", "Ham and Klimo's father, whose \"hoo, hoo\" game from the fifth month led his newborn to stop nursing and turn toward his voice"],
-   best:"Coach partners to talk, sing, and play with the baby. Encourage repair after loud or tense moments.",
+   best:"Coach partners to find their own voice with the baby, and help the family notice the sound world of their home.",
    res:"The anatomy scan can bring unexpected findings. Help the family ask what a result means and what the options are, and remind them they can take time before deciding. Fear or grief after a finding is a natural response, and feeling it is part of moving through it.",
    src:"Ham & Klimo (2000); Strange"},
   {imp:"The emotional climate over time: ongoing tension or neglect, or warmth and contact (Raffai).",
    take:"The stories we carry about birth shape how we meet it. Moments of calm and connection practiced now are easier to find in labor.",
    deep:["Everyone brings a birth story into the birth room (Emerson)", "Oxytocin as the hormone of calm and connection; grounding and oxytocin moments as everyday regulation the baby feels (Strange)", "A teachable moment to share or hold, as fits the family: from about 24 weeks, a baby born early may survive with intensive care"],
-   best:"Share resources for doulas and childbirth classes so the family can choose what fits them. Invite the mother and partner to explore their own birth stories, perhaps by asking their own mothers how they were born, and refer on if more support is needed. Help her name the rest she needs and how to ask family and work for it.",
+   best:"Share resources for childbirth classes, many of which begin around weeks 28 to 32, and check in on the search for a doula. Help her name the rest she needs and how to ask family and work for it.",
    res:"If the glucose screening leads to a diagnosis, such as gestational diabetes, it can feel like a judgment on her body. Help her see it as information that guides her care, keep her part of the decisions, and remind her that she and her baby are still the heart of the story. Disappointment or frustration is natural, and it can sit alongside caring well for herself.",
    src:"Raffai (2021); Emerson; Strange"},
   {imp:"Fear in the room: the mother's, the family's, and a practitioner's past cases.",
@@ -427,7 +442,7 @@ const EDUCATOR = [
   {imp:"Welcome or separation: whether she is met, held, and spoken to, or taken away. If separation happens, repair can begin as soon as you are together.",
    take:"The first hour is a sensitive window. Keeping mother and baby together, skin to skin, helps them both, and she can ask for newborn checks on her chest and for the first bath to wait.",
    deep:["Skin to skin: warmth, a steady heart and breath, breastfeeding, and oxytocin for both", "Humanistic care keeps mother and baby together; nursery bathing is not part of this model (Davis-Floyd)", "Verny cites research in which birth complications combined with early maternal rejection were linked to later violence (Raine and colleagues, 1994)"],
-   best:"Protect skin to skin, breastfeeding, and rooming-in (MFCI). If the birth was hard, help the family tell the baby the story afterward (Strange).",
+   best:"Protect skin to skin, breastfeeding, and rooming-in, with newborn checks done on the mother's chest (MFCI).",
    res:"If the golden hour does not happen, through separation or medical care, or the cord is clamped and cut early, the bond is not lost. Relationships are built over time, and repair is possible: skin to skin, closeness, and telling the baby what happened can begin as soon as they are together (Strange). In the days after, mixed feelings, including sadness or disappointment, are natural and need no guilt. Help her tell the story and be heard, especially if it was hard. Watch for lingering distress, such as flashbacks, numbness, or avoidance, and refer to trauma-informed or perinatal mental health support (Seng and Taylor).",
    src:"Verny; Davis-Floyd (2022); MFCI; Strange"}
 ];
@@ -952,7 +967,7 @@ function select(phase, ring, idx, user){
       <div class="lane l-child${hl("child",i)}"><h4>${sw("--child")}The child</h4><p>${c.grow}</p><p class="take">${c.take}</p></div>
       <div class="lane l-mother${hl("mother",i)}"><h4>${sw("--mother")}The mother</h4><p>${m.body}</p><p>${m.heart}</p></div>
       <div class="lane l-edu${hl("support",i)}"><h4>${sw("--support")}The educator</h4>
-        <p class="herq"><span>Her question</span>${QUESTIONS[i]}</p><p><b>Possible imprints.</b> ${e.imp}</p><p><b>Quick takeaway.</b> ${e.take}</p><div class="deeper"><b>Going deeper</b><ul>${e.deep.map(d=>`<li>${d}</li>`).join("")}</ul></div><p><b>Best practices.</b> ${e.best}</p>${e.res?`<p><b>Building resilience.</b> ${e.res}</p>`:""}
+        <p class="herq"><span>Her question</span>${QUESTIONS[i]}</p><p><b>Possible imprints.</b> ${e.imp}</p><p><b>Repair.</b> <i>${REPAIR[i][0]}.</i> ${REPAIR[i][1]}</p><p><b>Quick takeaway.</b> ${e.take}</p><div class="deeper"><b>Going deeper</b><ul>${e.deep.map(d=>`<li>${d}</li>`).join("")}</ul></div><p><b>Best practices.</b> ${e.best}</p>${e.res?`<p><b>Building resilience.</b> ${e.res}</p>`:""}
         <p class="src">${e.src}</p></div>
     </article>`;
   }).join("");
@@ -963,7 +978,7 @@ function select(phase, ring, idx, user){
       <p>${ph.intro}</p></div>
     ${months}
     <div class="ring${ring==="practice"?" hl":""}" id="r-practice"><h3>${sw("--practice")}${RINGS.practice.name}</h3>
-      <p class="about">For the whole ${s<3?"trimester":"birth"}.</p>
+      <p class="about">For the whole ${s<3?"trimester":"birth"}. These practices help grow good imprints, and they are also a way back: if a hard moment has already happened, the same practice, with a few honest words, becomes repair. It is not too late.</p>
       ${ul(pr.items)}<p class="src">${pr.src}</p>
       <h4>Healing for the mother and partner</h4>
       <p class="about">Pregnancy can stir the parents' own earliest stories: their conception, their time in the womb, and their own birth. The educator can suggest these explorations, and the mother and partner take them up in their own time. Explored gently, they can bring healing, for themselves and for the baby.</p>
