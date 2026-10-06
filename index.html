@@ -191,7 +191,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     </button>
     <div class="eyebrow">Prenatal &amp; Perinatal Education</div>
     <h1>The Pregnancy and Birth Mandala</h1>
-    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the heart. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby, and practices for healing, where she and her partner can explore their own earliest stories.</p>
+    <p class="lede">A teaching map of pregnancy and birth, read from the center out. The child is at the center. Around her is the mother. Around the mother is the educator, who brings up possible imprints and best practices for each phase. On the outer petals are practices the mother can use to connect with her baby, and practices for healing, where she and her partner can explore their own earliest stories.</p>
   </header>
 
   <div class="main">
@@ -407,7 +407,7 @@ const EDUCATOR = [
    take:"The stories we carry about birth shape how we meet it. Moments of calm and connection practiced now are easier to find in labor.",
    deep:["Everyone brings a birth story into the birth room (Emerson)", "Oxytocin as the hormone of calm and connection; grounding and oxytocin moments as everyday regulation the baby feels (Strange)", "A teachable moment to share or hold, as fits the family: from about 24 weeks, a baby born early may survive with intensive care"],
    best:"Share resources for childbirth classes, many of which begin around weeks 28 to 32, and check in on the search for a doula. Help her name the rest she needs and how to ask family and work for it.",
-   res:"If the glucose screening leads to a diagnosis, such as gestational diabetes, it can feel like a judgment on her body. Help her see it as information that guides her care, keep her part of the decisions, and remind her that she and her baby are still the heart of the story. Disappointment or frustration is natural, and it can sit alongside caring well for herself.",
+   res:"If the glucose screening leads to a diagnosis, such as gestational diabetes, it can feel like a judgment on her body. Help her see it as information that guides her care, keep her part of the decisions, and remind her that she and her baby are still at the center of the story. Disappointment or frustration is natural, and it can sit alongside caring well for herself.",
    src:"Raffai (2021); Emerson; Strange"},
   {imp:"Fear in the room: the mother's, the family's, and a practitioner's past cases.",
    take:"Labor hormones flow best when she feels safe, private, and unobserved, and she has the right to ask questions and say yes or no to anything offered.",
@@ -674,7 +674,7 @@ function draw(){
   el("circle",{cx:0,cy:0,r:sr},sg);
   for(let k=0;k<6;k++){ const t=k*Math.PI/3 - Math.PI/2; el("circle",{cx:f(sr*Math.cos(t)),cy:f(sr*Math.sin(t)),r:sr},sg); }
   el("circle",{cx:0,cy:0,r:sr*2,"stroke-width":1.2,opacity:.75},sg);
-  core.setAttribute("aria-label","The prenate at the center. Read about the heart of this mandala");
+  core.setAttribute("aria-label","The prenate at the center. Read more about the center of this mandala");
   core.addEventListener("click",()=>showCenter(true)); core.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();showCenter(true);}});
   const tip=document.getElementById("coretip");
   ["mouseenter","focus"].forEach(ev=>core.addEventListener(ev,()=>tip.classList.add("on")));
@@ -926,10 +926,10 @@ const ab=document.createElement("button"); ab.className="tab"; ab.type="button";
 function sw(v){ return `<span class="sw" style="background:var(${v})"></span>`; }
 function ul(items){ return "<ul>"+items.map(i=>`<li>${i}</li>`).join("")+"</ul>"; }
 
-// the prenate at the heart opens How to read, so it is seen without having to find the center
+// the prenate at the center opens How to read, so it is seen without having to find the center
 const CENTER_HTML=`<div class="center-msg">
-    <div class="eyebrow">The center</div>
-    <h2>The prenate at the heart</h2>
+    <div class="eyebrow">Begin here</div>
+    <h2>The prenate at the center</h2>
     <p>This mandala is centered on the prenate, the child growing within the womb. Every ring around her exists to understand and support her journey.</p>
     <p>Pre- and perinatal education begins with a simple understanding: the baby is aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after.</p>
     <p>When the mother, her family, and her care team understand this journey, they can meet it with awareness and care. The mother is supported, the baby is welcomed, and both can move through pregnancy and birth with a deeper sense of connection, safety, and trust.</p>
@@ -944,7 +944,7 @@ function showIntro(){
   sel={phase:null,ring:null,idx:null}; applySel(); markTabs();
   panel.innerHTML=CENTER_HTML+`<div class="intro">
     <h2>Reading from the center out</h2>
-    <p>We begin at the center with the child, the heart and focus of this whole journey, and move outward from her. Each ring is a layer within the same phase of the pregnancy, so reading straight out from any petal shows how the child, the mother, the educator, and the practices meet at that moment.</p>
+    <p>We begin at the center with the child, the focus of this whole journey, and move outward from her. Each ring is a layer within the same phase of the pregnancy, so reading straight out from any petal shows how the child, the mother, the educator, and the practices meet at that moment.</p>
     <ul class="legend">
       ${["child","mother","support","practice"].map(k=>`<li>${sw(RINGS[k].color)}<div><b>${RINGS[k].name}</b>${RINGS[k].about}</div></li>`).join("")}
       <li>${sw("--moon")}<div><b>The time wheel</b>The timekeeper of the mandala. It lines up with the trimesters and the forty weeks, and once a date is entered it marks the actual full moon and new moon dates, the last period, the start of each trimester, and the expected due date window.</div></li>

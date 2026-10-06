@@ -233,7 +233,7 @@
 
   add("Welcome", "", n => `
     <div class="eb">Welcome</div>
-    <h1>A map for the journey,<br>with a child at its heart</h1>
+    <h1>A map for the journey,<br>with a child at its center</h1>
     <p>Pregnancy is often described in weeks, tests, and appointments. This deck invites you to see it another way: as a journey you and your baby take together, from the first days to the first hour after birth.</p>
     <p>In pre- and perinatal education, the baby is understood as aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after. This is not a weight to carry. It is an invitation to slow down, to notice, and to connect.</p>
     <p>The cards come from a mandala, a circle organized around a center. At its center is your baby. Around her is you. Around you is what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
@@ -859,7 +859,7 @@
   add("When the path is harder", "", n => `
     <div class="eb">Going deeper · Harder paths</div>
     <h1>When the path is harder</h1>
-    <p>No pregnancy follows the map exactly. Some begin in ways this guide does not picture, and some carry grief, fear, or old wounds alongside the hope. Whatever your path, the heart of this guide still holds: she is here, she is listening, and connection and repair are possible.</p>
+    <p>No pregnancy follows the map exactly. Some begin in ways this guide does not picture, and some carry grief, fear, or old wounds alongside the hope. Whatever your path, the center of this guide still holds: she is here, she is listening, and connection and repair are possible.</p>
     <div class="lab">Conceiving with help</div>
     <p>IVF, donor eggs or sperm, or a surrogate can make a beginning feel clinical, or full of waiting and loss. Many in this field invite parents to tell the baby the story of how she came to be, and how long and how much she was wanted. If a donor or surrogate is part of her story, it can be told with gratitude, and at her pace as she grows.</p>
     <div class="lab">Without a partner, or without support</div>
