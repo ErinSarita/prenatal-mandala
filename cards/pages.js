@@ -10,7 +10,8 @@
   "use strict";
 
   // The card images carry a version, so a browser holding an older copy
-  // fetches the new one. Raise it whenever update-cards.py changes the cards.
+  // fetches the new one. Raise it whenever build-cards.py redraws the cards,
+  // and raise the same number on pages.js and pages.css in index.html.
   const CARD_V = "?v=7";
   window.CARD_V = CARD_V;
 
