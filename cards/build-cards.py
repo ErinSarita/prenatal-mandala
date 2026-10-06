@@ -31,7 +31,9 @@ W, H = 528, 816
 # and the practices are petals.
 RINGS = [(16.5, 27.5, "#FFC9BC"), (28.5, 41, "#FCA59B"), (42, 52.5, "#F5A882"), (53.5, 63, "#EE866F"), (64, 78.5, "#E35F43")]
 CURVE, GAP = 4.2, 1.4          # how far each edge bows out, and the gap between slices, in degrees
-CENTER, SEED = "#F2A291", "#FFF7F1"   # the baby at the center, always lit, and her Seed of Life
+# The center: the baby ring's lit color, with a simple six-petaled flower in
+# off-white. Each petal runs FLOWER from the middle, its sides arcs of radius BELLY.
+CENTER, SEED, FLOWER, BELLY = "#FFC9BC", "#FFF7F1", 11.5, 7
 DOT = {"baby": "#FFD3C8", "you": "#FCA59B", "circle": "#F5A882", "know": "#EE866F", "practice": "#E35F43"}
 
 
@@ -66,10 +68,9 @@ def wheel(k):
             d = petal(r0, r1, a0, a1) if n == 4 else cell(r0, r1, a0, a1, n > 0)
             dim = "" if i == k else ' fill-opacity=".36"'
             s += f'<path d="{d}" fill="{c}"{dim}/>'
-    seed = "".join(f'<circle cx="{5.7 * math.sin(math.radians(a)):.2f}" cy="{-5.7 * math.cos(math.radians(a)):.2f}" r="5.7"/>'
-                   for a in range(0, 360, 60))
-    s += (f'<circle r="15.5" fill="{CENTER}"/><g fill="none" stroke="{SEED}" stroke-width="1.35">'
-          f'<circle r="5.7"/>{seed}<circle r="11.4"/></g>')
+    # the center, the baby, always lit in the baby ring's own color, with the six-petaled flower
+    petals = "".join(f'<path d="M0 0A{BELLY} {BELLY} 0 0 1 {pt(FLOWER, a)}A{BELLY} {BELLY} 0 0 1 0 0Z"/>' for a in range(0, 360, 60))
+    s += f'<circle r="15.5" fill="{CENTER}"/><g fill="{SEED}">{petals}</g>'
     return f'<svg class="wheel" viewBox="-84 -84 168 168" aria-hidden="true">{s}</svg>'
 
 

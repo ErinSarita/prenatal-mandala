@@ -12,7 +12,7 @@
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever build-cards.py redraws the cards,
   // and raise the same number on pages.js and pages.css in index.html.
-  const CARD_V = "?v=8";
+  const CARD_V = "?v=9";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
@@ -23,6 +23,11 @@
   // the center, the baby, is always lit. Drawn as on the cards (build-cards.py).
   const RINGS = [[16.5, 27.5, "#FFC9BC"], [28.5, 41, "#FCA59B"], [42, 52.5, "#F5A882"], [53.5, 63, "#EE866F"], [64, 78.5, "#E35F43"]];
   const CURVE = 4.2, GAP = 1.4;
+  // A six-petaled flower: each petal runs len from the middle, its sides arcs of radius belly.
+  const flower = (len, belly) => [0, 1, 2, 3, 4, 5].map(k => {
+    const x = (len * Math.sin(k * Math.PI / 3)).toFixed(2), y = (-len * Math.cos(k * Math.PI / 3)).toFixed(2);
+    return `<path d="M0 0A${belly} ${belly} 0 0 1 ${x} ${y}A${belly} ${belly} 0 0 1 0 0Z"/>`;
+  }).join("");
   function wheel(from, to) { // slices [from, to) are lit
     const pt = (r, a) => `${(r * Math.sin(a * Math.PI / 180)).toFixed(2)} ${(-r * Math.cos(a * Math.PI / 180)).toFixed(2)}`;
     const cell = (r0, r1, a0, a1, inner) => {
@@ -41,10 +46,8 @@
         s += `<path d="${n === 4 ? petal(r0, r1, a0, a1) : cell(r0, r1, a0, a1, n > 0)}" fill="${c}"${lit ? "" : ' fill-opacity=".36"'}/>`;
       });
     }
-    // the center: the baby, always lit, with her Seed of Life
-    s += `<circle r="15.5" fill="#F2A291"/><g fill="none" stroke="#FFF7F1" stroke-width="1.35"><circle r="5.7"/>` +
-      [0, 1, 2, 3, 4, 5].map(k => `<circle cx="${(5.7 * Math.sin(k * Math.PI / 3)).toFixed(2)}" cy="${(-5.7 * Math.cos(k * Math.PI / 3)).toFixed(2)}" r="5.7"/>`).join("") +
-      `<circle r="11.4"/></g>`;
+    // the center: the baby, always lit in the baby ring's color, with a simple six-petaled flower
+    s += `<circle r="15.5" fill="#FFC9BC"/><g fill="#FFF7F1">` + flower(11.5, 7) + `</g>`;
     return `<svg class="wheel" viewBox="-84 -84 168 168" aria-hidden="true">${s}</svg>`;
   }
 
@@ -214,7 +217,7 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#F2A291"/><circle r="16" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>`).join("")}</svg><b>The center.</b> The Seed of Life: new life beginning, growing, and expanding.</li>
+      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#FFC9BC"/><g fill="#FFF7F1">${flower(14, 8.5)}</g></svg><b>The center.</b> Your baby, the new life beginning, growing, and expanding.</li>
       <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The baby.</b> Her growth, and what she may be sensing.</li>
       <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, your emotional life, and caring for yourself.</li>
       <li><span class="dot" style="background:#F5A882"></span><b>The circle of support.</b> How the people around you can hold you both, and be held too.</li>
