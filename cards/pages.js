@@ -12,7 +12,7 @@
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever build-cards.py redraws the cards,
   // and raise the same number on pages.js and pages.css in index.html.
-  const CARD_V = "?v=10";
+  const CARD_V = "?v=11";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
@@ -627,8 +627,8 @@
   // Layers of support, after Ray Castellino: the baby held by the mother,
   // the mother held by her circle, and the circle held too.
   const layers = () => `<figure class="layers"><svg viewBox="-112 -112 224 224" role="img" aria-label="Nested circles: the doula holds the partner, the partner holds the mother, the mother holds the baby">
-      <circle r="110" fill="#FBE3D8"/><circle r="82" fill="#F5A882"/><circle r="54" fill="#FCA59B"/><circle r="26" fill="#FFD3C8"/>
-      <text y="-93">Doula</text><text y="-65">Partner</text><text y="-37">Mother</text><text y="1">Baby</text></svg>
+      <g stroke="#FBF3F1" stroke-width="5"><circle r="110" fill="#EE866F"/><circle r="81" fill="#F5A882"/><circle r="53" fill="#FCA59B"/><circle r="26" fill="#FFD3C8"/></g>
+      <text y="-95.5" fill="#FFFFFF">Doula</text><text y="-67">Partner</text><text y="-39.5">Mother</text><text y="1">Baby</text></svg>
       <figcaption>In labor, for example: you hold your baby, your partner holds you, and the doula holds your partner. Your baby has two layers around her, you and your partner, and so do you, your partner and the doula.</figcaption></figure>`;
   add("Layers of support", "", n => `
     <div class="eb">Connecting with her · Your circle</div>
