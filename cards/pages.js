@@ -12,7 +12,7 @@
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever build-cards.py redraws the cards,
   // and raise the same number on pages.js and pages.css in index.html.
-  const CARD_V = "?v=9";
+  const CARD_V = "?v=10";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
@@ -47,7 +47,7 @@
       });
     }
     // the center: the baby, always lit in the baby ring's color, with a simple six-petaled flower
-    s += `<circle r="15.5" fill="#FFC9BC"/><g fill="#FFF7F1">` + flower(11.5, 7) + `</g>`;
+    s += `<circle r="15.5" fill="#FFC9BC"/><g fill="#FFF7F1">` + flower(11.5, 9.5) + `</g>`;
     return `<svg class="wheel" viewBox="-84 -84 168 168" aria-hidden="true">${s}</svg>`;
   }
 
@@ -217,7 +217,7 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#FFC9BC"/><g fill="#FFF7F1">${flower(14, 8.5)}</g></svg><b>The center.</b> Your baby, the new life beginning, growing, and expanding.</li>
+      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#FFC9BC"/><g fill="#FFF7F1">${flower(14, 11.6)}</g></svg><b>The center.</b> Your baby, the new life beginning, growing, and expanding.</li>
       <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The baby.</b> Her growth, and what she may be sensing.</li>
       <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, your emotional life, and caring for yourself.</li>
       <li><span class="dot" style="background:#F5A882"></span><b>The circle of support.</b> How the people around you can hold you both, and be held too.</li>

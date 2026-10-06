@@ -33,7 +33,7 @@ RINGS = [(16.5, 27.5, "#FFC9BC"), (28.5, 41, "#FCA59B"), (42, 52.5, "#F5A882"), 
 CURVE, GAP = 4.2, 1.4          # how far each edge bows out, and the gap between slices, in degrees
 # The center: the baby ring's lit color, with a simple six-petaled flower in
 # off-white. Each petal runs FLOWER from the middle, its sides arcs of radius BELLY.
-CENTER, SEED, FLOWER, BELLY = "#FFC9BC", "#FFF7F1", 11.5, 7
+CENTER, SEED, FLOWER, BELLY = "#FFC9BC", "#FFF7F1", 11.5, 9.5
 DOT = {"baby": "#FFD3C8", "you": "#FCA59B", "circle": "#F5A882", "know": "#EE866F", "practice": "#E35F43"}
 
 
