@@ -26,8 +26,12 @@ IMG, FONTS = os.path.join(HERE, "img"), os.path.join(HERE, "fonts")
 W, H = 528, 816
 
 # The rings of the little wheel, from the center out, as on the mandala:
-# baby, mother, the circle of support, educator, practices.
-RINGS = [(18, 31, "#FFD3C8"), (33, 44, "#FCA59B"), (46, 56, "#F5A882"), (58, 67, "#EE866F"), (69, 78, "#E35F43")]
+# baby, mother, the circle of support, educator, practices. Radii follow the
+# mandala's own, scaled to the card; the rings bow outward like its scallops,
+# and the practices are petals.
+RINGS = [(16.5, 27.5, "#FFC9BC"), (28.5, 41, "#FCA59B"), (42, 52.5, "#F5A882"), (53.5, 63, "#EE866F"), (64, 78.5, "#E35F43")]
+CURVE, GAP = 4.2, 1.4          # how far each edge bows out, and the gap between slices, in degrees
+CENTER, SEED = "#F2A291", "#FFF7F1"   # the baby at the center, always lit, and her Seed of Life
 DOT = {"baby": "#FFD3C8", "you": "#FCA59B", "circle": "#F5A882", "know": "#EE866F", "practice": "#E35F43"}
 
 
@@ -41,19 +45,32 @@ def esc(s):
 
 
 def wheel(k):
-    """The mandala in small, with card k's slice lit in every ring."""
-    pt = lambda r, a: f"{r * math.sin(math.radians(a)):.1f} {-r * math.cos(math.radians(a)):.1f}"
-    a0, a1 = k * 30 + 1.6, (k + 1) * 30 - 1.6
-    s = "".join(f'<circle r="{(r0 + r1) / 2}" fill="none" stroke="{c}" stroke-opacity=".4" stroke-width="{r1 - r0}"/>'
-                for r0, r1, c in RINGS)
-    s += '<path d="' + "".join(f"M{pt(17, a)}L{pt(79, a)}" for a in range(0, 360, 30)) + '" stroke="#FBF3F1" stroke-width="2.4"/>'
-    s += "".join(f'<path d="M{pt(r0, a0)}L{pt(r1, a0)}A{r1} {r1} 0 0 1 {pt(r1, a1)}L{pt(r0, a1)}A{r0} {r0} 0 0 0 {pt(r0, a0)}Z" fill="{c}"/>'
-                 for r0, r1, c in RINGS)
-    # the center: the Seed of Life, in the pink of the baby ring
-    seed = "".join(f'<circle cx="{5.6 * math.sin(math.radians(a)):.2f}" cy="{-5.6 * math.cos(math.radians(a)):.2f}" r="5.6"/>'
+    """The mandala in small: card k's slice lit in every ring, and the center, the baby, always lit."""
+    def pt(r, a):
+        return f"{r * math.sin(math.radians(a)):.2f} {-r * math.cos(math.radians(a)):.2f}"
+
+    def cell(r0, r1, a0, a1, inner):
+        m = (a0 + a1) / 2
+        back = f"Q{pt(r0 + CURVE, m)} {pt(r0, a0)}" if inner else f"A{r0} {r0} 0 0 0 {pt(r0, a0)}"
+        return f"M{pt(r0, a0)}L{pt(r1, a0)}Q{pt(r1 + CURVE, m)} {pt(r1, a1)}L{pt(r0, a1)}{back}Z"
+
+    def petal(r0, r1, a0, a1):
+        m, w, c = (a0 + a1) / 2, a1 - a0, r0 + (r1 - r0) * 0.62
+        return (f"M{pt(r0, a0)}Q{pt(c, a0 - w * .08)} {pt(r1, m)}Q{pt(c, a1 + w * .08)} {pt(r0, a1)}"
+                f"Q{pt(r0 + CURVE, m)} {pt(r0, a0)}Z")
+
+    s = ""
+    for i in range(12):
+        a0, a1 = i * 30 + GAP, (i + 1) * 30 - GAP
+        for n, (r0, r1, c) in enumerate(RINGS):
+            d = petal(r0, r1, a0, a1) if n == 4 else cell(r0, r1, a0, a1, n > 0)
+            dim = "" if i == k else ' fill-opacity=".36"'
+            s += f'<path d="{d}" fill="{c}"{dim}/>'
+    seed = "".join(f'<circle cx="{5.7 * math.sin(math.radians(a)):.2f}" cy="{-5.7 * math.cos(math.radians(a)):.2f}" r="5.7"/>'
                    for a in range(0, 360, 60))
-    s += f'<circle r="15" fill="#F9C0B2"/><g fill="none" stroke="#FFF7F1" stroke-width="1.1"><circle r="5.6"/>{seed}<circle r="11.2"/></g>'
-    return f'<svg class="wheel" viewBox="-80 -80 160 160" aria-hidden="true">{s}</svg>'
+    s += (f'<circle r="15.5" fill="{CENTER}"/><g fill="none" stroke="{SEED}" stroke-width="1.35">'
+          f'<circle r="5.7"/>{seed}<circle r="11.4"/></g>')
+    return f'<svg class="wheel" viewBox="-84 -84 168 168" aria-hidden="true">{s}</svg>'
 
 
 CSS = f"""

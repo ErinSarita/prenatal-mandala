@@ -12,35 +12,40 @@
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever build-cards.py redraws the cards,
   // and raise the same number on pages.js and pages.css in index.html.
-  const CARD_V = "?v=7";
+  const CARD_V = "?v=8";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
-  // Twelve segments clockwise from the top: nine months, then labor, birth,
-  // and the first hour. Rings from the center out: baby, mother, the circle
-  // of support, educator, practices.
-  const RINGS = [[18, 37], [37, 52], [52, 66], [66, 83], [83, 100]];
-  const BASE = ["#FDE4DD", "#FBD3CB", "#FBDACB", "#F6CCC4", "#F0C3B9"];
-  const LIT = ["#FFDCD3", "#FCA59B", "#F5A882", "#EE8A73", "#E35F43"];
-  function arc(r0, r1, a0, a1) {
-    const p = (r, a) => [(r * Math.sin(a)).toFixed(2), (-r * Math.cos(a)).toFixed(2)];
-    const big = a1 - a0 > Math.PI ? 1 : 0;
-    const [x0, y0] = p(r1, a0), [x1, y1] = p(r1, a1), [x2, y2] = p(r0, a1), [x3, y3] = p(r0, a0);
-    return `M${x0} ${y0}A${r1} ${r1} 0 ${big} 1 ${x1} ${y1}L${x2} ${y2}A${r0} ${r0} 0 ${big} 0 ${x3} ${y3}Z`;
-  }
-  function wheel(from, to) { // segments [from, to) are lit
-    const a = i => i / 12 * 2 * Math.PI;
+  // Twelve slices clockwise from the top: nine months, then labor, birth, and
+  // the first hour. Rings from the center out: baby, mother, the circle of
+  // support, educator, practices, shaped as on the mandala: each ring bows
+  // outward, and the practices are petals. The lit slices are the card's;
+  // the center, the baby, is always lit. Drawn as on the cards (build-cards.py).
+  const RINGS = [[16.5, 27.5, "#FFC9BC"], [28.5, 41, "#FCA59B"], [42, 52.5, "#F5A882"], [53.5, 63, "#EE866F"], [64, 78.5, "#E35F43"]];
+  const CURVE = 4.2, GAP = 1.4;
+  function wheel(from, to) { // slices [from, to) are lit
+    const pt = (r, a) => `${(r * Math.sin(a * Math.PI / 180)).toFixed(2)} ${(-r * Math.cos(a * Math.PI / 180)).toFixed(2)}`;
+    const cell = (r0, r1, a0, a1, inner) => {
+      const m = (a0 + a1) / 2;
+      return `M${pt(r0, a0)}L${pt(r1, a0)}Q${pt(r1 + CURVE, m)} ${pt(r1, a1)}L${pt(r0, a1)}` +
+        (inner ? `Q${pt(r0 + CURVE, m)} ${pt(r0, a0)}` : `A${r0} ${r0} 0 0 0 ${pt(r0, a0)}`) + "Z";
+    };
+    const petal = (r0, r1, a0, a1) => {
+      const m = (a0 + a1) / 2, w = a1 - a0, c = r0 + (r1 - r0) * 0.62;
+      return `M${pt(r0, a0)}Q${pt(c, a0 - w * .08)} ${pt(r1, m)}Q${pt(c, a1 + w * .08)} ${pt(r0, a1)}Q${pt(r0 + CURVE, m)} ${pt(r0, a0)}Z`;
+    };
     let s = "";
-    RINGS.forEach(([r0, r1], k) => {
-      s += `<circle r="${(r0 + r1) / 2}" fill="none" stroke="${BASE[k]}" stroke-width="${r1 - r0}"/>`;
-      s += `<path d="${arc(r0, r1, a(from), a(to))}" fill="${LIT[k]}"/>`;
-    });
-    [37, 52, 66, 83].forEach(r => { s += `<circle r="${r}" fill="none" stroke="#FFF7F5" stroke-width="1.6"/>`; });
-    // the center: the Seed of Life, in the pink of the baby ring
-    s += `<circle r="15" fill="#F9C0B2"/><g fill="none" stroke="#FFF7F1" stroke-width="1.1"><circle r="5.4"/>` +
-      [0, 1, 2, 3, 4, 5].map(k => `<circle cx="${(5.4 * Math.sin(k * Math.PI / 3)).toFixed(2)}" cy="${(-5.4 * Math.cos(k * Math.PI / 3)).toFixed(2)}" r="5.4"/>`).join("") +
-      `<circle r="10.8"/></g>`;
-    return `<svg class="wheel" viewBox="-101 -101 202 202" aria-hidden="true">${s}</svg>`;
+    for (let i = 0; i < 12; i++) {
+      const a0 = i * 30 + GAP, a1 = (i + 1) * 30 - GAP, lit = i >= from && i < to;
+      RINGS.forEach(([r0, r1, c], n) => {
+        s += `<path d="${n === 4 ? petal(r0, r1, a0, a1) : cell(r0, r1, a0, a1, n > 0)}" fill="${c}"${lit ? "" : ' fill-opacity=".36"'}/>`;
+      });
+    }
+    // the center: the baby, always lit, with her Seed of Life
+    s += `<circle r="15.5" fill="#F2A291"/><g fill="none" stroke="#FFF7F1" stroke-width="1.35"><circle r="5.7"/>` +
+      [0, 1, 2, 3, 4, 5].map(k => `<circle cx="${(5.7 * Math.sin(k * Math.PI / 3)).toFixed(2)}" cy="${(-5.7 * Math.cos(k * Math.PI / 3)).toFixed(2)}" r="5.7"/>`).join("") +
+      `<circle r="11.4"/></g>`;
+    return `<svg class="wheel" viewBox="-84 -84 168 168" aria-hidden="true">${s}</svg>`;
   }
 
   /* ---- the foil mandala for the front cover ------------------------- */
@@ -209,7 +214,7 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#F9C0B2"/><circle r="16" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>`).join("")}</svg><b>The center.</b> The Seed of Life: new life beginning, growing, and expanding.</li>
+      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#F2A291"/><circle r="16" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>`).join("")}</svg><b>The center.</b> The Seed of Life: new life beginning, growing, and expanding.</li>
       <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The baby.</b> Her growth, and what she may be sensing.</li>
       <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, your emotional life, and caring for yourself.</li>
       <li><span class="dot" style="background:#F5A882"></span><b>The circle of support.</b> How the people around you can hold you both, and be held too.</li>
