@@ -391,3 +391,22 @@
 .pg dl.repair dt{margin-top:5px;font-size:12.5px;line-height:1.25}
 .pg dl.repair dd{line-height:1.36}
 .pg.dense ul.refs.small li{margin-bottom:1px}
+
+/* the circle of support: Castellino's layers, drawn as nested circles */
+.pg figure.layers{display:flex;align-items:center;gap:16px;margin:4px 0 10px}
+.pg figure.layers svg{width:164px;height:164px;flex:none}
+.pg figure.layers text{font-family:Mulish,sans-serif;font-size:12px;font-weight:700;fill:#5A2A20;text-anchor:middle;dominant-baseline:central}
+.pg figure.layers figcaption{font-size:11.6px;line-height:1.5;color:var(--mutedpg)}
+/* month pages: your circle, and the baby's question after the imprint with why it may emerge */
+.pg .circ{margin:0 0 7px}
+.pg .circ b{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:15px;color:var(--coralpg)}
+.pg .mq i{display:block;font-family:Mulish,sans-serif;font-size:11px;font-style:italic;color:var(--mutedpg);margin-top:1px}
+/* month pages hold a little more now (your circle, and why the question may emerge), so they sit a touch closer */
+.pg.month{line-height:1.5}
+.pg.month h1.mt{min-height:56px}
+.pg.month .box{padding:9px 16px 2px}
+.pg.month .box p{font-size:11.6px;line-height:1.47}
+.pg.blush .box.soft p{margin-bottom:5px}
+.pg.blush .box.soft{padding-bottom:4px}
+/* two more pages in Part One: the contents sit a touch closer */
+.pg.contents ul.toc li{line-height:1.42}

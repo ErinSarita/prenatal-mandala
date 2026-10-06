@@ -11,16 +11,16 @@
 
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever update-cards.py changes the cards.
-  const CARD_V = "?v=6";
+  const CARD_V = "?v=7";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
   // Twelve segments clockwise from the top: nine months, then labor, birth,
-  // and the first hour. Rings from the center out: child, mother, educator,
-  // connecting and healing.
-  const RINGS = [[18, 40], [40, 58], [58, 76], [76, 100]];
-  const BASE = ["#FDE4DD", "#FBD3CB", "#F6CCC4", "#F0C3B9"];
-  const LIT = ["#FFDCD3", "#FCA59B", "#EE8A73", "#E35F43"];
+  // and the first hour. Rings from the center out: baby, mother, the circle
+  // of support, educator, practices.
+  const RINGS = [[18, 37], [37, 52], [52, 66], [66, 83], [83, 100]];
+  const BASE = ["#FDE4DD", "#FBD3CB", "#FBDACB", "#F6CCC4", "#F0C3B9"];
+  const LIT = ["#FFDCD3", "#FCA59B", "#F5A882", "#EE8A73", "#E35F43"];
   function arc(r0, r1, a0, a1) {
     const p = (r, a) => [(r * Math.sin(a)).toFixed(2), (-r * Math.cos(a)).toFixed(2)];
     const big = a1 - a0 > Math.PI ? 1 : 0;
@@ -34,8 +34,11 @@
       s += `<circle r="${(r0 + r1) / 2}" fill="none" stroke="${BASE[k]}" stroke-width="${r1 - r0}"/>`;
       s += `<path d="${arc(r0, r1, a(from), a(to))}" fill="${LIT[k]}"/>`;
     });
-    [40, 58, 76].forEach(r => { s += `<circle r="${r}" fill="none" stroke="#FFF7F5" stroke-width="1.6"/>`; });
-    s += `<circle r="15" fill="#E35F43"/>`;
+    [37, 52, 66, 83].forEach(r => { s += `<circle r="${r}" fill="none" stroke="#FFF7F5" stroke-width="1.6"/>`; });
+    // the center: the Seed of Life, in the pink of the baby ring
+    s += `<circle r="15" fill="#F9C0B2"/><g fill="none" stroke="#FFF7F1" stroke-width="1.1"><circle r="5.4"/>` +
+      [0, 1, 2, 3, 4, 5].map(k => `<circle cx="${(5.4 * Math.sin(k * Math.PI / 3)).toFixed(2)}" cy="${(-5.4 * Math.cos(k * Math.PI / 3)).toFixed(2)}" r="5.4"/>`).join("") +
+      `<circle r="10.8"/></g>`;
     return `<svg class="wheel" viewBox="-101 -101 202 202" aria-hidden="true">${s}</svg>`;
   }
 
@@ -48,6 +51,7 @@
     salmon: ["#C55A43", "#F8AA93", "#D46C53", "#FDBBA6", "#D7705A", "#F4A28B", "#BE553F"],
     pink: ["#D9786C", "#FBC4B9", "#E68E82", "#FFD2C9", "#E89286", "#F9BFB3", "#D27367"],
     peach: ["#E9AE9E", "#FBE3DA", "#F2BFB1", "#FFEAE3", "#F1C0B2", "#FADBD1", "#E5A797"],
+    apricot: ["#C9734F", "#F9C2A2", "#DA8762", "#FDD0B5", "#DC8C67", "#F6BC9B", "#C46E4B"],
     rose: ["#A9705C", "#EBC6B2", "#B87F69", "#F4D6C5", "#BA826C", "#E6BEA9", "#A26A57"],
     gold: ["#8E6526", "#D9B36A", "#A47630", "#E6C887", "#AE8139", "#D4AA5E", "#8A6124"]};
   // The shapes are drawn twice from one plan: once in foil, and once as a
@@ -99,18 +103,18 @@
       if (major) { const [dx, dy] = pt(350, a); g += `<rect x="${dx - 4}" y="${dy - 4}" width="8" height="8" transform="rotate(45 ${dx} ${dy})" fill="${f("gold")}"/>`; }
     }
 
-    // outer petals, each with its small dot
+    // the outer petals: the practices
     for (let i = 0; i < 12; i++) {
       const [a0, a1] = seg(i);
       g += `<path d="${petal(a0, a1)}" fill="${f("coral")}"/>`;
-      const [x, y] = pt(281, (a0 + a1) / 2); g += `<circle cx="${x}" cy="${y}" r="3.6" fill="${mask ? "#000" : "none"}"/>`;
     }
-    // the three rings, outside in, so each inner edge sits over the next
-    [[201, 256, "salmon", 3], [138, 202, "pink", 4], [51, 139, "peach", 4]].forEach(([r0, r1, k, b]) => {
+    // the four rings, outside in, so each inner edge sits over the next:
+    // educator, the circle of support, mother, baby
+    [[214, 256, "salmon", 3], [170, 215, "apricot", 4], [120, 171, "pink", 4], [51, 121, "peach", 4]].forEach(([r0, r1, k, b]) => {
       for (let i = 0; i < 12; i++) { const [a0, a1] = seg(i); g += `<path d="${cell(r0, r1, a0, a1, b)}" fill="${f(k)}" stroke="${GAP}" stroke-width="5" stroke-linejoin="round"/>`; }
     });
-    // the center: the Seed of Life in a coral disc
-    g += `<circle r="51" fill="${f("coral")}" stroke="${GAP}" stroke-width="5"/><circle r="42" fill="none" stroke="${GAP}" stroke-width="2"/>`;
+    // the center: the Seed of Life in a pink disc, the new life at the heart of it all
+    g += `<circle r="51" fill="${f("pink")}" stroke="${GAP}" stroke-width="5"/><circle r="42" fill="none" stroke="${GAP}" stroke-width="2"/>`;
     for (let k = -1; k < 6; k++) { const [x, y] = k < 0 ? [0, 0] : pt(14, k * Math.PI / 3); g += `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${GAP}" stroke-width="2"/>`; }
     return g;
   }
@@ -204,11 +208,12 @@
     <h1>Key to the mandala</h1>
     <div class="lab">The rings, from the center out</div>
     <ul class="rings">
-      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#E35F43"/><circle r="16" fill="none" stroke="#FBF3F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FBF3F1" stroke-width="1"/>`).join("")}</svg><b>The center.</b> The Seed of Life holds the place of your baby.</li>
-      <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The child.</b> Her growth, and what she may be sensing.</li>
-      <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, hormones, and feelings.</li>
-      <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints and what helps.</li>
-      <li><span class="dot" style="background:#E35F43"></span><b>Connecting and healing.</b> The outer petals: practices for you and your baby.</li>
+      <li><svg class="dot sym" viewBox="-20 -20 40 40" aria-hidden="true"><circle r="19" fill="#F9C0B2"/><circle r="16" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>${[[0, 0], ...[0, 1, 2, 3, 4, 5].map(k => [5.5 * Math.sin(k * Math.PI / 3), -5.5 * Math.cos(k * Math.PI / 3)])].map(([x, y]) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="5.5" fill="none" stroke="#FFF7F1" stroke-width="1.1"/>`).join("")}</svg><b>The center.</b> The Seed of Life: new life beginning, growing, and expanding.</li>
+      <li><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><b>The baby.</b> Her growth, and what she may be sensing.</li>
+      <li><span class="dot" style="background:#FCA59B"></span><b>The mother.</b> Your body, your emotional life, and caring for yourself.</li>
+      <li><span class="dot" style="background:#F5A882"></span><b>The circle of support.</b> How the people around you can hold you both, and be held too.</li>
+      <li><span class="dot" style="background:#EE8A73"></span><b>The educator.</b> Possible imprints, the baby's question, and what helps.</li>
+      <li><span class="dot" style="background:#E35F43"></span><b>The practices.</b> The outer petals: for connecting with your baby, and for your own healing.</li>
     </ul>
     <div class="lab">Around the circle, clockwise from the top</div>
     <div class="quads">
@@ -219,7 +224,7 @@
     </div>
     <div class="lab">Around the edge</div>
     <ul class="rings">
-      <li><span class="dot" style="background:transparent;border:1.5px solid #B98C80"></span><b>The outer edge.</b> The forty weeks, from week 1 at the top.</li>
+      <li><span class="dot" style="background:transparent;border:1.5px solid #B98C80"></span><b>The time wheel.</b> Each month a span of color, and the forty weeks numbered, from week 1 at the top.</li>
       <li><span class="dot" style="background:#F2B4A8;box-shadow:inset 0 0 0 3px #FBE3DD"></span><b>The braid.</b> Three strands, for the baby, the mother, and the support around her, holding the circle together.</li>
     </ul>
     <div class="box blush"><p><b>See it come alive.</b> The interactive mandala opens every month in detail, and with a due date entered it shows today, the birth window, and the moons of your pregnancy.<br><a href="https://erinsarita.github.io/prenatal-mandala/">erinsarita.github.io/prenatal-mandala</a></p></div>
@@ -228,7 +233,7 @@
   // Frontispiece: the whole mandala, large, on a right-hand page.
   add("The mandala", "frontis", () => `
     <div class="eb center">The Pregnancy and Birth Mandala</div>
-    <div class="halo"><img src="img/mandala.jpg" alt="The Pregnancy and Birth Mandala: the child at the center, then rings for the mother, the educator, and the outer petals of connecting and healing, with the forty weeks around the edge."></div>`);
+    <div class="halo"><img src="img/mandala.jpg${CARD_V}" alt="The Pregnancy and Birth Mandala: the baby at the center, then rings for the mother, the circle of support, the educator, and the outer petals of practices, with the months and the forty weeks around the edge."></div>`);
 
 
   add("Welcome", "", n => `
@@ -236,7 +241,7 @@
     <h1>A map for the journey,<br>with a child at its center</h1>
     <p>Pregnancy is often described in weeks, tests, and appointments. This deck invites you to see it another way: as a journey you and your baby take together, from the first days to the first hour after birth.</p>
     <p>In pre- and perinatal education, the baby is understood as aware from the very beginning. She is taking in her world, and what she experiences in the womb, at birth, and in her first hours may leave imprints that shape her long after. This is not a weight to carry. It is an invitation to slow down, to notice, and to connect.</p>
-    <p>The cards come from a mandala, a circle organized around a center. At its center is your baby. Around her is you. Around you is what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
+    <p>The cards come from a mandala, a circle organized around a center. At its center is your baby, the new life growing within you. Around her is you, and around you is your circle of support, the people who hold you so you can hold her. Then comes what is good to know, and on the outer petals are practices for connecting with her and for your own healing.</p>
     <p>The pages that follow lay the foundation: who your baby already is, how your world becomes hers, what an imprint is, your nervous system and your feelings, and how to speak with her. Then come the months, one card at a time, and people who can walk with you further.</p>
     <blockquote>There are no secrets you can keep from your baby, so talk to her, and more importantly, listen.<cite>Karen Strange, Simple Tools for Mothers</cite></blockquote>
     ${foot(n)}`);
@@ -247,7 +252,7 @@
     <p>Pregnancy is often lived as a series of tests and dates, with the baby treated as a passenger until birth. Pre- and perinatal education offers another way: your baby is already here, sensing, learning, and taking in her world, and the months before birth are the beginning of your relationship.</p>
     <p>A conscious pregnancy means growing aware of her, and aware of yourself: your feelings, your body, the world around you, and how all of it reaches her.</p>
     <div class="lab">What the deck is for</div>
-    <p>The cards turn this into something you can do. Each holds a picture of her month and of yours, the imprint that may form and the question it may answer, and practices for connecting with her and for your own healing.</p>
+    <p>The cards turn this into something you can do. Each holds a picture of her month and of yours, how the people around you can hold you both, the imprints that may begin to form and the question that may begin to emerge for her, and practices for connecting with her and for your own healing.</p>
     <div class="lab">How to use this book</div>
     <ul class="lead">
       <li><b>Begin with the foundations.</b> Read them at your own pace. They explain why the practices matter.</li>
@@ -381,7 +386,7 @@
     <h1>What is an imprint?</h1>
     <p>The word comes from Konrad Lorenz, who watched newly hatched goslings follow the first moving figure they saw, often Lorenz himself, and keep following. A first experience, met in a sensitive window, set a lasting pattern.</p>
     <p>In pre- and perinatal education, an imprint is an impression left by early experience: conception, life in the womb, birth, and the first hours and days. Because it comes before words, it is held as body memory, in the nervous system and in patterns of feeling and response, rather than as a story she can tell.</p>
-    <p>Imprints shape her first answers to quiet questions: <em>Am I welcome? Is the world safe? When I reach out, will someone meet me?</em> Each month in this guide, and the back of each card, names the question that month's imprint may answer.</p>
+    <p>Imprints shape her first answers to quiet questions: <em>Am I welcome? Is the world safe? When I reach out, will someone meet me?</em> Each month in this guide, and the back of each card, names a question that may begin to emerge for her then. It is not settled in that month: it stays open, and what she lives through afterward, including every repair, keeps answering it.</p>
     <div class="box">
       <h3>Three things to hold</h3>
       <p><b>Imprints can nourish.</b> Welcome, calm, touch, and being spoken to leave impressions too. Most of this guide is about offering more of these.</p>
@@ -610,6 +615,30 @@
     <div class="box"><p>Partners have their own feelings in pregnancy, including worry, distance, or a sense of being on the outside. Naming them, and finding support, is part of the work.</p></div>
     ${foot(n)}`);
 
+  // Layers of support, after Ray Castellino: the baby held by the mother,
+  // the mother held by her circle, and the circle held too.
+  const layers = () => `<figure class="layers"><svg viewBox="-112 -112 224 224" role="img" aria-label="Nested circles: the doula holds the partner, the partner holds the mother, the mother holds the baby">
+      <circle r="110" fill="#FBE3D8"/><circle r="82" fill="#F5A882"/><circle r="54" fill="#FCA59B"/><circle r="26" fill="#FFD3C8"/>
+      <text y="-93">Doula</text><text y="-65">Partner</text><text y="-37">Mother</text><text y="1">Baby</text></svg>
+      <figcaption>In labor, for example: you hold your baby, your partner holds you, and the doula holds your partner. Your baby has two layers around her, you and your partner, and so do you, your partner and the doula.</figcaption></figure>`;
+  add("Layers of support", "", n => `
+    <div class="eb">Connecting with her · Your circle</div>
+    <h1>Layers of support</h1>
+    <p>Ray Castellino, a pioneer of prenatal and birth therapy, taught that everyone who gives support needs support too. You hold your baby. The people around you hold you. And they need holding as well.</p>
+    <p>He found that the mother and the baby each do best with at least two layers of support around them. Your baby's first layer is you, and her second is whoever holds you.</p>
+    ${layers()}
+    <div class="lab">What support can look like</div>
+    <p>Rest and meals, company at appointments, a listening ear that does not rush to fix, help at home, and someone who stays through the birth. It can come from a partner, family, friends, a doula, a midwife or doctor, or an educator.</p>
+    <div class="box blush"><p><b>Asking is part of it.</b> Many people find it hard to ask for help. Each small ask makes the next one easier. Page ${no("My circles of support")} is a place to write down who is in yours.</p></div>
+    ${foot(n)}`);
+
+  add("Your circle, month by month", "dense", n => `
+    <div class="eb">Connecting with her · Your circle</div>
+    <h1>Your circle, month by month</h1>
+    <p class="muted">For each month, one way the people around you can hold you both, with your baby at the center.</p>
+    <dl class="repair">${CIRCLE.map((words, k) => `<dt><span>${MONTHS[k][1].split(" · ")[0]}</span></dt><dd>${words}</dd>`).join("")}</dl>
+    ${foot(n)}`);
+
   add("How each month is read", "", n => `
     <div class="eb">Understanding the cards · Reading a month</div>
     <h1>How each month is read</h1>
@@ -617,7 +646,8 @@
     <div class="parts">
       <div><span class="dot" style="background:#FFD5CC;border:1px solid #F4B9AD"></span><h3>Your baby</h3><p>Her growth, and what she may be sensing and taking in. Read it as a description of someone, not something.</p></div>
       <div><span class="dot" style="background:#FCA59B"></span><h3>You</h3><p>Your body, hormones, and feelings. Your inner states are her first environment, so caring for yourself is caring for her.</p></div>
-      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>The baby's question for the month, what its experiences may leave as an impression, and what tends to help: practices, people, and choices. These are possibilities to notice, not predictions.</p></div>
+      <div><span class="dot" style="background:#F5A882"></span><h3>Your circle</h3><p>How the people around you can support you, so you can support her. Each of you needs at least two layers of support.</p></div>
+      <div><span class="dot" style="background:#EE8A73"></span><h3>Imprints and what helps</h3><p>What the month's experiences may leave as an impression, what tends to help, and then the question that may begin to emerge for her. These are possibilities to notice, not predictions.</p></div>
       <div><span class="dot" style="background:#E35F43"></span><h3>To explore further</h3><p>The teachers and research behind the month, for when you want to read more deeply.</p></div>
     </div>
     <p>The back of each card carries the outer petals: practices for connecting with your baby, and one for your own healing.</p>
@@ -630,18 +660,19 @@
     <div class="eb">Understanding the cards</div>
     <h1>Your card, front and back</h1>
     <div class="anat">
-      <figure>${mark(1, 2, 3)}${mark(2, 72, 3)}${mark(3, 2, 24)}${mark(4, 2, 36)}${mark(5, 2, 57)}<img src="img/t/c01.jpg${CARD_V}" alt="The front of card 1"><figcaption>Front</figcaption></figure>
-      <figure>${mark(6, 2, 10)}${mark(7, 2, 53)}${mark(8, 26, 81)}${mark(9, 2, 92)}<img src="img/c02.jpg${CARD_V}" alt="The back of card 1"><figcaption>Back</figcaption></figure>
+      <figure>${mark(1, 2, 3)}${mark(2, 72, 3)}${mark(3, 2, 22)}${mark(4, 2, 35)}${mark(5, 2, 48)}${mark(6, 2, 61)}<img src="img/t/c01.jpg${CARD_V}" alt="The front of card 1"><figcaption>Front</figcaption></figure>
+      <figure>${mark(7, 2, 10)}${mark(8, 2, 51)}${mark(9, 2, 80)}${mark(10, 2, 92)}<img src="img/c02.jpg${CARD_V}" alt="The back of card 1"><figcaption>Back</figcaption></figure>
     </div>
     <ol class="anat-key">
       <li>The month, and where it falls in the weeks of pregnancy.</li>
       <li>The small wheel: where this card sits on the mandala.</li>
       <li><b>Your baby:</b> her growth, and what she may be sensing.</li>
       <li><b>You:</b> your body, hormones, and feelings.</li>
+      <li><b>Your circle:</b> how the people around you can hold you both.</li>
       <li><b>Good to know:</b> her world, the possible imprints, and a note for you.</li>
       <li><b>Practices</b> for connecting with her, with steps to follow.</li>
       <li><b>For your own healing:</b> a practice for your own story.</li>
-      <li><b>Baby's question:</b> the question this month's imprint may answer.</li>
+      <li><b>Baby's question:</b> a question that may begin to emerge for her, and why.</li>
       <li>The teachers and research behind the card.</li>
     </ol>
     ${foot(n)}`);
@@ -667,7 +698,7 @@
     <h1>One card at a time</h1>
     <ol class="steps">
       <li><b>Find your card.</b> Choose the card for the month you are in. The small wheel in its corner shows where it sits on the mandala.</li>
-      <li><b>Read the front.</b> It holds a short picture of your baby, of you, and of what is good to know this month.</li>
+      <li><b>Read the front.</b> It holds a short picture of your baby, of you, of your circle of support, and of what is good to know this month.</li>
       <li><b>Turn it over.</b> The back holds practices for connecting with your baby, with steps to follow, and one practice for your own healing.</li>
       <li><b>Keep it close.</b> Set the card where you will see it: by your bed, on the fridge, in your bag. Return to its practices through the month.</li>
       <li><b>Look ahead.</b> Read the next card a little before its month begins. Read the three birth cards early in the third trimester, so you have time to practice.</li>
@@ -713,6 +744,7 @@
       you: "Hormones rise quickly, bringing fatigue, nausea, and tenderness. The news can bring joy, fear, and old feelings to the surface.",
       lens: "She is present before anyone knows she is there. How she is welcomed, in thought, word, and feeling, is among the first things she takes in.",
       focus: "Welcome her, find one way to settle yourself, and gather the people who will support you.",
+      circle: "Let the people close to you ease your load, welcome her with you, and keep you company through the first visits.",
       when: "As early as you can, even before you feel ready." },
     { eb: "The second trimester · Weeks 14–27", t: "The Second<br>Trimester", sub: "The Middle", seg: [3, 6],
       lede: "Your baby begins to hear, you begin to feel her, and the relationship becomes something you can both sense.",
@@ -720,6 +752,7 @@
       you: "Energy often returns and your belly shows. Feeling her move can turn an idea into a relationship, and your thoughts begin to turn toward birth.",
       lens: "Her senses are opening, and relationship now runs both ways. When her movements and sounds are met, she learns she is heard.",
       focus: "Talk, sing, and answer her movements. Choose the stories you take in, and begin exploring your own birth story.",
+      circle: "Invite others to notice her with you, let more loving voices reach her, and ask for the rest you need.",
       when: "Around weeks 10 to 13, just before this trimester begins." },
     { eb: "The third trimester · Weeks 28–40", t: "The Third<br>Trimester", sub: "The Ripening", seg: [6, 9],
       lede: "Your baby grows, space grows tight, and both of your bodies prepare for birth.",
@@ -727,6 +760,7 @@
       you: "Sleep grows harder and practice contractions stronger. Anticipation grows, and so can fear. Choices about position, monitoring, and induction may arise.",
       lens: "She is preparing for birth alongside you. How choices are made, and the feeling in the room, may become part of how she arrives.",
       focus: "Slow down, plan your birth space and support, practice staying in the decisions, and prepare for flexibility, not fear.",
+      circle: "Gather people who hear your fears without adding to them, plan help for after the birth, and let someone share the waiting.",
       when: "Around weeks 24 to 27, just before this trimester begins." },
     { eb: "Birth · Labor, birth, first hour", t: "Birth", sub: "The Threshold", seg: [9, 12],
       lede: "Hormones, the space, and the people present all shape how your baby arrives and how she is met.",
@@ -734,6 +768,7 @@
       you: "Oxytocin, endorphins, adrenaline, and prolactin carry you through, and they flow best when you feel safe, private, and unobserved.",
       lens: "Birth is her first great passage and her first welcome. Even when plans change, telling her what is happening and holding her close can soften what she meets.",
       focus: "Guard the space, tell her what is happening, and keep her close. If plans change, stay in the decisions and offer repair.",
+      circle: "Someone who stays the whole way, a familiar voice for you and for her, and a quiet, protected golden hour.",
       when: "Early in the third trimester, around weeks 28 to 34, so you have time to practice and plan before the birth window opens at 37 weeks." }];
 
   const MONTHS = [
@@ -769,7 +804,7 @@
       "William Emerson's \"elephant in the birthing room\": everyone brings a birth story into the birth room. Oxytocin, the hormone of calm and connection, is easier to find in labor when it has been practiced in pregnancy (Strange)."],
     ["Card 7 · Third trimester · Weeks 28–31", "Month 7 · Light and Voices",
       "Her eyes open and can sense light through your belly. She is gaining fat, practicing breathing, and moving between clear sleep states. REM sleep appears now, the active sleep linked with dreaming, and she spends much of each day in it. The voices she hears most will be familiar after birth.",
-      "The third trimester begins. Sleep grows harder, breath shorter, and practice contractions more noticeable, and prenatal visits come more often. Anticipation grows, and so can fear of birth.",
+      "Your blood volume is rising toward nearly half again its usual amount, and she crowds your lungs and stomach. Sleep grows harder, breath shorter, and practice contractions more noticeable, and visits move to every two weeks. Anticipation grows, and so can fear of birth.",
       "Fear in the room can become part of the birth: your own, your family's, or a provider's past cases. What helps is planning your birth space and choosing who will speak up for you; a doula can be a strong advocate at a hospital birth. It also helps to begin preparing for flexibility, not fear. Exploring other paths, such as a longer labor, an induction, or a cesarean, lets you meet a change as a choice rather than a collapse of the plan.",
       "Sarah Buckley's four hormone systems of birth: oxytocin for contractions and love, endorphins for easing pain, adrenaline for the final pushes, and prolactin for mothering. Your rights in labor: companions, freedom to move, food and drink, and informed consent (MFCI)."],
     ["Card 8 · Third trimester · Weeks 32–35", "Month 8 · The Turning",
@@ -785,7 +820,7 @@
     ["Card 10 · Birth · The opening", "Labor · The Threshold",
       "Contractions press and release her whole body like a long, firm embrace. Her own stress hormones surge, protecting her through each squeeze and preparing her lungs, and she receives some of your oxytocin and endorphins. Pressure, rhythm, and pause: the pace of labor becomes part of her story.",
       "Oxytocin brings rhythmic contractions, and beta-endorphin eases pain and carries you inward. You labor best when you can move, eat and drink lightly, and follow your body, and when you feel private, safe, and unobserved, much like lovemaking.",
-      "The pace and pressure of labor may stay with her: moments of feeling stuck, and a journey supported, or interrupted by synthetic oxytocin, forceps, or vacuum. What helps is a guarded space: dim light, quiet, and only people you know and trust, with no routine procedures without a reason. Pain is a normal part of labor, but suffering is something else; choosing relief is a sound choice that needs no guilt. If plans change, three things help you stay present: someone by your side, clear explanations, and time to respond.",
+      "The pace and pressure of labor may stay with her: moments of feeling stuck, and a journey supported, or interrupted by synthetic oxytocin, forceps, or vacuum. What helps is a guarded space: dim light, quiet, trusted people, and no routine procedures without a reason. Pain is part of labor; suffering is not, and choosing relief needs no guilt. If plans change, three things help you stay present: someone by your side, clear explanations, and time to respond.",
       "Sarah Buckley's \"undisturbed birth\": when labor feels watched or unsafe, adrenaline rises and can slow oxytocin, and with it labor. Ina May Gaskin reminds us that labor is part of nature, and that walking and eating belong in it."],
     ["Card 11 · Birth · The arrival", "Birth · Through the Gate",
       "In the final push, a surge of noradrenaline makes her alert, often with wide open eyes at your first meeting. She takes her first breath, and her circulation changes course within minutes. Light, air, sound, and gravity arrive all at once.",
@@ -797,8 +832,8 @@
       "Skin to skin, oxytocin and prolactin peak. Oxytocin helps the placenta release and protects against bleeding, and prolactin begins milk and mothering. Awe, relief, exhaustion, and the first look at your baby may arrive together.",
       "Welcome or separation may be among her first lessons about the world. What helps is keeping you together: skin to skin, breastfeeding, and rooming-in, with newborn checks on your chest and the first bath waiting. If the golden hour does not happen, through separation or medical care, the bond is not lost. Relationships are built over time, and repair can begin as soon as you are together. Mixed feelings in the days after are natural and need no guilt.",
       "Humanistic care keeps mother and baby together; taking the baby to a nursery for bathing is not part of this model (Davis-Floyd). Watch in the weeks after for lingering distress, such as flashbacks, numbness, or avoidance, and reach out for support (Seng and Taylor)."]];
-  // The question each month's imprint may answer for the baby, in her voice.
-  // Kept in step with the mandala (../index.html) and the cards (add-questions.py).
+  // The question that may begin to emerge for the baby each month, in her
+  // voice. Kept in step with the mandala (../index.html) and the cards (cards.json).
   const QUESTIONS = ["Am I wanted?", "Am I welcome?", "Is it safe to be here?",
     "When I reach out, will someone meet me?", "Is my world a kind place?", "Can I rest here?",
     "Can I trust those around me?", "Will I be held as space grows tight?", "Will I be given time?",
@@ -818,6 +853,34 @@
     ["Tell her what is happening", "If labor was long or interrupted, tell her after: \"That was a long, hard journey, and you made it. I am so proud of you.\""],
     ["Repair after intensity", "Use it whenever the birth was hard: \"That was a lot. It is over. You are safe now. It was not your fault.\""],
     ["Tell her the story of her birth", "If you were apart after birth, hold her close and tell her: \"We were apart, and I missed you. I am here now, and I am so glad you are mine.\""]];
+  // Each month's circle of support, and why the baby's question may begin to
+  // emerge then. Kept in step with the cards (cards.json: circle, why).
+  const CIRCLE = [
+    "Let the people close to you ease your load and meet your news with care. Your rest is her first world.",
+    "Ask for help through the nausea and fatigue, and let the people around you welcome her with you.",
+    "Have someone with you at screenings and while you wait for results. A calmer home reaches her too.",
+    "Invite someone to notice her movements with you, and to shield you from frightening birth stories.",
+    "Let more loving voices reach her, and bring someone with you to the anatomy scan.",
+    "Ask for real rest, and let others take on tasks. The calm rhythm of your home is the world she feels.",
+    "Choose people who hear your fears without adding to them, and help your partner ready their voice for her.",
+    "Plan help for after the birth, and keep your bond with your partner warm. She is held inside it.",
+    "Let someone share the waiting and answer the questions, so you can turn inward and trust her timing.",
+    "Have someone stay the whole way and guard a quiet space, telling her, too, what is happening.",
+    "Keep a familiar voice with you and with her, so neither of you is alone if plans change.",
+    "Protect a quiet golden hour, so she is welcomed skin to skin, and by more than one person."];
+  const WHY = [
+    "Her life begins with how she was conceived and hoped for.",
+    "The news of her lands in your body, and she feels it.",
+    "Your chemistry now reaches her through the placenta.",
+    "Her movements are her first way of reaching out.",
+    "Hearing begins, and the sounds of home reach her.",
+    "Her first rhythms of rest take shape in the climate around her.",
+    "She knows the voices near her, and feels the fear or calm in them.",
+    "Room grows tight, and she begins to feel the walls holding her.",
+    "Her own body helps signal when she is ready to be born.",
+    "Labor presses her whole body, wave after wave.",
+    "Light, air, and sound meet her all at once.",
+    "Skin, smell, and voice tell her where she has arrived."];
   const PART_TITLES = ["Beginnings, an overview", "The Middle, an overview", "The Ripening, an overview", "The Threshold, an overview"];
   const short = t => t.split(" · ")[1];
 
@@ -832,6 +895,7 @@
       <div class="box soft">
         <p><b>Your baby.</b> ${pt.baby}</p>
         <p><b>You.</b> ${pt.you}</p>
+        <p><b>Your circle.</b> ${pt.circle}</p>
         <p><b>Through the lens.</b> ${pt.lens}</p>
         <p><b>The focus.</b> ${pt.focus}</p>
         <p><b>When to read.</b> ${pt.when}</p>
@@ -848,7 +912,8 @@
         <hr>
         <h2>Your baby</h2><p>${m[2]}</p>
         <h2>You</h2><p>${m[3]}</p>
-        <h2>Imprints and what helps</h2><p class="mq"><span>Baby's question</span>${QUESTIONS[seg]}</p><p>${m[4]}</p>
+        <p class="circ"><b>Your circle.</b> ${CIRCLE[seg]}</p>
+        <h2>Imprints and what helps</h2><p>${m[4]}</p><p class="mq"><span>Baby's question</span>${QUESTIONS[seg]}<i>${WHY[seg]}</i></p>
         <div class="box"><div class="lab">To explore further</div><p>${m[5]}</p></div>
         ${foot(n)}`);
     });
@@ -1019,7 +1084,7 @@
       <dt>Pre- and perinatal</dt><dd>Before birth, and around birth: from conception through the first year.</dd>
       <dt>Prenate</dt><dd>A baby before birth.</dd>
       <dt>Imprint</dt><dd>A lasting impression left by early experience, held in the body and nervous system before there are words.</dd>
-      <dt>Baby's question</dt><dd>The quiet question a month's imprint may answer for the baby, such as "Am I welcome?"</dd>
+      <dt>Baby's question</dt><dd>A quiet question that may begin to emerge for the baby, such as "Am I welcome?" It stays open, and each repair answers it again.</dd>
       <dt>Explicit memory</dt><dd>Memory we can recall and put into words: facts, events, stories.</dd>
       <dt>Implicit memory</dt><dd>Memory held without a sense of remembering: in the body, in feelings, in what we expect.</dd>
       <dt>Regression</dt><dd>Early impressions returning to awareness, often in deep or therapeutic states.</dd>
@@ -1043,6 +1108,7 @@
       <dt>Healthy separateness</dt><dd>Telling her which feelings are yours, so she need not carry them as her own.</dd>
       <dt>Trauma</dt><dd>An experience that was too much, too fast, or too soon, with too little support.</dd>
       <dt>Resilience</dt><dd>The capacity to meet difficulty and find the way back to balance.</dd>
+      <dt>Circle of support</dt><dd>The people who hold you so you can hold your baby. Each of you needs at least two layers (Castellino).</dd>
       <dt>Doula</dt><dd>A trained companion who supports the mother through birth and the weeks after.</dd>
       <dt>Baby doula</dt><dd>Someone who follows the baby's journey through birth.</dd>
       <dt>Informed consent</dt><dd>Your right to understand the benefits, risks, and alternatives of any care, and to say yes or no.</dd>
@@ -1076,6 +1142,7 @@
       <li>Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
       <li>Tronick, E. Z., and Gianino, A. (1986). Interactive mismatch and repair. <i>Zero to Three, 6</i>(3).</li>
+      <li>White, K. (2013). Interview with Ray Castellino: The principles. <i>JOPPPAH, 27</i>(3).</li>
       <li>Verrier, N. N. (1993). <i>The Primal Wound: Understanding the Adopted Child</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
@@ -1113,7 +1180,7 @@
       ["Your baby and you", ["Your baby is already here", "What she senses, and when", "You are her first world", "The world around you", "The hormones of pregnancy", "The hormones of birth and bonding"]],
       ["The pre- and perinatal lens", ["The pre- and perinatal lens", "Why it matters", "What is an imprint?", "Memory before words"]],
       ["Your inner world", ["Trauma and resilience", "Your nervous system", "Your window of tolerance", "Widening your window", "Feelings", "Your feelings, and hers", "Your own healing", "A time for transformation", "Resourcing yourself", "A daily check-in"]],
-      ["Connecting with her", ["Speaking to your baby", "She is listening", "Your part in this", "For partners"]]]],
+      ["Connecting with her", ["Speaking to your baby", "She is listening", "Your part in this", "For partners", "Layers of support", "Your circle, month by month"]]]],
     [1, "Part Two · Understanding the cards", [
       [null, ["How each month is read", "Your card, front and back", "The heart of the practices", "Using the cards", "Every practice is a way back", "Repair, month by month"]]]],
     [1, "Part Three · The cards", [
