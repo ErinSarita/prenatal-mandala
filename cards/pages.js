@@ -220,7 +220,7 @@
     <div class="lab">Around the edge</div>
     <ul class="rings">
       <li><span class="dot" style="background:transparent;border:1.5px solid #B98C80"></span><b>The outer edge.</b> The forty weeks, from week 1 at the top.</li>
-      <li><span class="dot" style="background:#F2B4A8;box-shadow:inset 0 0 0 3px #FBE3DD"></span><b>The braid.</b> Three strands, for child, mother, and educator, holding the circle together.</li>
+      <li><span class="dot" style="background:#F2B4A8;box-shadow:inset 0 0 0 3px #FBE3DD"></span><b>The braid.</b> Three strands, for the baby, the mother, and the support around her, holding the circle together.</li>
     </ul>
     <div class="box blush"><p><b>See it come alive.</b> The interactive mandala opens every month in detail, and with a due date entered it shows today, the birth window, and the moons of your pregnancy.<br><a href="https://erinsarita.github.io/prenatal-mandala/">erinsarita.github.io/prenatal-mandala</a></p></div>
     ${foot(n)}`);

@@ -225,7 +225,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <p>The circle begins at the top with the first day of the last period, where pregnancy dating starts, and moves clockwise. The first three quarters are the three trimesters, each divided into three months. The final quarter is birth: labor, the birth itself, and the first hour. The wheel closes where it began, at the top, so the end of the journey meets its beginning.</p>
     <p>The child, mother, and educator rings move together month by month, so each month of the baby's development lines up with what the mother is going through and how the educator can support the family at that time. The practices on the outer petals are gathered by trimester, for connecting with the baby and for the healing of the mother and partner. Reading straight outward from any petal shows what is happening to the child, what the mother is going through, what the educator can bring to the family, and how the mother can connect with her baby and tend her own healing.</p>
     <p>Around the petals runs the time wheel, which holds every marker of time in the pregnancy. Ticks along its edge count the forty weeks, with a number every fifth week, and gold marks show where each trimester begins and where birth begins. Tap any week to see its dates. Once a date is entered, it marks the last period and the due date, the full and new moons, and the birth window from 37 to 42 weeks, a reminder that the due date is the middle of a range rather than a single day. The trimester names sit just outside.</p>
-    <p>Around the very edge runs a sacred braid of three strands, in the colors of the child, the mother, and the educator who brings knowledge and helps the mother. It is a symbol of the relationships among the three, woven together, holding the mandala in place.</p>
+    <p>Around the very edge runs a sacred braid of three strands: the baby, the mother, and the support around her. Woven together, their relationships hold the mandala in place.</p>
     <h3>When to share it</h3>
     <p>The mandala is best understood as a whole before pregnancy, and it can also be used alongside the pregnancy, before each phase unfolds. An educator might offer it in quarters: begin the first quarter as early as possible, and introduce each trimester shortly before it begins, around weeks 10 to 13 for the second and weeks 24 to 27 for the third. Share the birth quarter in the early to middle third trimester, around weeks 28 to 34, so the family has time to practice and plan well before the birth window opens at 37 weeks.</p>
     <h3>When the unexpected happens</h3>
@@ -579,14 +579,14 @@ function addCell(d, ring, phase, idx, fillVar, label, at){
   cells.push(c); return c;
 }
 
-/* The braid: three strands, the child, the mother and the educator, plaited around the whole wheel.
+/* The braid: three strands, the baby, the mother and the support around her, plaited around the whole wheel.
    Each strand weaves in and out across the band and passes over one strand, then under the other,
    in turn. Every strand is cut into pieces where it changes from lying underneath to lying on top;
    the lower pieces are drawn first and the upper pieces over them, so each crossing shows who is on top. */
 function drawBraid(){
   const hit=el("path",{d:`M0 ${-R.braid[1]-4} A${R.braid[1]+4} ${R.braid[1]+4} 0 1 1 0 ${R.braid[1]+4} A${R.braid[1]+4} ${R.braid[1]+4} 0 1 1 0 ${-R.braid[1]-4} M0 ${-R.braid[0]+4} A${R.braid[0]-4} ${R.braid[0]-4} 0 1 0 0 ${R.braid[0]-4} A${R.braid[0]-4} ${R.braid[0]-4} 0 1 0 0 ${-R.braid[0]+4}Z`,
     class:"braidhit","fill-rule":"evenodd",tabindex:"0",role:"button","aria-label":"The sacred braid. Read what it means"});
-  const html=`<b>The sacred braid</b>A symbol of the three who hold this mandala: the child, the mother, and the educator who brings knowledge and helps the mother. Their relationships, woven together, hold it in place.`;
+  const html=`<b>The sacred braid</b>Three strands woven together: the baby, the mother, and the support around her. Their relationships hold this mandala in place.`;
   hit.addEventListener("click",e=>{ e.stopPropagation();
     if(hit.classList.contains("open")){ moonTip(null); return; }
     const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse());
