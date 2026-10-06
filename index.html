@@ -17,18 +17,18 @@
 :root{
   --bg:#FBF3F1; --surface:#FFFFFF; --ink:#5A2A20; --muted:#8E5E52; --line:#EBD1CB;
   --core:#E35F43; --child:#FFD3C8; --mother:#FCA59B; --support:#EE866F; --practice:#E35F43; --moon:#E7BDB4;
-  --on-dark:#FFFFFF; --on-light:#5A2A20; --today:#5A2A20; --gold:#C9993A;
+  --on-dark:#FFFFFF; --on-light:#5A2A20; --today:#5A2A20; --gold:#C9993A; --fullmoon:#FFFFFF;
   --display:"Marcellus", "Cormorant Garamond", Georgia, serif;
   --body:"Mulish", "Avenir Next", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#2A1814; --surface:#351F1A; --ink:#F3DFDB; --muted:#C9A097; --line:#4E312A;
   --core:#E35F43; --child:#F8BAAE; --mother:#EB9184; --support:#DC765F; --practice:#D0553A; --moon:#A87166;
-  --on-dark:#FFFFFF; --on-light:#3A1A14; --today:#F3DFDB; --gold:#E0B65E; color-scheme:dark }}
+  --on-dark:#FFFFFF; --on-light:#3A1A14; --today:#F3DFDB; --gold:#E0B65E; --fullmoon:#FBF0E4; color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#2A1814; --surface:#351F1A; --ink:#F3DFDB; --muted:#C9A097; --line:#4E312A;
   --core:#E35F43; --child:#F8BAAE; --mother:#EB9184; --support:#DC765F; --practice:#D0553A; --moon:#A87166;
-  --on-dark:#FFFFFF; --on-light:#3A1A14; --today:#F3DFDB; --gold:#E0B65E; color-scheme:dark }
+  --on-dark:#FFFFFF; --on-light:#3A1A14; --today:#F3DFDB; --gold:#E0B65E; --fullmoon:#FBF0E4; color-scheme:dark }
 
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -841,8 +841,8 @@ function drawMoons(){
     const when = late ? `${Math.round((d-EDD)/DAY)} days after the due date` : `At ${Math.floor(gd/7)} weeks ${gd%7} ${gd%7===1?"day":"days"}`;
     const gap = prev ? `${((d-prev)/DAY).toFixed(1)} days after the last` : "";
     const mk=el("g",{class:"moonmk", tabindex:"0", role:"button", "aria-label":`${ORD(num)} full moon, ${fmt(d)}. ${when}.${gap?" "+gap+".":""}`},g);
-    el("circle",{cx:f(x),cy:f(y),r:17,fill:"var(--surface)",stroke:"var(--moon)","stroke-width":3,"stroke-dasharray":late?"3 3":"none"},mk);
-    const t=el("text",{x:f(x),y:f(y),"text-anchor":"middle","dominant-baseline":"central","font-size":17,"font-weight":700,class:"lbl",fill:"var(--ink)"},mk); t.textContent=num;
+    el("circle",{cx:f(x),cy:f(y),r:17,fill:"var(--fullmoon)",stroke:"var(--moon)","stroke-width":3,"stroke-dasharray":late?"3 3":"none"},mk);
+    const t=el("text",{x:f(x),y:f(y),"text-anchor":"middle","dominant-baseline":"central","font-size":17,"font-weight":700,class:"lbl",fill:"var(--on-light)"},mk); t.textContent=num;
     const info={x,y,html:`<b>${ORD(num)} full moon</b>${fmt(d)}<span>${when}${gap?"<br>"+gap:""}</span>`};
     // a tap or click pins the card open; a mouse hover shows it while over the moon
     mk.addEventListener("click",e=>{ e.stopPropagation(); moonTip(mk.classList.contains("open")?null:mk,info); });
