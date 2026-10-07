@@ -12,7 +12,7 @@
   // The card images carry a version, so a browser holding an older copy
   // fetches the new one. Raise it whenever build-cards.py redraws the cards,
   // and raise the same number on pages.js and pages.css in index.html.
-  const CARD_V = "?v=11";
+  const CARD_V = "?v=12";
   window.CARD_V = CARD_V;
 
   /* ---- the little wheel in the corner -------------------------------- */
@@ -320,12 +320,45 @@
       <li><b>Through the placenta:</b> nutrients, hormones, and some of what you take in.</li>
       <li><b>Through your rhythms:</b> heartbeat, breath, movement, and sleep.</li>
       <li><b>Through sound:</b> your voice, and the voices around you.</li>
-      <li><b>Over time, through her genes:</b> early surroundings can change how genes are switched on and off, a field called epigenetics, one way experience is carried forward.</li>
+      <li><b>Over time, through her genes:</b> early surroundings can change how genes are switched on and off, a field called epigenetics, one way experience is carried forward (page ${no("Experience and the genes")}).</li>
     </ul>
     ${foot(n)}`);
 
   /* ---- foundations: the pre- and perinatal lens ---- */
   // Hormones: the body's messengers through pregnancy, birth, and bonding.
+  // Epigenetics: how surroundings reach the genes, and why that is a reason for care, not worry.
+  add("Experience and the genes", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>Experience and the genes</h1>
+    <p>Every cell in your baby's body carries the same genes. What differs is which genes are speaking and which stay quiet. <b>Epigenetics</b> is the study of the small chemical marks that set this, switching genes on and off without changing the genes themselves. Think of a piano: the keys stay the same, but the music changes with how they are played.</p>
+    <p>Those marks respond to the world. Nourishment, stress, calm, and care all help write them, and some are written very early, while she is still in the womb.</p>
+    <div class="lab">What the research shows</div>
+    <ul class="lead">
+      <li><b>Care shapes stress.</b> Rat mothers who licked and groomed their pups more raised calmer offspring, through marks on a gene for a stress-hormone receptor. Pups raised by a different mother took after the one who raised them (Weaver and colleagues, 2004).</li>
+      <li><b>Before birth.</b> Babies conceived during the Dutch Hunger Winter of 1944 and 1945 carried different marks on a growth gene six decades later (Heijmans and colleagues, 2008).</li>
+      <li><b>A mother's mood.</b> More depressed mood in pregnancy was linked with more of these marks on the same stress-hormone receptor gene in newborns (Oberlander and colleagues, 2008).</li>
+    </ul>
+    <div class="box"><p><b>A careful note.</b> Much of this research is young, and many studies are small. In people it shows links, not causes, and every baby is her own.</p></div>
+    ${foot(n)}`);
+
+  add("Not destiny", "", n => `
+    <div class="eb">Foundations · Your baby and you</div>
+    <h1>Not destiny</h1>
+    <div class="lab">Across generations</div>
+    <p>When a mother carries a daughter, the eggs that may one day become her grandchildren are already forming inside that baby. For a time, three generations share one body.</p>
+    <p>Rachel Yehuda found differences in marks on a stress-related gene in Holocaust survivors, and different ones in their grown children (Yehuda and colleagues, 2016). These findings are still debated, yet they echo what many families know: patterns can pass from one generation to the next.</p>
+    <div class="lab">Marks can change</div>
+    <p>Epigenetic marks are not fixed. In the animal studies, they could be reversed, and care, connection, and calm keep shaping them throughout life. What was passed on can be met, and something new can be passed on instead.</p>
+    <ul class="lead">
+      <li><b>Nourish and rest.</b> Small, steady steps count.</li>
+      <li><b>Return to calm.</b> Everyday stress is buffered. It is long, unrelieved stress, without support, that matters most.</li>
+      <li><b>Let yourself be held.</b> Your circle of support is part of her world.</li>
+      <li><b>Repair.</b> Each return, each "I am here," is part of what she learns.</li>
+      <li><b>Tend your own story.</b> Your healing is part of what you pass on.</li>
+    </ul>
+    <div class="box blush"><p><b>A reason for care, not worry.</b> This is not a list of things that could go wrong. It is a reminder that what you do each day reaches her, and that it is not too late to begin.</p></div>
+    ${foot(n)}`);
+
   add("The hormones of pregnancy", "", n => `
     <div class="eb">Foundations · Your baby and you</div>
     <h1>The hormones of pregnancy</h1>
@@ -1151,6 +1184,7 @@
       <li>Raffai, J. (2021). Parental conflict and the intrauterine realm.</li>
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
       <li>Tronick, E. Z., and Gianino, A. (1986). Interactive mismatch and repair. <i>Zero to Three, 6</i>(3).</li>
+      <li>Weaver, I. C. G., et al. (2004). Epigenetic programming by maternal behavior. <i>Nature Neuroscience, 7</i>(8). Heijmans, B. T., et al. (2008). <i>PNAS, 105</i>(44). Oberlander, T. F., et al. (2008). <i>Epigenetics, 3</i>(2). Yehuda, R., et al. (2016). <i>Biological Psychiatry, 80</i>(5).</li>
       <li>White, K. (2013). Interview with Ray Castellino: The principles. <i>JOPPPAH, 27</i>(3).</li>
       <li>Verrier, N. N. (1993). <i>The Primal Wound: Understanding the Adopted Child</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
@@ -1186,7 +1220,7 @@
     [0, null, [
       [null, ["Key to the mandala", "Welcome", "Start here"]]]],
     [0, "Part One · Foundations", [
-      ["Your baby and you", ["Your baby is already here", "What she senses, and when", "You are her first world", "The world around you", "The hormones of pregnancy", "The hormones of birth and bonding"]],
+      ["Your baby and you", ["Your baby is already here", "What she senses, and when", "You are her first world", "The world around you", "Experience and the genes", "Not destiny", "The hormones of pregnancy", "The hormones of birth and bonding"]],
       ["The pre- and perinatal lens", ["The pre- and perinatal lens", "Why it matters", "What is an imprint?", "Memory before words"]],
       ["Your inner world", ["Trauma and resilience", "Your nervous system", "Your window of tolerance", "Widening your window", "Feelings", "Your feelings, and hers", "Your own healing", "A time for transformation", "Resourcing yourself", "A daily check-in"]],
       ["Connecting with her", ["Speaking to your baby", "She is listening", "Your part in this", "For partners", "Layers of support", "Your circle, month by month"]]]],
