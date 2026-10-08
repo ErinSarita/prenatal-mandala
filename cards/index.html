@@ -64,6 +64,8 @@ button{font:inherit;color:inherit}
     repeating-linear-gradient(90deg,rgba(70,40,15,.07) 0 1px,transparent 1px 3px),
     linear-gradient(#CBA373,#B48A5B)}
 /* the cover style switch, while the cover is being chosen */
+.printopts{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:560px;text-align:center}
+.printopts .hint{margin:0}
 .covers{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted)}
 .covers button{border:1px solid var(--line);background:var(--white);border-radius:999px;padding:6px 12px 6px 8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .covers button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#FBF3F1}
@@ -218,6 +220,10 @@ footer{text-align:center;font-size:13px;color:var(--muted);display:flex;flex-dir
         <button type="button" data-c="terra"><i style="background:#93402F"></i>Terracotta</button>
         <button type="button" data-c="terragold"><i style="background:linear-gradient(135deg,#93402F 50%,#D9AE62 50%)"></i>Terracotta, gold</button>
         <button type="button" data-c="camel"><i style="background:#C39B6B"></i>Camel</button>
+      </div>
+      <div class="printopts">
+        <a class="btn" id="pdfbook" href="pdf/guidebook-oat-booklet.pdf" download="The Pregnancy and Birth Mandala, booklet.pdf">Print as a booklet</a>
+        <p class="hint">The PDF's pages are 5.5 × 8.5 in: print them at actual size on half-letter paper. Or print the booklet on Letter paper, double-sided, flipped on the short edge, then fold the stack in half and staple along the fold.</p>
       </div>
       <p class="hint wide">Drag a page corner to turn it, or tap either side. Arrow keys work too.</p>
       <p class="hint narrow">Scroll to read each page. Swipe sideways, or tap either side, to turn it.</p>
@@ -512,6 +518,7 @@ function setCover(c) {
   document.querySelectorAll(".covers button").forEach(b => b.setAttribute("aria-pressed", b.dataset.c === c));
   try { localStorage.setItem("pbm-cover", c); } catch (e) {}
   const pl = document.getElementById("pdf"); if (pl) pl.href = `pdf/guidebook-${c}.pdf`;
+  const pb = document.getElementById("pdfbook"); if (pb) pb.href = `pdf/guidebook-${c}-booklet.pdf`;
 }
 document.querySelectorAll(".covers button").forEach(b => b.onclick = () => {
   setCover(b.dataset.c);

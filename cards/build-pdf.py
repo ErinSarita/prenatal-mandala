@@ -6,6 +6,9 @@ page size and prints on Letter), so the PDF is made here instead, in a
 headless Chrome, at exactly 5.5 × 8.5 inches with nothing cut off. The site's
 download button hands out these files.
 
+Each cover also gets a booklet version, imposed two pages to a Letter sheet
+in folding order, for printing at home and folding into a 5.5 x 8.5 book.
+
 Run it after changing the guidebook:  python3 cards/build-pdf.py
 Needs:  pip3 install playwright  and  python3 -m playwright install chromium
 """
@@ -24,6 +27,31 @@ def serve():
     httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     return httpd
+
+
+def booklet(src, dst):
+    """The same pages, laid out to print at home as a folded booklet.
+
+    Two 5.5 x 8.5 in pages sit side by side on each side of a Letter sheet
+    (11 x 8.5 in, landscape), in saddle-stitch order: printed double-sided,
+    flipped on the short edge, the stack folds in half into the book, page
+    order intact. The page count must be a multiple of four.
+    """
+    import fitz  # PyMuPDF
+    pages = fitz.open(src)
+    n = pages.page_count
+    if n % 4:
+        raise SystemExit(f"{n} pages: a booklet needs a multiple of four")
+    out = fitz.open()
+    w, h = pages[0].rect.width, pages[0].rect.height
+    for i in range(n // 4):
+        # front of sheet i: last-but-2i on the left, 2i on the right; back: the next pair inward
+        for left, right in ((n - 1 - 2 * i, 2 * i), (2 * i + 1, n - 2 - 2 * i)):
+            side = out.new_page(width=2 * w, height=h)
+            side.show_pdf_page(fitz.Rect(0, 0, w, h), pages, left)
+            side.show_pdf_page(fitz.Rect(w, 0, 2 * w, h), pages, right)
+    out.set_metadata({"title": "The Pregnancy and Birth Mandala, booklet to print", "author": "Erin Singleton"})
+    out.save(dst, deflate=True, garbage=3)
 
 
 def main():
@@ -58,6 +86,9 @@ def main():
                      margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
                      prefer_css_page_size=True)
             print(f"{os.path.relpath(path, ROOT)}  {os.path.getsize(path) // 1024} KB")
+            book = os.path.join(OUT, f"guidebook-{c}-booklet.pdf")
+            booklet(path, book)
+            print(f"{os.path.relpath(book, ROOT)}  {os.path.getsize(book) // 1024} KB  (booklet)")
         # Every web link in the book has to leave the page for the real site,
         # not the little server this script ran on.
         bad = page.evaluate("""() => [...document.querySelectorAll('#printbook a[href]')]
