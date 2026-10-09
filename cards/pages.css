@@ -394,8 +394,8 @@
 
 /* the circle of support: Castellino's layers, drawn as nested circles */
 .pg figure.layers{display:flex;align-items:center;gap:16px;margin:4px 0 10px}
-.pg figure.layers svg{width:164px;height:164px;flex:none}
-.pg figure.layers text{font-family:Mulish,sans-serif;font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+.pg figure.layers svg{width:180px;height:180px;flex:none}
+.pg figure.layers text{font-family:Mulish,sans-serif;font-size:14.5px;font-weight:700;text-anchor:middle;dominant-baseline:central}
 .pg figure.layers figcaption{font-size:11.6px;line-height:1.5;color:var(--mutedpg)}
 /* month pages: your circle, and the baby's question after the imprint with why it may emerge */
 .pg .circ{margin:0 0 7px}

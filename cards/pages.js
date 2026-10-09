@@ -658,11 +658,11 @@
     ${foot(n)}`);
 
   // Layers of support, after Ray Castellino: the baby held by the mother,
-  // the mother held by her circle, and the circle held too.
-  const layers = () => `<figure class="layers"><svg viewBox="-112 -112 224 224" role="img" aria-label="Nested circles: the doula holds the partner, the partner holds the mother, the mother holds the baby">
-      <g stroke="#FBF3F1" stroke-width="5"><circle r="110" fill="#EE866F"/><circle r="81" fill="#F5A882"/><circle r="53" fill="#FCA59B"/><circle r="26" fill="#FFD3C8"/></g>
-      <text y="-95.5" fill="#FFFFFF">Doula</text><text y="-67">Partner</text><text y="-39.5">Mother</text><text y="1">Baby</text></svg>
-      <figcaption>In labor, for example: you hold your baby, your partner holds you, and the doula holds your partner. Your baby has two layers around her, you and your partner, and so do you, your partner and the doula.</figcaption></figure>`;
+  // the mother held by her circle, and the circle held too, out to a wider circle.
+  const layers = () => `<figure class="layers"><svg viewBox="-140 -140 280 280" role="img" aria-label="Nested circles: a wider circle of family, friends, and the care team holds the doula, the doula holds the partner, the partner holds the mother, the mother holds the baby">
+      <g stroke="#FBF3F1" stroke-width="5"><circle r="138" fill="#E35F43"/><circle r="110" fill="#EE866F"/><circle r="81" fill="#F5A882"/><circle r="53" fill="#FCA59B"/><circle r="26" fill="#FFD3C8"/></g>
+      <text y="-124" fill="#FFFFFF">Wider circle</text><text y="-95.5" fill="#FFFFFF">Doula</text><text y="-67">Partner</text><text y="-39.5">Mother</text><text y="1">Baby</text></svg>
+      <figcaption>In labor, for example: you hold your baby, your partner holds you, the doula holds your partner, and a wider circle of family, friends, and your care team holds you all. Your baby has two layers, you and your partner; you have two, your partner and the doula; and your partner has two, the doula and the wider circle. The doula is held too, by a backup and peers of their own.</figcaption></figure>`;
   add("Layers of support", "", n => `
     <div class="eb">Connecting with her · Your circle</div>
     <h1>Layers of support</h1>
