@@ -1185,7 +1185,7 @@
       <li>Seng, J., and Taylor, J. (2015). <i>Trauma Informed Care in the Perinatal Period</i>. Siegel, D. J. <i>The Developing Mind</i>.</li>
       <li>Tronick, E. Z., and Gianino, A. (1986). Interactive mismatch and repair. <i>Zero to Three, 6</i>(3).</li>
       <li>Weaver, I. C. G., et al. (2004). Epigenetic programming by maternal behavior. <i>Nature Neuroscience, 7</i>(8). Heijmans, B. T., et al. (2008). <i>PNAS, 105</i>(44). Oberlander, T. F., et al. (2008). <i>Epigenetics, 3</i>(2). Yehuda, R., et al. (2016). <i>Biological Psychiatry, 80</i>(5).</li>
-      <li>White, K. (2013). Interview with Ray Castellino: The principles. <i>JOPPPAH, 27</i>(3).</li>
+      <li>White, K. (2013). Interview with Ray Castellino: The principles. <i>JOPPPAH, 27</i>(3), 263–275.</li>
       <li>Verrier, N. N. (1993). <i>The Primal Wound: Understanding the Adopted Child</i>.</li>
       <li>Singh, G., et al. (2009). <i>MJAFI, 65</i>. Verny, T. R. Birth and the origins of violence.</li>
     </ul>
