@@ -52,8 +52,9 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);lin
 
 .main{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;align-items:start}
 @media (max-width:900px){.main{grid-template-columns:1fr}}
-.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:14px}
-@media (max-width:900px){.stage{position:static}}
+/* on wide screens the wheel column stays in view and scrolls on its own, so what sits under the wheel is reachable from anywhere in the reading */
+.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:14px;max-height:calc(100vh - 24px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:4px 6px 12px 2px}
+@media (max-width:900px){.stage{position:static;max-height:none;overflow:visible;padding:0}}
 .svgbox{width:100%;max-width:640px;margin:0 auto;aspect-ratio:1/1;position:relative}
 .coretip{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-100% - 9%));width:min(250px,70%);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.45;text-align:center;box-shadow:0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}
 .coretip.on{opacity:1}
