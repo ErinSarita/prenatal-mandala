@@ -173,6 +173,19 @@ svg.dimming .cell.off{opacity:.28}
 .tabs{display:flex;flex-wrap:wrap;gap:6px}
 .tab{font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.nav{display:grid;gap:12px}
+.navgroup{display:grid;gap:7px}
+.navlbl{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.fcard .where{margin:0;color:var(--muted);font-size:14px}
+.fcard .where a{white-space:nowrap}
+.fcard{scroll-margin-top:16px}
+.jump{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0 0 4px;padding-left:12px;border-left:2px solid var(--line)}
+.jump[hidden]{display:none}
+.jump span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:2px}
+.sub{font:inherit;font-size:13px;font-weight:600;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.sub:hover{background:var(--surface)}
+.sub[aria-current="true"]{background:color-mix(in srgb, var(--mother) 55%, var(--surface));border-color:var(--mother)}
+.sub:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .phasehead h2{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.1;margin:0}
 .phasehead .meta{color:var(--muted);font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
 .phasehead p{margin:10px 0 0;max-width:62ch}
@@ -283,7 +296,10 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     </div>
 
     <div class="panel">
-      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="nav">
+        <div class="navgroup"><div class="navlbl">Guides</div><div class="tabs" role="tablist" id="gtabs"></div><div class="jump" id="gjump" hidden></div></div>
+        <div class="navgroup"><div class="navlbl">The mandala, in four quarters</div><div class="tabs" role="tablist" id="tabs"></div><div class="jump" id="jump" hidden></div></div>
+      </div>
       <div id="panel" aria-live="polite"></div>
     </div>
   </div>
@@ -299,7 +315,7 @@ try{ var t=localStorage.getItem("pm-theme"); if(t==="light"||t==="dark") documen
     <p>At the very edge, a braid of three strands, the baby, the mother, and the support around her, holds the mandala together.</p>
     <h3>When to share it</h3>
     <p>The mandala is best understood as a whole before pregnancy, and it can also be used alongside the pregnancy, before each phase unfolds. An educator might offer it in quarters: begin the first quarter as early as possible, and introduce each trimester shortly before it begins, around weeks 10 to 13 for the second and weeks 24 to 27 for the third. Share the birth quarter in the early to middle third trimester, around weeks 28 to 34, so the family has time to practice and plan well before the birth window opens at 37 weeks.</p>
-    <h3>When the unexpected happens</h3>
+    <h3 id="unexpected">When the unexpected happens</h3>
     <p>Pregnancy and birth do not always go as planned. Whether a hard experience becomes trauma often depends less on what happened than on how it was lived through: whether the mother felt informed, supported, respected, and part of the decisions. The same turn of events can be held as overwhelming or as something met and moved through. Perception is shaped by support, so resilience can be built ahead of time. The educator ring carries these practices month by month, under Building resilience, at the point in the pregnancy where each one fits.</p>
     <ul class="refs">
       <li><b>Plan A and Plan B.</b> Prevent trauma wherever possible, and where it cannot be prevented, ease it with early, trauma-informed care. Four Rs guide that care: realize when trauma exists and how it can affect people, recognize its signs, respond to it, and resist re-traumatizing (Phillips).</li>
@@ -1261,16 +1277,61 @@ function setStatus(){
 }
 
 /* ---------- Panel ---------- */
-const panel=document.getElementById("panel"), tabs=document.getElementById("tabs");
+const panel=document.getElementById("panel"), tabs=document.getElementById("tabs"), gtabs=document.getElementById("gtabs");
 let sel={phase:null, ring:null, idx:null};
 PHASES.forEach((ph,s)=>{
   const b=document.createElement("button"); b.className="tab"; b.type="button"; b.setAttribute("role","tab");
   b.textContent=ph.short; b.id="tab-"+ph.id; b.addEventListener("click",()=>select(s,null,null,true)); tabs.appendChild(b);
 });
-const ab=document.createElement("button"); ab.className="tab"; ab.type="button"; ab.setAttribute("role","tab"); ab.textContent="How to read"; ab.addEventListener("click",()=>showIntro()); tabs.prepend(ab);
+[["intro","How to read",()=>showIntro()],["found","Foundations",()=>showFoundations(true)]].forEach(([id,label,open])=>{
+  const b=document.createElement("button"); b.className="tab"; b.type="button"; b.setAttribute("role","tab"); b.dataset.guide=id; b.textContent=label; b.addEventListener("click",open); gtabs.appendChild(b);
+});
 
 function sw(v){ return `<span class="sw" style="background:var(${v})"></span>`; }
 function ul(items){ return "<ul>"+items.map(i=>`<li>${i}</li>`).join("")+"</ul>"; }
+
+// Foundations: the ideas under every month. where: [label, target], target is sel:phase:ring:month, intro, or #anchor
+const FOUND = [
+  {id:"aware", short:"The baby is aware", n:"The baby is aware",
+   what:"In this field a baby is understood as a feeling, sensing person from the beginning, who takes in her world and may remember it (Chamberlain; Verny). Her senses arrive in the order the months show: touch, then sound, then light.",
+   why:"It is why this mandala speaks to the baby as well as about her.",
+   where:[["The child ring, Month 1","sel:0:child:0"]]},
+  {id:"system", short:"One system", n:"Mother and baby are one system",
+   what:"Stress hormones partly cross the placenta, and a mother's heartbeat, breath, movement, and voice shift with her emotions. Her baby senses them (Ham and Klimo). A supported, steady mother helps steady her baby.",
+   why:"It is offered as encouragement, not blame. Support for the mother is support for the baby (Nathanielsz).",
+   where:[["The mother ring, Month 2","sel:0:mother:1"]]},
+  {id:"imprints", short:"Imprints", n:"Imprints and the baby's questions",
+   what:"Each month may leave an impression, called an imprint, on how she comes to see herself and the world. Each month also holds a question the baby may be asking, such as \u201cAm I wanted?\u201d",
+   why:"Imprints are possibilities, not certainties. They can be good or hard, and none of them is fixed.",
+   where:[["The educator ring, every month","sel:0:support:0"]]},
+  {id:"layers", short:"Layers of support", n:"Layers of support",
+   what:"Every mother and baby need at least two layers of support, and everyone who gives support needs support too (Castellino, in White, 2013).",
+   why:"It is the reason for the circle of support and the educator rings.",
+   where:[["How to read","intro"],["The circle ring","sel:0:circle:0"]]},
+  {id:"repair", short:"Repair", n:"Rupture and repair",
+   what:"Hard moments come into every relationship, including the one with the baby: a fearful reaction, a separation, an intervention. What matters most is the repair, which means returning, naming what happened, and reconnecting (Strange). Repair can begin at any time, including after birth.",
+   why:"It means nothing is too late.",
+   where:[["The repair line in every month","sel:0:support:0"],["When the unexpected happens","#unexpected"]]},
+  {id:"practices", short:"Practices", n:"Connecting practices",
+   what:"Grounding, oxytocin moments, talking and singing to her, and hands on the belly. These grow good imprints, and they are also the way back after a hard moment (Strange).",
+   why:"They are small, daily, and something the mother or partner can do on their own.",
+   where:[["The practice ring","sel:0:practice:"]]}];
+let jumped=null;
+function showFoundations(user){
+  sel={phase:null,ring:null,idx:null,page:"found"}; jumped=null; applySel(); markTabs();
+  const go=([l,g])=>g.startsWith("#")?`<a href="${g}">${l}</a>`:`<a href="#" data-go="${g}">${l}</a>`;
+  panel.innerHTML=`<div class="phasehead"><h2>Foundations</h2><div class="meta">${FOUND.map(f=>f.short).join(" · ")}</div>
+      <p>Six ideas that sit under every month of this mandala. Read them first, or return to them whenever a slice raises a question. Each one says where to find it on the wheel.</p></div>
+    ${FOUND.map(f=>`<div class="ring fcard" id="found-${f.id}"><h3>${f.n}</h3>
+      <p>${f.what}</p><p><b>Why it matters.</b> ${f.why}</p>
+      <p class="where">Where it appears: ${f.where.map(go).join(" · ")}</p></div>`).join("")}
+    <p class="hint">When the unexpected happens, a plan A and plan B, and the steps for procedures are in <a href="#unexpected">the About section below</a>.</p>`;
+  if(user||window.matchMedia("(max-width:900px)").matches) panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+// links inside the Foundations page open a ring of a month, How to read, or a section below
+panel.addEventListener("click",e=>{ const a=e.target.closest("a[data-go]"); if(!a) return; e.preventDefault();
+  const g=a.dataset.go; if(g==="intro"){ showIntro(); return; }
+  const [,ph,ring,m]=g.split(":"); select(+ph,ring||null,m===""?null:+m,true); });
 
 // the prenate at the center opens How to read, so it is seen without having to find the center
 const CENTER_HTML=`<div class="center-msg">
@@ -1306,7 +1367,7 @@ function select(phase, ring, idx, user){
   const cm = currentMonth(), cp=currentPhase();
   const range=phaseRange(s);
   const hl=(k,i)=> (ring===k && (idx==null||idx===i))?" hl":"";
-  const months=[s*3,s*3+1,s*3+2].map(i=>{
+  const months=[s*3,s*3+1,s*3+2].filter(i=>idx==null||i===idx).map(i=>{
     const c=CHILD[i], m=MOTHER[i], e=EDUCATOR[i], r=monthRange(i), isSel=(idx===i), isNow=(cm===i);
     return `<article class="mcard${isSel?" cur":""}" id="mo-${i}">
       <div class="mt">${c.t}<span>${c.w}${r?" · "+r:""}${isNow?" · <b>now</b>":""}</span></div>
@@ -1326,21 +1387,37 @@ function select(phase, ring, idx, user){
       <div class="meta">${ph.sub}${range?" · "+range:""}${cp===s?" · you are here":""}</div>
       <p>${ph.intro}</p></div>
     ${months}
-    <div class="ring${ring==="practice"?" hl":""}" id="r-practice"><h3>${sw("--practice")}${RINGS.practice.name}</h3>
+    ${idx!=null ? `<div class="ring" id="r-practice"><h3>${sw("--practice")}${RINGS.practice.name}</h3><p class="about">Practices and healing for the whole ${s<3?"trimester":"birth"}.</p><p><button type="button" class="sub" id="seePractice">Open the practices</button></p></div>` : `    <div class="ring${ring==="practice"?" hl":""}" id="r-practice"><h3>${sw("--practice")}${RINGS.practice.name}</h3>
       <p class="about">For the whole ${s<3?"trimester":"birth"}. These practices help grow good imprints, and they are also a way back: if a hard moment has already happened, the same practice, with a few honest words, becomes repair. It is not too late.</p>
       ${ul(pr.items)}<p class="src">${pr.src}</p>
       <h4>Healing for the mother and partner</h4>
       <p class="about">Pregnancy can stir the parents' own earliest stories: their conception, their time in the womb, and their own birth. The educator can suggest these explorations, and the mother and partner take them up in their own time. Explored gently, they can bring healing, for themselves and for the baby.</p>
       ${ul(HEALING[s].items)}<p class="src">${HEALING[s].src}</p>
-      <p class="support"><b>If more support is needed.</b> ${HEALING_SUPPORT}</p></div>`;
+      <p class="support"><b>If more support is needed.</b> ${HEALING_SUPPORT}</p></div>`}`;
+  const sp=document.getElementById("seePractice"); if(sp) sp.addEventListener("click",()=>select(s,"practice",null,true));
   const target = idx!=null ? document.getElementById("mo-"+idx) : ring==="practice" ? document.getElementById("r-practice") : null;
   if(!user){} else if(target && window.matchMedia("(max-width:900px)").matches===false){
     const rect=target.getBoundingClientRect(); if(rect.top<0||rect.top>window.innerHeight*0.7) target.scrollIntoView({behavior:"smooth",block:"start"});
   } else if(window.matchMedia("(max-width:900px)").matches){ (target||panel).scrollIntoView({behavior:"smooth",block:"start"}); }
 }
 function markTabs(){
-  [...tabs.children].forEach((b,i)=>b.setAttribute("aria-selected", (i===0 && sel.phase==null) || (i>0 && sel.phase===i-1) ? "true":"false"));
+  const guide = sel.phase!=null ? null : (sel.page||"intro");
+  [...gtabs.children].forEach(b=>b.setAttribute("aria-selected", b.dataset.guide===guide ? "true":"false"));
+  [...tabs.children].forEach((b,i)=>b.setAttribute("aria-selected", sel.phase===i ? "true":"false"));
+  const sub=(l,v,on)=>`<button class="sub" type="button" data-jump="${v}" aria-current="${on?"true":"false"}">${l}</button>`;
+  // under Foundations, a jump to any of its ideas
+  const gj=document.getElementById("gjump");
+  if(guide==="found"){ gj.innerHTML=`<span>Jump to</span>`+FOUND.map(f=>sub(f.short,f.id,jumped===f.id)).join(""); gj.hidden=false; } else { gj.hidden=true; gj.innerHTML=""; }
+  // under a quarter, a jump to any one of its months
+  const jump=document.getElementById("jump");
+  if(sel.phase==null){ jump.hidden=true; jump.innerHTML=""; return; }
+  jump.innerHTML=`<span>Jump to</span>`+[0,1,2].map(k=>{ const i=sel.phase*3+k; return sub(CHILD[i].t,i,sel.idx===i); }).join("");
+  jump.hidden=false;
 }
+document.getElementById("jump").addEventListener("click",e=>{ const b=e.target.closest("button[data-jump]"); if(!b) return;
+  select(sel.phase,null,+b.dataset.jump,true); });
+document.getElementById("gjump").addEventListener("click",e=>{ const b=e.target.closest("button[data-jump]"); if(!b) return;
+  jumped=b.dataset.jump; markTabs(); const t=document.getElementById("found-"+jumped); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
 function applySel(){
   cells.forEach(c=>{
     const p=+c.dataset.phase, r=c.dataset.ring, i=c.dataset.idx!=null?+c.dataset.idx:null;
